@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="mysql" defaultModelType="hierarchical" targetRuntime="MyBatis3Simple">
+        <!-- 生成的Java文件的编码 -->
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <!-- beginningDelimiter和endingDelimiter：指明数据库的用于标记数据库对象名的符号，比如ORACLE就是双引号，MYSQL默认是`反引号； -->
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!-- 注释生成器 -->
+        <commentGenerator>
+            <!-- 是否去除entity自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressDate" value="true"/>
+            <!-- 是否去除自动mapper文件生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator>
+
+        <!-- 必须要有的，使用这个配置链接数据库 @TODO:是否可以扩展 以下为数据库连接的四要素-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/graduate_design?serverTimezone=GMT"
+                        userId="root"
+                        password="qiao683586890">
+        </jdbcConnection>
+
+        <!-- 生成domain对象 -->
+        <javaModelGenerator targetPackage="com.qiaoyansong.entity" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaModelGenerator>
+
+        <!-- ===========================表名=================================================== -->
+        <table tableName="news" delimitIdentifiers="true" domainObjectName="News">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="activity" delimitIdentifiers="true" domainObjectName="Activity">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="user" delimitIdentifiers="true" domainObjectName="User">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="user_activity" delimitIdentifiers="true" domainObjectName="UserActivity">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="auction" delimitIdentifiers="true" domainObjectName="Auction">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="auction_realtime_price" delimitIdentifiers="true" domainObjectName="AuctionRealtimePrice">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="user_locations" delimitIdentifiers="true" domainObjectName="UserLocations">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="deliver_goods" delimitIdentifiers="true" domainObjectName="DeliverGoods">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="commodity" delimitIdentifiers="true" domainObjectName="Commodity">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="article_review" delimitIdentifiers="true" domainObjectName="ArticleReview">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <table tableName="seek_help" delimitIdentifiers="true" domainObjectName="SeekHelp">
+            <!--使用真实列的名字 false不使用（默认 如果有下划线转为驼峰） true使用-->
+            <property name="useActualColumnNames" value="false"/>
+        </table>
+        <!-- ============================================================================= -->
+    </context>
+</generatorConfiguration>
