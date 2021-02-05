@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @date ：Created in 2021/2/1 16:37
  * description：
  */
-
 @Mapper
 public interface AuctionRealtimePriceMapper {
     /**

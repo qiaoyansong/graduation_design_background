@@ -13,7 +13,11 @@ public enum StatusCode {
     /**
      * 一切正常
      */
-    COMPLETE("业务逻辑正常","200");
+    COMPLETE("业务逻辑正常","200"),
+    /**
+     * 发生请求参数校验失败异常
+     */
+    VALID_EXCEPTION("发生请求参数校验失败异常","102");
     private final String reason;
     private final String code;
     /**
