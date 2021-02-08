@@ -1,23 +1,19 @@
-package com.qiaoyansong.entity;
+package com.qiaoyansong.entity.background;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ArticleReview {
-    private Integer articleId;
+public class DeliverGoods {
+    private Integer auctionId;
 
     private Integer userId;
 
-    private Date pubdate;
-
-    private String content;
+    private Integer userLocationsId;
 
 }

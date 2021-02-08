@@ -1,4 +1,4 @@
-package com.qiaoyansong.entity;
+package com.qiaoyansong.entity.background;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,25 +11,21 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-public class News {
+public class Commodity {
     private Integer id;
 
     private String title;
 
-    private String source;
-
     private Date pubdate;
-
-    private String summary;
-
-    private Byte type;
-
-    private Long views;
-
-    private Byte flag;
 
     private String img;
 
-    private String article;
+    private Byte quantity;
+
+    private Byte point;
+
+    private String summary;
+
+    private String content;
 
 }

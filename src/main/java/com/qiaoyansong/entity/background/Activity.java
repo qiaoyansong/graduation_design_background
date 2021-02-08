@@ -1,4 +1,4 @@
-package com.qiaoyansong.entity;
+package com.qiaoyansong.entity.background;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

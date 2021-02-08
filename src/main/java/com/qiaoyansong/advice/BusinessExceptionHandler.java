@@ -1,6 +1,6 @@
 package com.qiaoyansong.advice;
 
-import com.qiaoyansong.entity.StatusCode;
+import com.qiaoyansong.entity.background.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;

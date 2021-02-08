@@ -3,4 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qiaoyansong.dao.UserMapper">
+    <select id="checkUserName" resultType="int">
+        select
+                 1
+        from
+                user
+        where user_name = #{userName}
+    </select>
+    <select id="checkMailBox" resultType="int">
+        select
+                 1
+        from
+                user
+        where mailbox = #{mailBox}
+    </select>
+    <insert id="register" useGeneratedKeys="true" keyProperty="id">
+        insert into user(user_name, password, mailbox, type)
+            values(#{userName}, #{password}, #{mailbox}, #{type, typeHandler=com.qiaoyansong.handler.UserTypeToTable})
+    </insert>
 </mapper>

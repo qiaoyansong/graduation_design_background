@@ -1,6 +1,6 @@
 package com.qiaoyansong.dao;
 
-import com.qiaoyansong.entity.AuctionRealtimePrice;
+import com.qiaoyansong.entity.background.AuctionRealtimePrice;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

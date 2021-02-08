@@ -1,7 +1,7 @@
 package com.qiaoyansong.util;
 
 
-import com.qiaoyansong.entity.StatusCode;
+import com.qiaoyansong.entity.background.StatusCode;
 import com.sun.mail.util.MailSSLSocketFactory;
 
 import javax.mail.*;
@@ -99,6 +99,6 @@ public class SendMailUtil {
                 }
             }
         }
-        return StatusCode.COMPLETE;
+        return StatusCode.SEND_EMAIL_SUCCESS;
     }
 }

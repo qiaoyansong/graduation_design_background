@@ -1,4 +1,4 @@
-package com.qiaoyansong.entity;
+package com.qiaoyansong.entity.background;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseEntity<T> {
     T body;
-    String code;
+    transient  String code;
 
     @Override
     public String toString() {
