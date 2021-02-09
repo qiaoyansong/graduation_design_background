@@ -1,6 +1,7 @@
 package com.qiaoyansong.service;
 
 import com.qiaoyansong.entity.background.ResponseEntity;
+import com.qiaoyansong.entity.background.User;
 
 /**
  * @author ：Qiao Yansong
@@ -15,4 +16,11 @@ public interface UserService {
      * @return 返回信息
      */
     ResponseEntity register(com.qiaoyansong.entity.front.User user);
+
+    /**
+     * 用户登录
+     * @param user 用户信息
+     * @return 返回信息
+     */
+    ResponseEntity login(User user);
 }

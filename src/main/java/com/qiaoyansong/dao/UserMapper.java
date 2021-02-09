@@ -2,6 +2,7 @@ package com.qiaoyansong.dao;
 
 import com.qiaoyansong.entity.background.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author ：Qiao Yansong
@@ -30,4 +31,19 @@ public interface UserMapper {
      * @return
      */
     int register(User user);
+
+    /**
+     * 检查密码是否正确
+     * @param userName 用户名
+     * @return 密码
+     */
+    String getPassword(String userName);
+
+    /**
+     * 添加登录用户的SessionId信息
+     * @param userName 用户名
+     * @param sessionId sessionId
+     * @return 返回值
+     */
+    int insertSessionInfo(@Param("userName") String userName, @Param("sessionId") String sessionId);
 }

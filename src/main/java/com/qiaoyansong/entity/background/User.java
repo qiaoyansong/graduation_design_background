@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -23,11 +26,15 @@ public class User {
     /**
      * 用户名
      */
+    @NotNull(message = "用户名不能为空")
+    @Pattern(regexp = "^[a-zA-Z][a-zA-Z0-9_]{3,19}$", message = "用户名格式错误")
     private String userName;
 
     /**
      * 密码
      */
+    @NotNull(message = "密码不能为空")
+    @Pattern(regexp = "^[a-zA-Z]\\w{9,19}$", message = "密码格式错误")
     private String password;
 
     /**

@@ -21,4 +21,10 @@
         insert into user(user_name, password, mailbox, type)
             values(#{userName}, #{password}, #{mailbox}, #{type, typeHandler=com.qiaoyansong.handler.UserTypeToTable})
     </insert>
+    <select id="getPassword" resultType="string">
+        select password from user where user_name = #{userName}
+    </select>
+    <update id="insertSessionInfo">
+       update user set session_id = #{sessionId} where user_name = #{userName}
+    </update>
 </mapper>

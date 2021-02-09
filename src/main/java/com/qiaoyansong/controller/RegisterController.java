@@ -56,7 +56,7 @@ public class RegisterController {
                 response.setCode(StatusCode.VERIFICATION_CODE_NOT_EXPIRED.getCode());
                 response.setBody("验证码已经成功发送至您的邮箱,并且仍在有效期范围之内。");
             } else {
-                log.info("验证码已经失效，开始生成验证码");
+                log.warn("验证码已经失效，开始生成验证码");
                 // 生成六位的验证码
                 StringBuilder stringBuilder = new StringBuilder();
                 int i;
@@ -114,14 +114,14 @@ public class RegisterController {
                         return userService.register(user);
 
                     }else{
-                        log.info("验证码验证失败");
+                        log.warn("验证码验证失败");
                         responseEntity.setCode(StatusCode.VERIFICATION_CODE_VERIFICATION_FAILED.getCode());
                         responseEntity.setBody(StatusCode.VERIFICATION_CODE_VERIFICATION_FAILED.getReason());
                         return responseEntity;
                     }
                 }else{
                     // 失效了
-                    log.info("验证码失效了");
+                    log.warn("验证码失效了");
                     responseEntity.setBody(StatusCode.VERIFICATION_CODE_FAILURE.getReason());
                     responseEntity.setCode(StatusCode.VERIFICATION_CODE_FAILURE.getCode());
                     return responseEntity;

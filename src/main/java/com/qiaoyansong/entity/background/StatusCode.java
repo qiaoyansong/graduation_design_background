@@ -39,6 +39,10 @@ public enum StatusCode {
      */
     USERNAME_IS_EXISTS("用户名已经存在", "107"),
     /**
+     * 用户名不存在
+     */
+    USERNAME_IS_NOT_EXISTS("用户名不存在", "110"),
+    /**
      * 邮箱已经存在
      */
     MAILBOX_IS_EXISTS("邮箱已经存在", "108"),
@@ -49,7 +53,11 @@ public enum StatusCode {
     /**
      * 成功
      */
-    SUCCESS("成功", "200");
+    SUCCESS("成功", "200"),
+    /**
+     * 密码错误
+     */
+    WRONG_PASSWORD("密码错误", "111");
     private final String reason;
     private final String code;
 

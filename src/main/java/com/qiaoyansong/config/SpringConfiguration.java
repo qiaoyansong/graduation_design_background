@@ -1,7 +1,9 @@
 package com.qiaoyansong.config;
 
+import com.qiaoyansong.interceptor.CheckIsLogIn;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -12,6 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class SpringConfiguration {
+
     /**
      * 配置静态资源映射
      */
@@ -21,7 +24,12 @@ public class SpringConfiguration {
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/**").addResourceLocations("file:F:/graduate_design/images/");
-                registry.addResourceHandler("/login/**").addResourceLocations("file:F:/graduate_design/images/login/");
+                registry.addResourceHandler("/register/**").addResourceLocations("file:F:/graduate_design/images/register/");
+            }
+
+            @Override
+            public void addInterceptors(InterceptorRegistry registry) {
+                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**");
             }
         };
     }

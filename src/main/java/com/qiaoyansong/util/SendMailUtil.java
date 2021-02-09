@@ -17,7 +17,7 @@ import java.util.Properties;
  * description：发送邮件工具类
  */
 public class SendMailUtil {
-    private static SendMailUtil instance;
+    private static volatile SendMailUtil instance;
 
     public static SendMailUtil getInstance() {
         if (instance == null) {
