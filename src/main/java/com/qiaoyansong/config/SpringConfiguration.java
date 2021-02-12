@@ -3,10 +3,10 @@ package com.qiaoyansong.config;
 import com.qiaoyansong.interceptor.CheckIsLogIn;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
 /**
  * @author ：Qiao Yansong
  * @date ：Created in 2021/2/1 22:08
@@ -25,12 +25,31 @@ public class SpringConfiguration {
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/**").addResourceLocations("file:F:/graduate_design/images/");
                 registry.addResourceHandler("/register/**").addResourceLocations("file:F:/graduate_design/images/register/");
+                registry.addResourceHandler("/login/**").addResourceLocations("file:F:/graduate_design/images/login/");
+
             }
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**");
+                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico");
+            }
+
+            /**
+             * 设置跨域问题
+             */
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        // 设置允许跨域请求的域名
+                        .allowedOriginPatterns("*")
+                        // 是否允许证书（cookies）
+                        .allowCredentials(true)
+                        // 设置允许的方法
+                        .allowedMethods("*")
+                        // 跨域允许时间
+                        .maxAge(3600);
             }
         };
     }
+
 }

@@ -57,7 +57,19 @@ public enum StatusCode {
     /**
      * 密码错误
      */
-    WRONG_PASSWORD("密码错误", "111");
+    WRONG_PASSWORD("密码错误", "111"),
+    /**
+     * 别处登录，如果不是自己操作需要修改密码
+     */
+    LOGIN_ELSEWHERE("别处登录", "112"),
+    /**
+     * 权限不足
+     */
+    INSUFFICIENT_PERMISSIONS("权限不足", "113"),
+    /**
+     * 与绑定邮箱不一致
+     */
+    MAILBOX_ERROR("与绑定邮箱不一致", "114");
     private final String reason;
     private final String code;
 

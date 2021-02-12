@@ -9,6 +9,9 @@
     <typeAliases>
         <package name="com.qiaoyansong.entity.background"/>
     </typeAliases>
+    <typeHandlers>
+        <typeHandler javaType="com.qiaoyansong.entity.background.UserType" jdbcType="TINYINT" handler="com.qiaoyansong.handler.UserTypeToTable"/>
+    </typeHandlers>
     <mappers>
         <package name="com.qiaoyansong.dao"/>
     </mappers>

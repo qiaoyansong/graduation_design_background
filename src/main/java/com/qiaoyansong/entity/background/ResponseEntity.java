@@ -15,7 +15,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ResponseEntity<T> {
     T body;
-    transient  String code;
+    String code;
 
     @Override
     public String toString() {

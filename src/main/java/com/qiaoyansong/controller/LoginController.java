@@ -3,18 +3,23 @@ package com.qiaoyansong.controller;
 import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.StatusCode;
 import com.qiaoyansong.entity.background.User;
+import com.qiaoyansong.entity.front.Admin;
+import com.qiaoyansong.service.AdminService;
 import com.qiaoyansong.service.UserService;
+import com.qiaoyansong.util.JedisPoolUtil;
+import com.qiaoyansong.util.RequestContextHolderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -27,12 +32,19 @@ import java.util.List;
 
 @Controller
 public class LoginController {
-    private static final Logger LOGGER  = LoggerFactory.getLogger(LoginController.class);
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+    private Jedis redis = JedisPoolUtil.getInstance().getResource();
+
     @Autowired
     private UserService userService;
+    @Autowired
+    AdminService adminService;
+
     @RequestMapping("/login")
     @ResponseBody
     public ResponseEntity login(@Valid @RequestBody User user, BindingResult bindingResult) {
+        LOGGER.info("进入LoginController.login");
         List<ObjectError> allErrors = bindingResult.getAllErrors();
         ResponseEntity responseEntity = new ResponseEntity();
         if (allErrors.isEmpty()) {
@@ -48,6 +60,53 @@ public class LoginController {
             responseEntity.setBody(msgList);
             responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
             return responseEntity;
+        }
+    }
+
+    @RequestMapping(value = "/getSaveInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> getSaveInfo() {
+        ResponseEntity<String> responseEntity = new ResponseEntity<>();
+        String userName = null;
+        LOGGER.info("进入LoginController.getSaveInfo");
+        HttpSession session = RequestContextHolderUtil.getRequest().getSession();
+        LOGGER.info("sessionId为" + session.getId());
+        if (session.getAttribute("userName") == null) {
+            LOGGER.info("session中没有userName信息");
+        } else {
+            LOGGER.info("session中有userName信息");
+            userName = (String) session.getAttribute("userName");
+        }
+        responseEntity.setBody(userName);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/logout/{userName}", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> logout(@Valid @NotNull(message = "用户名不能为空") @PathVariable("userName") String userName) {
+        LOGGER.info("进入LoginController.logout");
+        return this.userService.logout(userName);
+    }
+
+    @RequestMapping(value = "/login/admin/getVerificationCode", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity getAdminVerificationCode(@Valid @RequestBody Admin admin, BindingResult bindingResult) {
+        LOGGER.info("进入LoginController.getAdminVerificationCode");
+        List<ObjectError> allErrors = bindingResult.getAllErrors();
+        ResponseEntity responseEntity = new ResponseEntity();
+        if(!allErrors.isEmpty()){
+            LOGGER.error("参数校验错误，直接退出");
+            List<String> msgList = new ArrayList<>();
+            Iterator<ObjectError> iterator = allErrors.iterator();
+            while (iterator.hasNext()) {
+                msgList.add(iterator.next().getDefaultMessage());
+            }
+            responseEntity.setBody(msgList);
+            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
+            return responseEntity;
+        }else{
+            return this.adminService.getAdminVerificationCode(admin);
         }
     }
 }

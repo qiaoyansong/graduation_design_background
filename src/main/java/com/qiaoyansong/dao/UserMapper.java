@@ -46,4 +46,18 @@ public interface UserMapper {
      * @return 返回值
      */
     int insertSessionInfo(@Param("userName") String userName, @Param("sessionId") String sessionId);
+
+    /**
+     * 删除登录用户的SessionId信息
+     * @param userName 用户名
+     * @return 返回值
+     */
+    int removeSessionInfo(String userName);
+
+    /**
+     * 根据用户名获取用户信息
+     * @param userName 用户名
+     * @return 返回值 User
+     */
+    User getUserInfo(String userName);
 }

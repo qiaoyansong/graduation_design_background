@@ -23,4 +23,19 @@ public interface UserService {
      * @return 返回信息
      */
     ResponseEntity login(User user);
+
+    /**
+     * 用户退出
+     * @param userName 用户名
+     * @return 返回信息
+     */
+    ResponseEntity logout(String userName);
+
+    /**
+     * 获取验证码
+     * @param mailBox 邮箱名
+     * @param emailTitle 邮件标题
+     * @return 返回信息
+     */
+    ResponseEntity getVerificationCode(String mailBox, String emailTitle);
 }

@@ -62,4 +62,19 @@ public class User {
      */
     private Integer point;
 
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", type=" + type +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", mailbox='" + mailbox + '\'' +
+                ", credit=" + credit +
+                ", headPortrait='" + headPortrait + '\'' +
+                ", sessionId='" + sessionId + '\'' +
+                ", point=" + point +
+                '}';
+    }
 }

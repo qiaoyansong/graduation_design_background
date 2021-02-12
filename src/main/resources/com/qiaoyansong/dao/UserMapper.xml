@@ -4,27 +4,56 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qiaoyansong.dao.UserMapper">
     <select id="checkUserName" resultType="int">
-        select
-                 1
-        from
-                user
+        select 1
+        from user
         where user_name = #{userName}
     </select>
     <select id="checkMailBox" resultType="int">
-        select
-                 1
-        from
-                user
+        select 1
+        from user
         where mailbox = #{mailBox}
     </select>
     <insert id="register" useGeneratedKeys="true" keyProperty="id">
         insert into user(user_name, password, mailbox, type)
-            values(#{userName}, #{password}, #{mailbox}, #{type, typeHandler=com.qiaoyansong.handler.UserTypeToTable})
+        values (#{userName}, #{password}, #{mailbox}, #{type, typeHandler=com.qiaoyansong.handler.UserTypeToTable})
     </insert>
     <select id="getPassword" resultType="string">
-        select password from user where user_name = #{userName}
+        select password
+        from user
+        where user_name = #{userName}
     </select>
     <update id="insertSessionInfo">
-       update user set session_id = #{sessionId} where user_name = #{userName}
+        update user
+        set session_id = #{sessionId}
+        where user_name = #{userName}
     </update>
+    <update id="removeSessionInfo">
+        update user
+        set session_id = null
+        where user_name = #{userName}
+    </update>
+    <resultMap id="baseUser" type="User">
+        <id column="id" property="id"/>
+        <result column="type" property="type" typeHandler="com.qiaoyansong.handler.UserTypeToTable"/>
+        <result column="user_name" property="userName"/>
+        <result column="password" property="password"/>
+        <result column="mailbox" property="mailbox"/>
+        <result column="credit" property="credit"/>
+        <result column="head_portrait" property="headPortrait"/>
+        <result column="session_id" property="sessionId"/>
+        <result column="point" property="point"/>
+    </resultMap>
+    <select id="getUserInfo" resultMap="baseUser">
+        select id,
+               type,
+               user_name,
+               password,
+               mailbox,
+               credit,
+               head_portrait,
+               session_id,
+               point
+        from user
+        where user_name = #{userName}
+    </select>
 </mapper>
