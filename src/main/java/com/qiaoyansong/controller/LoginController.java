@@ -1,12 +1,12 @@
 package com.qiaoyansong.controller;
 
+import com.qiaoyansong.dao.UserMapper;
 import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.StatusCode;
 import com.qiaoyansong.entity.background.User;
 import com.qiaoyansong.entity.front.Admin;
 import com.qiaoyansong.service.AdminService;
 import com.qiaoyansong.service.UserService;
-import com.qiaoyansong.util.JedisPoolUtil;
 import com.qiaoyansong.util.RequestContextHolderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -34,12 +33,12 @@ import java.util.List;
 public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
-    private Jedis redis = JedisPoolUtil.getInstance().getResource();
-
     @Autowired
     private UserService userService;
     @Autowired
-    AdminService adminService;
+    private AdminService adminService;
+    @Autowired
+    private UserMapper userMapper;
 
     @RequestMapping("/login")
     @ResponseBody
@@ -65,19 +64,42 @@ public class LoginController {
 
     @RequestMapping(value = "/getSaveInfo", method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> getSaveInfo() {
-        ResponseEntity<String> responseEntity = new ResponseEntity<>();
+    public ResponseEntity<User> getSaveInfo() {
+        ResponseEntity<User> responseEntity = new ResponseEntity<>();
         String userName = null;
         LOGGER.info("进入LoginController.getSaveInfo");
         HttpSession session = RequestContextHolderUtil.getRequest().getSession();
         LOGGER.info("sessionId为" + session.getId());
         if (session.getAttribute("userName") == null) {
             LOGGER.info("session中没有userName信息");
+            responseEntity.setBody(null);
         } else {
             LOGGER.info("session中有userName信息");
             userName = (String) session.getAttribute("userName");
+            User user = this.userMapper.getUserInfo(userName);
+            user.setPassword("");
+            user.setSessionId("");
+            responseEntity.setBody(user);
         }
-        responseEntity.setBody(userName);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        return responseEntity;
+    }
+
+    @RequestMapping(value = "/removeSaveInfo", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<String> removeSaveInfo() {
+        ResponseEntity<String> responseEntity = new ResponseEntity<>();
+        String userName = null;
+        LOGGER.info("进入LoginController.removeSaveInfo");
+        HttpSession session = RequestContextHolderUtil.getRequest().getSession();
+        LOGGER.info("sessionId为" + session.getId());
+        if (session.getAttribute("userName") == null) {
+            LOGGER.info("session中没有userName信息");
+            responseEntity.setBody(null);
+        } else {
+            LOGGER.info("session中有userName信息,开始删除session中的信息");
+            session.removeAttribute("userName");
+        }
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         return responseEntity;
     }
@@ -95,7 +117,7 @@ public class LoginController {
         LOGGER.info("进入LoginController.getAdminVerificationCode");
         List<ObjectError> allErrors = bindingResult.getAllErrors();
         ResponseEntity responseEntity = new ResponseEntity();
-        if(!allErrors.isEmpty()){
+        if (!allErrors.isEmpty()) {
             LOGGER.error("参数校验错误，直接退出");
             List<String> msgList = new ArrayList<>();
             Iterator<ObjectError> iterator = allErrors.iterator();
@@ -105,8 +127,29 @@ public class LoginController {
             responseEntity.setBody(msgList);
             responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
             return responseEntity;
-        }else{
+        } else {
             return this.adminService.getAdminVerificationCode(admin);
+        }
+    }
+
+    @RequestMapping(value = "/login/admin", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<String> adminLogin(@Valid @RequestBody com.qiaoyansong.entity.front.User user, BindingResult result) {
+        LOGGER.info("进入LoginController.adminLogin");
+        List<ObjectError> allErrors = result.getAllErrors();
+        ResponseEntity responseEntity = new ResponseEntity();
+        if (!allErrors.isEmpty()) {
+            LOGGER.error("参数校验错误，直接退出");
+            List<String> msgList = new ArrayList<>();
+            Iterator<ObjectError> iterator = allErrors.iterator();
+            while (iterator.hasNext()) {
+                msgList.add(iterator.next().getDefaultMessage());
+            }
+            responseEntity.setBody(msgList);
+            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
+            return responseEntity;
+        } else {
+            return this.adminService.login(user);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.qiaoyansong.service;
 
 import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.front.Admin;
+import com.qiaoyansong.entity.front.User;
 
 /**
  * @author ：Qiao Yansong
@@ -15,7 +16,7 @@ public interface AdminService {
      * @param admin 管理员信息
      * @return 返回信息
      */
-    ResponseEntity login(Admin admin);
+    ResponseEntity login(User admin);
 
     /**
      * 管理员登录获取验证码

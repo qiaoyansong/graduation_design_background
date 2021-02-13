@@ -26,6 +26,7 @@ public class Admin {
     @NotNull(message = "密码不能为空")
     @Pattern(regexp = "^[a-zA-Z]\\w{9,19}$", message = "密码格式错误")
     private String password;
+
     @NotNull(message = "邮箱不能为空")
     @Email(message = "邮箱格式错误")
     private String mailbox;

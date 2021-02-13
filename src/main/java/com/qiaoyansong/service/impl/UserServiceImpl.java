@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
     private final SendMailUtil sendMailUtil = SendMailUtil.getInstance();
     @Override
     public ResponseEntity register(com.qiaoyansong.entity.front.User user) {
+        log.info("进入UserServiceImpl的register");
         ResponseEntity responseEntity = new ResponseEntity();
         // 验证用户名是否注册
         log.info("开始验证用户名是否注册");
@@ -85,6 +86,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity login(User user) {
+        log.info("进入UserServiceImpl的login");
         String userName = user.getUserName();
         String password = user.getPassword();
         log.info("开始检测用户名是否存在");
@@ -106,9 +108,12 @@ public class UserServiceImpl implements UserService {
                     session.setAttribute("userName", userName);
                     redis.set(userName,session.getId());
                     log.info("redis写入sessionID完成");
+                    User user1 = this.userMapper.getUserInfo(userName);
+                    user1.setPassword("");
+                    user1.setSessionId("");
                     onLineUserUtil.addSessionInfoFromRedisToDB(userName, userMapper);
                     responseEntity.setCode(StatusCode.SUCCESS.getCode());
-                    responseEntity.setBody(StatusCode.SUCCESS.getReason());
+                    responseEntity.setBody(user1);
                 }finally {
                     if(redis != null){
                         redis.close();
@@ -129,6 +134,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity logout(String userName) {
+        log.info("进入UserServiceImpl的logout");
         ResponseEntity<String> responseEntity = new ResponseEntity<>();
         HttpSession session = RequestContextHolderUtil.getRequest().getSession();
         log.info("尝试从session中获取userName属性");
@@ -153,6 +159,8 @@ public class UserServiceImpl implements UserService {
                         log.info("删除redis中的SessionID");
                         // 置空MySQL中的SessionID
                         log.info("删除MySQL中的SessionID");
+                        // 当前Session过期
+                        session.invalidate();
                         onLineUserUtil.removeSessionInfoFromDB(userName, userMapper);
                     }
                 }
@@ -169,6 +177,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity getVerificationCode(String mailBox, String emailTitle) {
+        log.info("进入UserServiceImpl的getVerificationCode");
         try {
             redis = JedisPoolUtil.getInstance().getResource();
             log.info("检测redis连接" + redis.ping());
