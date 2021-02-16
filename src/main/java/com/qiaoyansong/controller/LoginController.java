@@ -11,7 +11,6 @@ import com.qiaoyansong.util.RequestContextHolderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +28,7 @@ import java.util.List;
  * description：
  */
 
-@Controller
+@RestController
 public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
@@ -41,7 +40,6 @@ public class LoginController {
     private UserMapper userMapper;
 
     @RequestMapping("/login")
-    @ResponseBody
     public ResponseEntity login(@Valid @RequestBody User user, BindingResult bindingResult) {
         LOGGER.info("进入LoginController.login");
         List<ObjectError> allErrors = bindingResult.getAllErrors();
@@ -63,7 +61,6 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/getSaveInfo", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<User> getSaveInfo() {
         ResponseEntity<User> responseEntity = new ResponseEntity<>();
         String userName = null;
@@ -86,7 +83,6 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/removeSaveInfo", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<String> removeSaveInfo() {
         ResponseEntity<String> responseEntity = new ResponseEntity<>();
         String userName = null;
@@ -105,14 +101,12 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/logout/{userName}", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<String> logout(@Valid @NotNull(message = "用户名不能为空") @PathVariable("userName") String userName) {
         LOGGER.info("进入LoginController.logout");
         return this.userService.logout(userName);
     }
 
     @RequestMapping(value = "/login/admin/getVerificationCode", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity getAdminVerificationCode(@Valid @RequestBody Admin admin, BindingResult bindingResult) {
         LOGGER.info("进入LoginController.getAdminVerificationCode");
         List<ObjectError> allErrors = bindingResult.getAllErrors();
@@ -133,7 +127,6 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/login/admin", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<String> adminLogin(@Valid @RequestBody com.qiaoyansong.entity.front.User user, BindingResult result) {
         LOGGER.info("进入LoginController.adminLogin");
         List<ObjectError> allErrors = result.getAllErrors();

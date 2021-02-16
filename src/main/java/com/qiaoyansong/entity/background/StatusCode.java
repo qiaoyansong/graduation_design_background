@@ -69,7 +69,15 @@ public enum StatusCode {
     /**
      * 与绑定邮箱不一致
      */
-    MAILBOX_ERROR("与绑定邮箱不一致", "114");
+    MAILBOX_ERROR("与绑定邮箱不一致", "114"),
+    /**
+     * 用户未登录
+     */
+    USER_IS_NOT_LOGGED_IN("用户未登录", "115"),
+    /**
+     * 文章标题已经存在
+     */
+    NEWS_TITLE_IS_EXISTS("文章标题已经存在", "116");
     private final String reason;
     private final String code;
 

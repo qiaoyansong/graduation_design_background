@@ -26,12 +26,12 @@ public class SpringConfiguration {
                 registry.addResourceHandler("/**").addResourceLocations("file:F:/graduate_design/images/");
                 registry.addResourceHandler("/register/**").addResourceLocations("file:F:/graduate_design/images/register/");
                 registry.addResourceHandler("/login/**").addResourceLocations("file:F:/graduate_design/images/login/");
-
+                registry.addResourceHandler("/upload/pic/**").addResourceLocations("file:F:/graduate_design/images/upload/pic/");
             }
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico");
+                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**");
             }
 
             /**

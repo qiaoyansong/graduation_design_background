@@ -7,14 +7,12 @@ import com.qiaoyansong.util.JedisPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import redis.clients.jedis.Jedis;
 
 import javax.validation.Valid;
@@ -28,8 +26,7 @@ import java.util.List;
  * @date ：Created in 2021/2/5 18:49
  * description：注册控制器
  */
-@Controller
-@Validated
+@RestController
 @RequestMapping("/register")
 public class RegisterController {
     private static final Logger log = LoggerFactory.getLogger(RegisterController.class);
@@ -41,8 +38,8 @@ public class RegisterController {
      * @param mailBox 邮箱
      */
     @RequestMapping(value = "/getVerificationCode", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity<String> getVerificationCode(@Valid @NotNull(message = "邮箱不能为空") String mailBox) {
+        log.info("进入RegisterController.getVerificationCode");
         return this.userService.getVerificationCode(mailBox, "大学生公益马上行申请验证码有效期一分钟");
     }
 
@@ -50,8 +47,8 @@ public class RegisterController {
      * 注册用户
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    @ResponseBody
     public ResponseEntity register(@Valid @RequestBody com.qiaoyansong.entity.front.User user, BindingResult bindingResult){
+        log.info("进入RegisterController.register");
         List<ObjectError> allErrors = bindingResult.getAllErrors();
         ResponseEntity responseEntity = new ResponseEntity<>();
         if(allErrors.size() == 0){
@@ -105,4 +102,5 @@ public class RegisterController {
             return responseEntity;
         }
     }
+
 }
