@@ -6,14 +6,11 @@ import com.qiaoyansong.entity.front.Admin;
 import com.qiaoyansong.service.AdminService;
 import com.qiaoyansong.service.UserService;
 import com.qiaoyansong.util.JedisPoolUtil;
-import com.qiaoyansong.util.RequestContextHolderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
-
-import javax.servlet.http.HttpSession;
 
 /**
  * @author ：Qiao Yansong
@@ -134,113 +131,56 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ResponseEntity uploadNews(News news) {
-        log.info("进入AdminServiceImpl.uploadNews");
-        log.info("开始验证当前session是否有用户登陆信息");
         ResponseEntity responseEntity = new ResponseEntity();
-        HttpSession session = RequestContextHolderUtil.getRequest().getSession();
-        String userName = (String) session.getAttribute("userName");
-        if (userName == null) {
-            log.warn("当前session没有登陆过，直接退出");
-            responseEntity.setBody(StatusCode.USER_IS_NOT_LOGGED_IN.getReason());
-            responseEntity.setCode(StatusCode.USER_IS_NOT_LOGGED_IN.getCode());
-        } else {
-            log.info("当前session已经登录");
-            log.info("判断是否有相关权限");
-            User user = this.userMapper.getUserInfo(userName);
-            if (user.getType() == UserType.GENERAL_USER) {
-                log.warn("权限不足，直接退出");
-                responseEntity.setBody(StatusCode.INSUFFICIENT_PERMISSIONS.getReason());
-                responseEntity.setCode(StatusCode.INSUFFICIENT_PERMISSIONS.getCode());
+        log.info("开始检查文章是否重名");
+        Integer flag = this.adminMapper.checkNewsTitleIsExists(news.getTitle());
+        if (flag == null) {
+            log.info("开始上传文章");
+            if (this.adminMapper.uploadNews(news) != 1) {
+                log.warn("上传文章失败");
+                responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+                responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
             } else {
-                log.info("开始检查文章是否重名");
-                Integer flag = this.adminMapper.checkNewsTitleIsExists(news.getTitle());
-                if (flag == null) {
-                    log.info("开始上传文章");
-                    if (this.adminMapper.uploadNews(news) != 1) {
-                        log.warn("上传文章失败");
-                        responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
-                        responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
-                    } else {
-                        log.info("上传文章成功");
-                        responseEntity.setBody(StatusCode.SUCCESS.getReason());
-                        responseEntity.setCode(StatusCode.SUCCESS.getCode());
-                    }
-                } else {
-                    log.warn("文章标题存在");
-                    responseEntity.setBody(StatusCode.NEWS_TITLE_IS_EXISTS.getReason());
-                    responseEntity.setCode(StatusCode.NEWS_TITLE_IS_EXISTS.getCode());
-                }
+                log.info("上传文章成功");
+                responseEntity.setBody(StatusCode.SUCCESS.getReason());
+                responseEntity.setCode(StatusCode.SUCCESS.getCode());
             }
+        } else {
+            log.warn("文章标题存在");
+            responseEntity.setBody(StatusCode.NEWS_TITLE_IS_EXISTS.getReason());
+            responseEntity.setCode(StatusCode.NEWS_TITLE_IS_EXISTS.getCode());
         }
         return responseEntity;
     }
 
     @Override
     public ResponseEntity uploadActivity(Activity activity) {
-        log.info("进入AdminServiceImpl.uploadActivity");
-        log.info("开始验证当前session是否有用户登陆信息");
         ResponseEntity responseEntity = new ResponseEntity();
-        HttpSession session = RequestContextHolderUtil.getRequest().getSession();
-        String userName = (String) session.getAttribute("userName");
-        if (userName == null) {
-            log.warn("当前session没有登陆过，直接退出");
-            responseEntity.setBody(StatusCode.USER_IS_NOT_LOGGED_IN.getReason());
-            responseEntity.setCode(StatusCode.USER_IS_NOT_LOGGED_IN.getCode());
+        log.info("开始上传活动");
+        if (this.activityMapper.uploadActivity(activity) != 1) {
+            log.warn("上传活动失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {
-            log.info("当前session已经登录");
-            log.info("判断是否有相关权限");
-            User user = this.userMapper.getUserInfo(userName);
-            if (user.getType() == UserType.GENERAL_USER) {
-                log.warn("权限不足，直接退出");
-                responseEntity.setBody(StatusCode.INSUFFICIENT_PERMISSIONS.getReason());
-                responseEntity.setCode(StatusCode.INSUFFICIENT_PERMISSIONS.getCode());
-            } else {
-                log.info("开始上传活动");
-                if (this.activityMapper.uploadActivity(activity) != 1) {
-                    log.warn("上传活动失败");
-                    responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
-                    responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
-                } else {
-                    log.info("上传活动成功");
-                    responseEntity.setBody(StatusCode.SUCCESS.getReason());
-                    responseEntity.setCode(StatusCode.SUCCESS.getCode());
-                }
-            }
+            log.info("上传活动成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
         }
         return responseEntity;
     }
 
     @Override
     public ResponseEntity uploadCommodity(Commodity commodity) {
-        log.info("进入AdminServiceImpl.uploadCommodity");
-        log.info("开始验证当前session是否有用户登陆信息");
         ResponseEntity responseEntity = new ResponseEntity();
-        HttpSession session = RequestContextHolderUtil.getRequest().getSession();
-        String userName = (String) session.getAttribute("userName");
-        if (userName == null) {
-            log.warn("当前session没有登陆过，直接退出");
-            responseEntity.setBody(StatusCode.USER_IS_NOT_LOGGED_IN.getReason());
-            responseEntity.setCode(StatusCode.USER_IS_NOT_LOGGED_IN.getCode());
+        log.info("开始上传商品");
+        if (this.commodityMapper.uploadCommodity(commodity) != 1) {
+            log.warn("上传商品失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {
-            log.info("当前session已经登录");
-            log.info("判断是否有相关权限");
-            User user = this.userMapper.getUserInfo(userName);
-            if (user.getType() == UserType.GENERAL_USER) {
-                log.warn("权限不足，直接退出");
-                responseEntity.setBody(StatusCode.INSUFFICIENT_PERMISSIONS.getReason());
-                responseEntity.setCode(StatusCode.INSUFFICIENT_PERMISSIONS.getCode());
-            } else {
-                log.info("开始上传商品");
-                if (this.commodityMapper.uploadCommodity(commodity) != 1) {
-                    log.warn("上传商品失败");
-                    responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
-                    responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
-                } else {
-                    log.info("上传商品成功");
-                    responseEntity.setBody(StatusCode.SUCCESS.getReason());
-                    responseEntity.setCode(StatusCode.SUCCESS.getCode());
-                }
-            }
+            log.info("上传商品成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
         }
         return responseEntity;
     }
