@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaoyansong.dao.AuctionMapper">
+    <insert id="uploadAuction">
+        insert into auction(title, content, begin_time, end_time, pubdate, min_price, max_price, img, summary)
+        values (#{title}, #{content}, #{beginTime}, #{endTime}, now(), #{minPrice}, #{maxPrice}, #{img}, #{summary})
+    </insert>
+</mapper>

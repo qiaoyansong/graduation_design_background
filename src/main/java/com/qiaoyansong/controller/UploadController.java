@@ -14,7 +14,9 @@ import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author ：Qiao Yansong
@@ -25,6 +27,10 @@ import java.util.UUID;
 @RequestMapping("/upload")
 public class UploadController {
     private static final Logger log = LoggerFactory.getLogger(UploadController.class);
+    /**
+     * 生成的文件名后缀生成3位随机数
+     */
+    private final int IMG_LOCATION_COUNT = 3;
     @RequestMapping("/pic")
     @ResponseBody
     public UploadFile uploadPic(@Valid @NotNull(message = "上传文件不能为空") MultipartFile file) {
@@ -37,7 +43,15 @@ public class UploadController {
         } else {
             log.info("开始上传图片");
             String saveDir = "F:/graduate_design/images/upload/pic";
-            StringBuilder base = new StringBuilder(UUID.randomUUID().toString() + ".png");
+            LocalDateTime localDateTime = LocalDateTime.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSS");
+            StringBuilder base = new StringBuilder(dateTimeFormatter.format(localDateTime));
+            ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+            int i;
+            for (i = 0; i < IMG_LOCATION_COUNT; i++) {
+                base.append(threadLocalRandom.nextInt(0, 9));
+            }
+            base.append(".jpg");
             String fileName = base.toString();
             try {
                 Files.copy(file.getInputStream(), Paths.get(saveDir, fileName));

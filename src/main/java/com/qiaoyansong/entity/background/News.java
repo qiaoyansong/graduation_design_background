@@ -17,7 +17,7 @@ public class News {
     private Integer id;
 
     @NotNull(message = "文章标题不能为空")
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5]{1,20}$", message = "文章标题格式不正确")
+    @Pattern(regexp = "^[\\u4e00-\\u9fa5]{1,50}$", message = "文章标题格式不正确")
     private String title;
     @NotNull(message = "文章来源不能为空")
     @Pattern(regexp = "^[\\u4e00-\\u9fa5]{1,10}$", message = "文章来源格式不正确")

@@ -54,6 +54,7 @@ public class CheckIsLogIn implements HandlerInterceptor {
                     writer.write(o.toString());
                     return false;
                 }else{
+                    logger.info("延长session生命周期");
                     // 如果相等 就延长session生命周期
                     session.setMaxInactiveInterval(30 * 60);
                     return true;

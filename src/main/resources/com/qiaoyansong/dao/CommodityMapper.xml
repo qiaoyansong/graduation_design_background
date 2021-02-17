@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaoyansong.dao.CommodityMapper">
+    <insert id="uploadCommodity">
+        insert into commodity(title, content, pubdate, img, quantity, point, summary)
+        values (#{title}, #{content}, now(), #{img}, #{quantity}, #{point}, #{summary})
+    </insert>
+</mapper>

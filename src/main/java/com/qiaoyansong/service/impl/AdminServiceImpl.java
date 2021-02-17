@@ -247,35 +247,16 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public ResponseEntity uploadAuction(Auction auction) {
-        log.info("进入AdminServiceImpl.uploadAuction");
-        log.info("开始验证当前session是否有用户登陆信息");
         ResponseEntity responseEntity = new ResponseEntity();
-        HttpSession session = RequestContextHolderUtil.getRequest().getSession();
-        String userName = (String) session.getAttribute("userName");
-        if (userName == null) {
-            log.warn("当前session没有登陆过，直接退出");
-            responseEntity.setBody(StatusCode.USER_IS_NOT_LOGGED_IN.getReason());
-            responseEntity.setCode(StatusCode.USER_IS_NOT_LOGGED_IN.getCode());
+        log.info("开始上传公益拍卖");
+        if (this.auctionMapper.uploadAuction(auction) != 1) {
+            log.warn("上传公益拍卖失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {
-            log.info("当前session已经登录");
-            log.info("判断是否有相关权限");
-            User user = this.userMapper.getUserInfo(userName);
-            if (user.getType() == UserType.GENERAL_USER) {
-                log.warn("权限不足，直接退出");
-                responseEntity.setBody(StatusCode.INSUFFICIENT_PERMISSIONS.getReason());
-                responseEntity.setCode(StatusCode.INSUFFICIENT_PERMISSIONS.getCode());
-            } else {
-                log.info("开始上传公益拍卖");
-                if (this.auctionMapper.uploadAuction(auction) != 1) {
-                    log.warn("上传公益拍卖失败");
-                    responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
-                    responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
-                } else {
-                    log.info("上传公益拍卖成功");
-                    responseEntity.setBody(StatusCode.SUCCESS.getReason());
-                    responseEntity.setCode(StatusCode.SUCCESS.getCode());
-                }
-            }
+            log.info("上传公益拍卖成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
         }
         return responseEntity;
     }
