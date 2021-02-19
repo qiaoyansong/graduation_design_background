@@ -5,6 +5,7 @@
 <configuration>
     <settings>
         <setting name="logImpl" value="log4j2"/>
+        <setting name="mapUnderscoreToCamelCase" value="true" />
     </settings>
     <typeAliases>
         <package name="com.qiaoyansong.entity.background"/>

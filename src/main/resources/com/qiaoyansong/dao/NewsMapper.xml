@@ -8,6 +8,40 @@
         values (#{title}, #{source}, now(), #{summary}, #{article}, #{type}, 0, 1, #{img})
     </insert>
     <select id="checkNewsTitleIsExists" resultType="integer">
-        select 1 from news where title = #{title}
+        select 1
+        from news
+        where title = #{title}
     </select>
+    <select id="getNews" resultType="News">
+        select id, title, source, pubdate, summary, type, views, flag, img
+        from
+        news
+        <where>
+            <if test="condition.searchValue!=null">
+            <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getTotalSize" resultType="integer">
+        select count(id)
+        from
+        news
+        <where>
+            <if test="searchValue!=null">
+            <bind name="base" value="'%'+searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+    </select>
+    <update id="updateNewsByID">
+        update news set title = #{title}, source = #{source}, summary = #{summary}, type = #{type}
+            where
+            id = #{id}
+    </update>
+    <delete id="deleteNewsByID">
+        delete from news where id = #{id}
+    </delete>
 </mapper>

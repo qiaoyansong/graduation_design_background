@@ -7,4 +7,32 @@
         insert into activity(peoples, begin_time, end_time, pubdate, difficulty, title, content, summary)
         values (#{peoples}, #{beginTime}, #{endTime},now(), #{difficulty}, #{title}, #{content}, #{summary})
     </insert>
+
+    <select id="getActivity" resultType="Activity">
+        select id, peoples, begin_time, end_time, difficulty, title, summary
+        from
+        activity
+        <where>
+            <if test="condition.searchValue!=null">
+                <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getTotalSize" resultType="integer">
+        select count(id)
+        from
+        activity
+        <where>
+            <if test="searchValue!=null">
+                <bind name="base" value="'%'+searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteActivityByID">
+        delete from activity where id = #{id}
+    </delete>
 </mapper>

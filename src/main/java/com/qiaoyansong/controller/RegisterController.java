@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,9 +16,6 @@ import redis.clients.jedis.Jedis;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author ：Qiao Yansong
@@ -48,10 +44,7 @@ public class RegisterController {
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity register(@Valid @RequestBody com.qiaoyansong.entity.front.User user, BindingResult bindingResult){
-        log.info("进入RegisterController.register");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
         ResponseEntity responseEntity = new ResponseEntity<>();
-        if(allErrors.size() == 0){
             // 没有异常
             try {
                 redis = JedisPoolUtil.getInstance().getResource();
@@ -90,17 +83,6 @@ public class RegisterController {
                     redis.close();
                 }
             }
-        }else{
-            // 有异常
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        }
     }
 
 }

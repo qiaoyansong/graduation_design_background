@@ -7,4 +7,41 @@
         insert into commodity(title, content, pubdate, img, quantity, point, summary)
         values (#{title}, #{content}, now(), #{img}, #{quantity}, #{point}, #{summary})
     </insert>
+    <select id="getCommodity" resultType="Commodity">
+        select id, title, pubdate, img, quantity, point, summary
+        from
+        commodity
+        <where>
+            <if test="condition.searchValue!=null">
+                <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getTotalSize" resultType="integer">
+        select count(id)
+        from
+        commodity
+        <where>
+            <if test="searchValue!=null">
+                <bind name="base" value="'%'+searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteCommodityByID">
+        delete
+        from commodity
+        where id = #{id}
+    </delete>
+    <update id="updateCommodityByID">
+        update commodity
+        set title   = #{title},
+            quantity  = #{quantity},
+            point = #{point},
+            summary = #{summary}
+        where id = #{id}
+    </update>
 </mapper>

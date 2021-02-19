@@ -29,7 +29,10 @@ public class AdminUploadAspect {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserMapper userMapper;
-    @Pointcut("execution(public * com.qiaoyansong.service.impl.AdminServiceImpl.upload*(..))")
+    @Pointcut("execution(public * com.qiaoyansong.service.impl.AdminServiceImpl.upload*(..)) " +
+            "|| execution(public * com.qiaoyansong.service.impl.AdminServiceImpl.update*(..)) " +
+            "|| execution(public * com.qiaoyansong.service.impl.AdminServiceImpl.delete*(..)) " +
+            "|| execution(public * com.qiaoyansong.service.impl.AdminServiceImpl.select*(..))")
     public void pointCut(){
 
     }

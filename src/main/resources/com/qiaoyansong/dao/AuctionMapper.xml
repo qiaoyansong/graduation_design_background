@@ -7,4 +7,31 @@
         insert into auction(title, content, begin_time, end_time, pubdate, min_price, max_price, img, summary)
         values (#{title}, #{content}, #{beginTime}, #{endTime}, now(), #{minPrice}, #{maxPrice}, #{img}, #{summary})
     </insert>
+    <select id="getAuction" resultType="Auction">
+        select id, title, begin_time, end_time, min_price, max_price, img, summary
+        from
+        auction
+        <where>
+            <if test="condition.searchValue!=null">
+                <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getTotalSize" resultType="integer">
+        select count(id)
+        from
+        auction
+        <where>
+            <if test="searchValue!=null">
+                <bind name="base" value="'%'+searchValue+'%'"/>
+                and title like #{base}
+            </if>
+        </where>
+    </select>
+    <delete id="deleteAuctionByID">
+        delete from auction where id = #{id}
+    </delete>
 </mapper>

@@ -12,15 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author ：Qiao Yansong
@@ -41,23 +37,7 @@ public class LoginController {
 
     @RequestMapping("/login")
     public ResponseEntity login(@Valid @RequestBody User user, BindingResult bindingResult) {
-        LOGGER.info("进入LoginController.login");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (allErrors.isEmpty()) {
             return this.userService.login(user);
-        } else {
-            // 有异常
-            LOGGER.error("请求参数校验失败");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        }
     }
 
     @RequestMapping(value = "/getSaveInfo", method = RequestMethod.GET)
@@ -108,41 +88,11 @@ public class LoginController {
 
     @RequestMapping(value = "/login/admin/getVerificationCode", method = RequestMethod.POST)
     public ResponseEntity getAdminVerificationCode(@Valid @RequestBody Admin admin, BindingResult bindingResult) {
-        LOGGER.info("进入LoginController.getAdminVerificationCode");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (!allErrors.isEmpty()) {
-            LOGGER.error("参数校验错误，直接退出");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        } else {
             return this.adminService.getAdminVerificationCode(admin);
-        }
     }
 
     @RequestMapping(value = "/login/admin", method = RequestMethod.POST)
     public ResponseEntity<String> adminLogin(@Valid @RequestBody com.qiaoyansong.entity.front.User user, BindingResult result) {
-        LOGGER.info("进入LoginController.adminLogin");
-        List<ObjectError> allErrors = result.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (!allErrors.isEmpty()) {
-            LOGGER.error("参数校验错误，直接退出");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        } else {
             return this.adminService.login(user);
-        }
     }
 }

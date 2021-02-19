@@ -6,16 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import javax.validation.constraints.Pattern;
 
 /**
  * @author ：Qiao Yansong
@@ -32,82 +26,76 @@ public class AdminController {
     private AdminService adminService;
 
     @RequestMapping(path = "/uploadNews", method = RequestMethod.POST)
-    public ResponseEntity uploadNews(@Valid @RequestBody News news, BindingResult bindingResult){
-        LOGGER.info("进入AdminController.uploadNews");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (!allErrors.isEmpty()) {
-            LOGGER.error("参数校验错误，直接退出");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        } else {
-            return this.adminService.uploadNews(news);
-        }
+    public ResponseEntity uploadNews(@Valid @RequestBody News news, BindingResult bindingResult) {
+        return this.adminService.uploadNews(news);
+    }
+
+    @RequestMapping(path = "/getNews", method = RequestMethod.POST)
+    public ResponseEntity getNews(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+        return this.adminService.selectNews(pageHelper);
+    }
+
+    @RequestMapping(path = "/updateNews", method = RequestMethod.POST)
+    public ResponseEntity updateNewsById(@Valid @RequestBody com.qiaoyansong.entity.front.News news, BindingResult bindingResult) {
+        return this.adminService.updateNews(news);
+    }
+
+    @RequestMapping(path = "/deleteNewsByID/{id}", method = RequestMethod.GET)
+    public ResponseEntity deleteNewsByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "文章ID不正确") @PathVariable("id") String id) {
+        LOGGER.info("进入AdminController.deleteNewsByID");
+        return this.adminService.deleteNewsByID(id);
     }
 
     @RequestMapping(path = "/uploadActivity", method = RequestMethod.POST)
-    public ResponseEntity uploadActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult){
-        LOGGER.info("进入AdminController.uploadActivity");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (!allErrors.isEmpty()) {
-            LOGGER.error("参数校验错误，直接退出");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        } else {
-            return this.adminService.uploadActivity(activity);
-        }
+    public ResponseEntity uploadActivity(@Valid @RequestBody Activity activity, BindingResult bindingResult) {
+        return this.adminService.uploadActivity(activity);
+    }
+
+    @RequestMapping(path = "/getActivity", method = RequestMethod.POST)
+    public ResponseEntity getActivity(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+        return this.adminService.selectActivity(pageHelper);
+    }
+
+    @RequestMapping(path = "/deleteActivityByID/{id}", method = RequestMethod.GET)
+    public ResponseEntity deleteActivityByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "活动ID不正确") @PathVariable("id") String id) {
+        LOGGER.info("进入AdminController.deleteNewsByID");
+        return this.adminService.deleteActivityByID(id);
     }
 
     @RequestMapping(path = "/uploadCommodity", method = RequestMethod.POST)
-    public ResponseEntity uploadCommodity(@Valid @RequestBody Commodity commodity, BindingResult bindingResult){
-        LOGGER.info("进入AdminController.uploadCommodity");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (!allErrors.isEmpty()) {
-            LOGGER.error("参数校验错误，直接退出");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        } else {
-            return this.adminService.uploadCommodity(commodity);
-        }
+    public ResponseEntity uploadCommodity(@Valid @RequestBody Commodity commodity, BindingResult bindingResult) {
+        return this.adminService.uploadCommodity(commodity);
+    }
+
+    @RequestMapping(path = "/getCommodity", method = RequestMethod.POST)
+    public ResponseEntity getCommodity(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+        return this.adminService.selectCommodity(pageHelper);
+    }
+
+    @RequestMapping(path = "/updateCommodity", method = RequestMethod.POST)
+    public ResponseEntity updateCommodityById(@Valid @RequestBody com.qiaoyansong.entity.front.Commodity commodity , BindingResult bindingResult) {
+        return this.adminService.updateCommodity(commodity);
+    }
+
+    @RequestMapping(path = "/deleteCommodityByID/{id}", method = RequestMethod.GET)
+    public ResponseEntity deleteCommodityByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "商品ID不正确") @PathVariable("id") String id) {
+        LOGGER.info("进入AdminController.deleteNewsByID");
+        return this.adminService.deleteCommodityByID(id);
     }
 
     @RequestMapping(path = "/uploadAuction", method = RequestMethod.POST)
-    public ResponseEntity uploadAuction(@Valid @RequestBody Auction auction, BindingResult bindingResult){
-        LOGGER.info("进入AdminController.uploadAuction");
-        List<ObjectError> allErrors = bindingResult.getAllErrors();
-        ResponseEntity responseEntity = new ResponseEntity();
-        if (!allErrors.isEmpty()) {
-            LOGGER.error("参数校验错误，直接退出");
-            List<String> msgList = new ArrayList<>();
-            Iterator<ObjectError> iterator = allErrors.iterator();
-            while (iterator.hasNext()) {
-                msgList.add(iterator.next().getDefaultMessage());
-            }
-            responseEntity.setBody(msgList);
-            responseEntity.setCode(StatusCode.VALID_EXCEPTION.getCode());
-            return responseEntity;
-        } else {
-            return this.adminService.uploadAuction(auction);
-        }
+    public ResponseEntity uploadAuction(@Valid @RequestBody Auction auction, BindingResult bindingResult) {
+        return this.adminService.uploadAuction(auction);
+    }
+
+    @RequestMapping(path = "/getAuction", method = RequestMethod.POST)
+    public ResponseEntity getAuction(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+        return this.adminService.selectAuction(pageHelper);
+    }
+
+    @RequestMapping(path = "/deleteAuctionByID/{id}", method = RequestMethod.GET)
+    public ResponseEntity deleteAuctionByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "拍卖ID不正确") @PathVariable("id") String id) {
+        LOGGER.info("进入AdminController.deleteNewsByID");
+        return this.adminService.deleteAuctionByID(id);
     }
 }

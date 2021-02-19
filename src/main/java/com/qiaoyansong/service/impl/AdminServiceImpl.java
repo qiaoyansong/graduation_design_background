@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
+import java.util.List;
+
 /**
  * @author ：Qiao Yansong
  * @date ：Created in 2021/2/12 18:41
@@ -195,6 +197,150 @@ public class AdminServiceImpl implements AdminService {
             responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {
             log.info("上传公益拍卖成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity selectNews(PageHelper helper) {
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.adminMapper.getTotalSize(helper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
+        List<News> news = this.adminMapper.getNews(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity selectCommodity(PageHelper helper) {
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.commodityMapper.getTotalSize(helper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
+        List<Commodity> news = this.commodityMapper.getCommodity(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity selectAuction(PageHelper helper) {
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.auctionMapper.getTotalSize(helper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
+        List<Auction> news = this.auctionMapper.getAuction(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity selectActivity(PageHelper helper) {
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.activityMapper.getTotalSize(helper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
+        List<Activity> news = this.activityMapper.getActivity(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity updateNews(com.qiaoyansong.entity.front.News news) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始修改资讯");
+        if (this.adminMapper.updateNewsByID(news) != 1) {
+            log.warn("修改资讯失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("修改资讯成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity updateCommodity(com.qiaoyansong.entity.front.Commodity commodity) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始修改商品");
+        if (this.commodityMapper.updateCommodityByID(commodity) != 1) {
+            log.warn("修改商品失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("修改商品成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deleteNewsByID(String id) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始删除资讯");
+        if (this.adminMapper.deleteNewsByID(id) != 1) {
+            log.warn("删除资讯失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("删除资讯成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deleteCommodityByID(String id) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始删除商品");
+        if (this.commodityMapper.deleteCommodityByID(id) != 1) {
+            log.warn("删除商品失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("删除商品成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deleteAuctionByID(String id) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始删除拍卖");
+        if (this.auctionMapper.deleteAuctionByID(id) != 1) {
+            log.warn("删除拍卖失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("删除拍卖成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deleteActivityByID(String id) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始删除活动");
+        if (this.activityMapper.deleteActivityByID(id) != 1) {
+            log.warn("删除活动失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("删除活动成功");
             responseEntity.setBody(StatusCode.SUCCESS.getReason());
             responseEntity.setCode(StatusCode.SUCCESS.getCode());
         }
