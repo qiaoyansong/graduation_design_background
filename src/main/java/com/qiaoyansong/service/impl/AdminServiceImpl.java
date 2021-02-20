@@ -204,7 +204,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity selectNews(PageHelper helper) {
+    public ResponseEntity selectNews(PageHelper<SearchCondition> helper) {
         SearchResponseEntity responseEntity = new SearchResponseEntity();
         int totalSize = this.adminMapper.getTotalSize(helper.getCondition());
         PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
@@ -216,7 +216,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity selectCommodity(PageHelper helper) {
+    public ResponseEntity selectCommodity(PageHelper<SearchCondition> helper) {
         SearchResponseEntity responseEntity = new SearchResponseEntity();
         int totalSize = this.commodityMapper.getTotalSize(helper.getCondition());
         PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
@@ -228,7 +228,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity selectAuction(PageHelper helper) {
+    public ResponseEntity selectAuction(PageHelper<SearchCondition> helper) {
         SearchResponseEntity responseEntity = new SearchResponseEntity();
         int totalSize = this.auctionMapper.getTotalSize(helper.getCondition());
         PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
@@ -240,11 +240,23 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public ResponseEntity selectActivity(PageHelper helper) {
+    public ResponseEntity selectActivity(PageHelper<SearchCondition> helper) {
         SearchResponseEntity responseEntity = new SearchResponseEntity();
         int totalSize = this.activityMapper.getTotalSize(helper.getCondition());
         PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
         List<Activity> news = this.activityMapper.getActivity(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity selectUsers(PageHelper<UserSearchCondition> helper) {
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.userMapper.getTotalSize(helper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, helper.getCondition(), helper.getCurPage());
+        List<User> news = this.userMapper.getUsers(cur);
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         responseEntity.setBody(news);
         responseEntity.setTotalSize(totalSize);
@@ -277,6 +289,38 @@ public class AdminServiceImpl implements AdminService {
             responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {
             log.info("修改商品成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity updateAuction(com.qiaoyansong.entity.front.Auction auction) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始修改拍卖信息");
+        if (this.auctionMapper.updateAuctionByID(auction) != 1) {
+            log.warn("修改拍卖失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("修改拍卖成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity updateActivity(com.qiaoyansong.entity.front.Activity activity) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始修改活动");
+        if (this.activityMapper.updateActivityByID(activity) != 1) {
+            log.warn("修改活动失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("修改活动成功");
             responseEntity.setBody(StatusCode.SUCCESS.getReason());
             responseEntity.setCode(StatusCode.SUCCESS.getCode());
         }
@@ -337,6 +381,22 @@ public class AdminServiceImpl implements AdminService {
         log.info("开始删除活动");
         if (this.activityMapper.deleteActivityByID(id) != 1) {
             log.warn("删除活动失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("删除活动成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deleteUserByID(String id) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始删除用户");
+        if (this.userMapper.deleteUserByID(id) != 1) {
+            log.warn("删除用户失败");
             responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
             responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {

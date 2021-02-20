@@ -14,7 +14,7 @@ import javax.validation.constraints.Pattern;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PageHelper {
+public class PageHelper<T> {
     /**
      * 总数据
      */
@@ -24,7 +24,7 @@ public class PageHelper {
      * 查询条件
      */
     @Valid
-    private SearchCondition condition;
+    private T condition;
 
     /**
      * 当前页数
@@ -43,7 +43,7 @@ public class PageHelper {
      */
     private int pageSize = 10;
 
-    public PageHelper(int totalSize, SearchCondition condition, String curPage) {
+    public PageHelper(int totalSize, T condition, String curPage) {
         this.totalSize = totalSize;
         this.condition = condition;
         this.curPage = curPage;

@@ -1,8 +1,12 @@
 package com.qiaoyansong.dao;
 
+import com.qiaoyansong.entity.background.PageHelper;
 import com.qiaoyansong.entity.background.User;
+import com.qiaoyansong.entity.background.UserSearchCondition;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author ：Qiao Yansong
@@ -60,4 +64,25 @@ public interface UserMapper {
      * @return 返回值 User
      */
     User getUserInfo(String userName);
+
+    /**
+     * 根据ID删除具体用户
+     * @param id 用户ID
+     * @return
+     */
+    Integer deleteUserByID(String id);
+
+    /**
+     * 根据查询条件查询数据总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getTotalSize(UserSearchCondition condition);
+
+    /**
+     * 根据查询条件查询用户
+     * @param pageHelper 查询 + 分页条件
+     * @return
+     */
+    List<User> getUsers(PageHelper<UserSearchCondition> pageHelper);
 }

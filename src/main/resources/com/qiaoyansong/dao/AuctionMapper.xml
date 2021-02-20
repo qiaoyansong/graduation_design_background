@@ -34,4 +34,16 @@
     <delete id="deleteAuctionByID">
         delete from auction where id = #{id}
     </delete>
+    <update id="updateAuctionByID">
+        update auction
+        set
+                title =#{title},
+                begin_time =#{beginTime},
+                end_time =#{endTime},
+                min_price =#{minPrice},
+                max_price =#{maxPrice},
+                summary =#{summary}
+            where
+            id = #{id}
+    </update>
 </mapper>

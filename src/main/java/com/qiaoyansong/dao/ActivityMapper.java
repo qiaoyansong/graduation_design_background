@@ -37,10 +37,10 @@ public interface ActivityMapper {
 
     /**
      * 根据ID修改具体活动
-     * @param news 活动信息
+     * @param activity 活动信息
      * @return
      */
-//    Integer updateActivityByID(com.qiaoyansong.entity.front.News news);
+    Integer updateActivityByID(com.qiaoyansong.entity.front.Activity activity);
 
     /**
      * 根据ID删除具体活动

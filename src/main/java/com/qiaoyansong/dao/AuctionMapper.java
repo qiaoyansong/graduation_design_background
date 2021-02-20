@@ -37,10 +37,10 @@ public interface AuctionMapper {
 
     /**
      * 根据ID修改具体拍卖
-     * @param news 拍卖信息
+     * @param auction 拍卖信息
      * @return
      */
-//    Integer updateActivityByID(com.qiaoyansong.entity.front.News news);
+    Integer updateAuctionByID(com.qiaoyansong.entity.front.Auction auction);
 
     /**
      * 根据ID删除具体拍卖

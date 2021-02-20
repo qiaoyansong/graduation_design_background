@@ -10,25 +10,25 @@ import javax.validation.constraints.Pattern;
 
 /**
  * @author ：Qiao Yansong
- * @date ：Created in 2021/2/18 19:18
- * description：数据查询条件
+ * @date ：Created in 2021/2/20 18:19
+ * description：
  */
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class SearchCondition {
-
+public class UserSearchCondition {
     @NotNull(message = "排序方式不能为null")
     @Pattern(regexp = "asc|desc", message = "排序方式不符合格式要求")
     private String orderBy;
 
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5]{0,50}$", message = "标题格式不正确")
+    @Pattern(regexp = "^$|^[a-zA-Z][a-zA-Z0-9_]{3,19}$", message = "用户名格式不正确")
     private String searchValue;
 
     @Override
     public String toString() {
-        return "SearchCondition{" +
+        return "UserSearchCondition{" +
                 "orderBy='" + orderBy + '\'' +
                 ", searchValue='" + searchValue + '\'' +
                 '}';

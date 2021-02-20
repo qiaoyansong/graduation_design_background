@@ -35,4 +35,14 @@
     <delete id="deleteActivityByID">
         delete from activity where id = #{id}
     </delete>
+    <update id="updateActivityByID">
+        update activity
+                set peoples = #{peoples},
+                 begin_time =#{beginTime},
+                 end_time =#{endTime},
+                 difficulty =#{difficulty},
+                 title =#{title},
+                 summary =#{summary}
+             where id = #{id}
+    </update>
 </mapper>

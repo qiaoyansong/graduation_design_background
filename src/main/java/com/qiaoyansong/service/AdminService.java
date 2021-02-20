@@ -68,6 +68,13 @@ public interface AdminService {
     ResponseEntity deleteActivityByID(String id);
 
     /**
+     * 管理员删除用户
+     * @param id 用户ID
+     * @return 返回信息
+     */
+    ResponseEntity deleteUserByID(String id);
+
+    /**
      * 管理员上传活动
      * @param activity 活动信息
      * @return 返回信息
@@ -96,30 +103,54 @@ public interface AdminService {
     ResponseEntity uploadAuction(Auction auction);
 
     /**
+     * 管理员修改拍卖信息
+     * @param auction 拍卖信息
+     * @return 返回信息
+     */
+    ResponseEntity updateAuction(com.qiaoyansong.entity.front.Auction auction);
+
+    /**
      * 管理员获取资讯信息
      * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
      */
-    ResponseEntity selectNews(PageHelper pageHelper);
+    ResponseEntity selectNews(PageHelper<SearchCondition> pageHelper);
 
     /**
      * 管理员获取商品信息
      * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
      */
-    ResponseEntity selectCommodity(PageHelper pageHelper);
+    ResponseEntity selectCommodity(PageHelper<SearchCondition> pageHelper);
 
     /**
      * 管理员获取拍卖信息
      * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
      */
-    ResponseEntity selectAuction(PageHelper pageHelper);
+    ResponseEntity selectAuction(PageHelper<SearchCondition> pageHelper);
 
     /**
      * 管理员获取活动信息
      * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
      */
-    ResponseEntity selectActivity(PageHelper pageHelper);
+    ResponseEntity selectActivity(PageHelper<SearchCondition> pageHelper);
+
+
+    /**
+     * 管理员获取用户信息
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity selectUsers(PageHelper<UserSearchCondition> pageHelper);
+
+
+    /**
+     * 管理员修改活动信息
+     * @param activity 活动信息
+     * @return 返回信息
+     */
+    ResponseEntity updateActivity(com.qiaoyansong.entity.front.Activity activity);
+
 }

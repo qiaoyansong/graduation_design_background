@@ -31,7 +31,7 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/getNews", method = RequestMethod.POST)
-    public ResponseEntity getNews(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+    public ResponseEntity getNews(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
         return this.adminService.selectNews(pageHelper);
     }
 
@@ -52,13 +52,18 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/getActivity", method = RequestMethod.POST)
-    public ResponseEntity getActivity(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+    public ResponseEntity getActivity(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
         return this.adminService.selectActivity(pageHelper);
+    }
+
+    @RequestMapping(path = "/updateActivity", method = RequestMethod.POST)
+    public ResponseEntity updateActivityById(@Valid @RequestBody com.qiaoyansong.entity.front.Activity activity, BindingResult bindingResult) {
+        return this.adminService.updateActivity(activity);
     }
 
     @RequestMapping(path = "/deleteActivityByID/{id}", method = RequestMethod.GET)
     public ResponseEntity deleteActivityByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "活动ID不正确") @PathVariable("id") String id) {
-        LOGGER.info("进入AdminController.deleteNewsByID");
+        LOGGER.info("进入AdminController.deleteActivityByID");
         return this.adminService.deleteActivityByID(id);
     }
 
@@ -68,7 +73,7 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/getCommodity", method = RequestMethod.POST)
-    public ResponseEntity getCommodity(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+    public ResponseEntity getCommodity(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
         return this.adminService.selectCommodity(pageHelper);
     }
 
@@ -79,7 +84,7 @@ public class AdminController {
 
     @RequestMapping(path = "/deleteCommodityByID/{id}", method = RequestMethod.GET)
     public ResponseEntity deleteCommodityByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "商品ID不正确") @PathVariable("id") String id) {
-        LOGGER.info("进入AdminController.deleteNewsByID");
+        LOGGER.info("进入AdminController.deleteCommodityByID");
         return this.adminService.deleteCommodityByID(id);
     }
 
@@ -89,8 +94,13 @@ public class AdminController {
     }
 
     @RequestMapping(path = "/getAuction", method = RequestMethod.POST)
-    public ResponseEntity getAuction(@Valid @RequestBody PageHelper pageHelper, BindingResult bindingResult) {
+    public ResponseEntity getAuction(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
         return this.adminService.selectAuction(pageHelper);
+    }
+
+    @RequestMapping(path = "/updateAuction", method = RequestMethod.POST)
+    public ResponseEntity updateAuctionById(@Valid @RequestBody com.qiaoyansong.entity.front.Auction auction , BindingResult bindingResult) {
+        return this.adminService.updateAuction(auction);
     }
 
     @RequestMapping(path = "/deleteAuctionByID/{id}", method = RequestMethod.GET)
@@ -98,4 +108,16 @@ public class AdminController {
         LOGGER.info("进入AdminController.deleteNewsByID");
         return this.adminService.deleteAuctionByID(id);
     }
+
+    @RequestMapping(path = "/deleteUserByID/{id}", method = RequestMethod.GET)
+    public ResponseEntity deleteUserByID(@Valid @Pattern(regexp = "^[0-9]*$", message = "用户ID不正确") @PathVariable("id") String id) {
+        LOGGER.info("进入AdminController.deleteUserByID");
+        return this.adminService.deleteUserByID(id);
+    }
+
+    @RequestMapping(path = "/getUsers", method = RequestMethod.POST)
+    public ResponseEntity getUsers(@Valid @RequestBody PageHelper<UserSearchCondition> pageHelper, BindingResult bindingResult) {
+        return this.adminService.selectUsers(pageHelper);
+    }
+
 }

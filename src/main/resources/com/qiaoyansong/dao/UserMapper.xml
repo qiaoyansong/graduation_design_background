@@ -56,4 +56,35 @@
         from user
         where user_name = #{userName}
     </select>
+    <delete id="deleteUserByID">
+        delete from user
+        where
+            id = #{id}
+    </delete>
+    <select id="getTotalSize" resultType="integer">
+        select count(id)
+        from
+        user
+        <where>
+            <if test="searchValue!=null">
+                <bind name="base" value="'%'+searchValue+'%'"/>
+                and user_name like #{base}
+            </if>
+            and type = 0
+        </where>
+    </select>
+    <select id="getUsers" resultType="User">
+        select id, user_name, mailbox, credit, point
+        from
+        user
+        <where>
+            <if test="condition.searchValue!=null">
+                <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and user_name like #{base}
+            </if>
+            and type = 0
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
 </mapper>
