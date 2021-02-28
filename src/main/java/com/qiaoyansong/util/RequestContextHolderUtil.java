@@ -14,4 +14,7 @@ public class RequestContextHolderUtil {
     public static HttpServletRequest getRequest(){
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
+    private RequestContextHolderUtil(){
+
+    }
 }

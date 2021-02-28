@@ -19,6 +19,10 @@ import java.util.Properties;
 public class SendMailUtil {
     private static volatile SendMailUtil instance;
 
+    private SendMailUtil(){
+
+    }
+
     public static SendMailUtil getInstance() {
         if (instance == null) {
             synchronized (SendMailUtil.class) {

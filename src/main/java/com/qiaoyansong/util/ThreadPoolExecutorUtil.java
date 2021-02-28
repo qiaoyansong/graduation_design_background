@@ -13,6 +13,9 @@ public class ThreadPoolExecutorUtil {
     private static final int keepAliveTime = 60 * 5;
     private static volatile ExecutorService SIMPLE_THREAD_POOL;
     private static volatile ScheduledExecutorService SCHEDULED_EXECUTOR_SERVICE;
+    private ThreadPoolExecutorUtil(){
+
+    }
     /**
      * 获取简单线程池
      */

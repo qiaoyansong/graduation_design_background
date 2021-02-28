@@ -19,6 +19,10 @@ public class OnLineUserUtil {
     private Jedis redis;
     private final Logger logger = LoggerFactory.getLogger(OnLineUserUtil.class);
 
+    private OnLineUserUtil(){
+
+    }
+
     public static OnLineUserUtil getInstance() {
         if (instance == null) {
             synchronized (OnLineUserUtil.class) {
