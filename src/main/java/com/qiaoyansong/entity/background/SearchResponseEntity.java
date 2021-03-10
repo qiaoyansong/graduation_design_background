@@ -16,11 +16,4 @@ import lombok.Setter;
 @Setter
 public class SearchResponseEntity extends ResponseEntity{
     private int totalSize;
-
-    @Override
-    public String toString() {
-        return "SearchResponseEntity{" +
-                "totalSize=" + totalSize +
-                '}';
-    }
 }

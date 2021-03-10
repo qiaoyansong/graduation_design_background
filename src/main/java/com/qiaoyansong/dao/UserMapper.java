@@ -3,7 +3,6 @@ package com.qiaoyansong.dao;
 import com.qiaoyansong.entity.background.PageHelper;
 import com.qiaoyansong.entity.background.User;
 import com.qiaoyansong.entity.background.UserSearchCondition;
-import com.qiaoyansong.entity.front.ModifyPassword;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -86,11 +85,4 @@ public interface UserMapper {
      * @return
      */
     List<User> getUsers(PageHelper<UserSearchCondition> pageHelper);
-
-    /**
-     * 修改用户密码
-     * @param modifyPassword 用户信息
-     * @return
-     */
-    Integer modifyPassword(ModifyPassword modifyPassword);
 }
