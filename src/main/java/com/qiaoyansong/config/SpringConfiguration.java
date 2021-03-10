@@ -41,16 +41,16 @@ public class SpringConfiguration {
         return new WebMvcConfigurer() {
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
-                registry.addResourceHandler("/**").addResourceLocations("file:F:/graduate_design/images/");
-                registry.addResourceHandler("/register/**").addResourceLocations("file:F:/graduate_design/images/register/");
-                registry.addResourceHandler("/login/**").addResourceLocations("file:F:/graduate_design/images/login/");
+                registry.addResourceHandler("/image/**").addResourceLocations("file:F:/graduate_design/images/");
+                registry.addResourceHandler("/image/register/**").addResourceLocations("file:F:/graduate_design/images/register/");
+                registry.addResourceHandler("/image/login/**").addResourceLocations("file:F:/graduate_design/images/login/");
                 registry.addResourceHandler("/upload/pic/**").addResourceLocations("file:F:/graduate_design/images/upload/pic/");
             }
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(new CheckIsLogInRemotely()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**");
-                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/getSaveInfo");
+                registry.addInterceptor(new CheckIsLogInRemotely()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**");
+                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/getSaveInfo").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**");;
             }
 
 //            @Override

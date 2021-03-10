@@ -87,4 +87,12 @@
         order by id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>
+
+    <update id="modifyPassword">
+        update
+                user
+        set password = #{password}
+        where
+        user_name = #{userName}
+    </update>
 </mapper>
