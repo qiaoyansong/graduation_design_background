@@ -187,8 +187,6 @@ public class UserServiceImpl implements UserService {
             if (isExists) {
                 // 验证码还存在
                 log.info(StatusCode.VERIFICATION_CODE_NOT_EXPIRED.getReason());
-                // 再次延长验证码时间
-                redis.expire(mailBox, 60);
                 response.setCode(StatusCode.VERIFICATION_CODE_NOT_EXPIRED.getCode());
                 response.setBody("验证码已经成功发送至您的邮箱,并且仍在有效期范围之内。");
             } else {
