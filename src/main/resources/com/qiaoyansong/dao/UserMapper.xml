@@ -59,7 +59,7 @@
     <delete id="deleteUserByID">
         delete from user
         where
-            id = #{id}
+                id = #{id}
     </delete>
     <select id="getTotalSize" resultType="integer">
         select count(id)
@@ -87,4 +87,12 @@
         order by id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>
+
+    <update id="modifyPassword">
+        update
+                user
+        set password = #{password}
+        where
+                user_name = #{userName}
+    </update>
 </mapper>
