@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.qiaoyansong.dao.NewsMapper">
     <insert id="uploadNews">
-        insert into news(title, source, pubdate, summary, article, type, views, flag, img)
-        values (#{title}, #{source}, now(), #{summary}, #{article}, #{type}, 0, 1, #{img})
+        insert into news(title, source, pubdate, summary, article, type, views, flag, img, user_id)
+        values (#{title}, #{source}, now(), #{summary}, #{article}, #{type}, 0, 1, #{img}, #{userId})
     </insert>
     <select id="checkNewsTitleIsExists" resultType="integer">
         select 1

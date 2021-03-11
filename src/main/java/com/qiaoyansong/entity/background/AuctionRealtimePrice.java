@@ -12,6 +12,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class AuctionRealtimePrice {
+
+    private Integer id;
+
     private Integer auctionId;
 
     private Date time;
@@ -23,7 +26,8 @@ public class AuctionRealtimePrice {
     @Override
     public String toString() {
         return "AuctionRealtimePrice{" +
-                "auctionId=" + auctionId +
+                "id=" + id +
+                ", auctionId=" + auctionId +
                 ", time=" + time +
                 ", userId=" + userId +
                 ", price=" + price +

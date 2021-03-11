@@ -14,7 +14,11 @@ import java.util.Date;
 @Getter
 @Setter
 public class News {
+
     private Integer id;
+
+    @NotNull(message = "上传者ID不能为空")
+    private String userId;
 
     @NotNull(message = "文章标题不能为空")
     @Pattern(regexp = "^[\\u4e00-\\u9fa5]{1,50}$", message = "文章标题格式不正确")

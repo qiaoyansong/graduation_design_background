@@ -12,6 +12,9 @@ import java.util.Date;
 @Getter
 @Setter
 public class ArticleReview {
+
+    private Integer id;
+
     private Integer articleId;
 
     private Integer userId;
@@ -20,4 +23,14 @@ public class ArticleReview {
 
     private String content;
 
+    @Override
+    public String toString() {
+        return "ArticleReview{" +
+                "id=" + id +
+                ", articleId=" + articleId +
+                ", userId=" + userId +
+                ", pubdate=" + pubdate +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }
