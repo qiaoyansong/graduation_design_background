@@ -3,8 +3,6 @@ package com.qiaoyansong.advice;
 import com.qiaoyansong.dao.UserMapper;
 import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.StatusCode;
-import com.qiaoyansong.entity.background.User;
-import com.qiaoyansong.entity.background.UserType;
 import com.qiaoyansong.service.impl.UserServiceImpl;
 import com.qiaoyansong.util.RequestContextHolderUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -20,27 +18,24 @@ import javax.servlet.http.HttpSession;
 
 /**
  * @author ：Qiao Yansong
- * @date ：Created in 2021/2/17 17:11
- * description：将管理员上传功能的公共部分抽离出来
+ * @date ：Created in 2021/3/12 20:44
+ * description：用户上传切面
  */
-@Aspect
 @Component
-public class AdminUploadAspect {
+@Aspect
+public class UserUploadAspect {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     @Autowired
     private UserMapper userMapper;
-    @Pointcut("execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.admin*(..)) " +
-            "|| execution(public * com.qiaoyansong.service.impl.ActivityServiceImpl.admin*(..)) " +
-            "|| execution(public * com.qiaoyansong.service.impl.AuctionServiceImpl.admin*(..)) " +
-            "|| execution(public * com.qiaoyansong.service.impl.CommodityServiceImpl.admin*(..))" +
-            "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.adminDeleteUserByID(..))" +
-            "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.adminSelectUsers(..))")
-    public void pointCut(){
+
+    @Pointcut("execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.uploadNews(..))" +
+            "|| execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.userSelectNews(..))")
+    public void pointCut() {
 
     }
 
     @Around("pointCut()")
-    public ResponseEntity adminUploadAspect(ProceedingJoinPoint proceedingJoinPoint){
+    public ResponseEntity userUploadAspect(ProceedingJoinPoint proceedingJoinPoint) {
         // 方法名
         String methodName = proceedingJoinPoint.getSignature().toString();
         log.info("进入" + methodName);
@@ -54,18 +49,10 @@ public class AdminUploadAspect {
             responseEntity.setCode(StatusCode.USER_IS_NOT_LOGGED_IN.getCode());
         } else {
             log.info("当前session已经登录");
-            log.info("判断是否有相关权限");
-            User user = this.userMapper.getUserInfo(userName);
-            if (user.getType() == UserType.GENERAL_USER) {
-                log.warn("权限不足，直接退出");
-                responseEntity.setBody(StatusCode.INSUFFICIENT_PERMISSIONS.getReason());
-                responseEntity.setCode(StatusCode.INSUFFICIENT_PERMISSIONS.getCode());
-            } else {
-                try {
-                    return (ResponseEntity) proceedingJoinPoint.proceed();
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
+            try {
+                return (ResponseEntity) proceedingJoinPoint.proceed();
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
             }
         }
         return responseEntity;

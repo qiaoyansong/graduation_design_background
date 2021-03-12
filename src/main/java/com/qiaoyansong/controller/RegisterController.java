@@ -3,6 +3,7 @@ package com.qiaoyansong.controller;
 import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.StatusCode;
 import com.qiaoyansong.service.UserService;
+import com.qiaoyansong.service.VerificationCodeService;
 import com.qiaoyansong.util.JedisPoolUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,9 @@ public class RegisterController {
     private Jedis redis;
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VerificationCodeService verificationCodeService;
     /**
      * 获取验证码
      * @param mailBox 邮箱
@@ -36,7 +40,7 @@ public class RegisterController {
     @RequestMapping(value = "/getVerificationCode", method = RequestMethod.POST)
     public ResponseEntity<String> getVerificationCode(@Valid @NotNull(message = "邮箱不能为空") String mailBox) {
         log.info("进入RegisterController.getVerificationCode");
-        return this.userService.getVerificationCode(mailBox, "大学生公益马上行申请验证码有效期一分钟");
+        return this.verificationCodeService.getVerificationCode(mailBox, "大学生公益马上行申请验证码有效期一分钟");
     }
 
     /**

@@ -33,7 +33,8 @@ public class ValidControllerAdvice {
             "execution(public * com.qiaoyansong.controller.LoginController.getAdminVerificationCode(..)) || " +
             "execution(public * com.qiaoyansong.controller.LoginController.adminLogin(..)) || " +
             "execution(public * com.qiaoyansong.controller.RegisterController.register(..)) || " +
-            "execution(public * com.qiaoyansong.controller.ModifyPasswordController.*(..))")
+            "execution(public * com.qiaoyansong.controller.ModifyPasswordController.*(..)) || " +
+            "execution(public * com.qiaoyansong.controller.UploadController.uploadNews(..))  )")
     public void pointCut() {
 
     }

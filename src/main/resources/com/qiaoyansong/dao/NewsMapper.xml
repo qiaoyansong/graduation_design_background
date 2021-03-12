@@ -7,6 +7,10 @@
         insert into news(title, source, pubdate, summary, article, type, views, flag, img, user_id)
         values (#{title}, #{source}, now(), #{summary}, #{article}, #{type}, 0, 1, #{img}, #{userId})
     </insert>
+    <insert id="userUploadNews">
+        insert into news(title, source, pubdate, summary, article, type, views, flag, img, user_id)
+        values (#{title}, #{source}, now(), #{summary}, #{article}, #{type}, 0, 0, #{img}, #{userId})
+    </insert>
     <select id="checkNewsTitleIsExists" resultType="integer">
         select 1
         from news
@@ -21,6 +25,9 @@
             <bind name="base" value="'%'+condition.searchValue+'%'"/>
                 and title like #{base}
             </if>
+            <if test="condition.userId!=null">
+                and user_id = #{condition.userId}
+            </if>
         </where>
         order by id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
@@ -33,6 +40,9 @@
             <if test="searchValue!=null">
             <bind name="base" value="'%'+searchValue+'%'"/>
                 and title like #{base}
+            </if>
+            <if test="userId!=null">
+                and user_id = #{userId}
             </if>
         </where>
     </select>

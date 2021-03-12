@@ -1,15 +1,11 @@
 package com.qiaoyansong.service.impl;
 
 import com.qiaoyansong.dao.UserMapper;
-import com.qiaoyansong.entity.background.ResponseEntity;
-import com.qiaoyansong.entity.background.StatusCode;
-import com.qiaoyansong.entity.background.User;
-import com.qiaoyansong.entity.background.UserType;
+import com.qiaoyansong.entity.background.*;
 import com.qiaoyansong.service.UserService;
 import com.qiaoyansong.util.JedisPoolUtil;
 import com.qiaoyansong.util.OnLineUserUtil;
 import com.qiaoyansong.util.RequestContextHolderUtil;
-import com.qiaoyansong.util.SendMailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +13,7 @@ import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpSession;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.List;
 
 /**
  * @author ：Qiao Yansong
@@ -32,8 +28,7 @@ public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private static OnLineUserUtil onLineUserUtil = OnLineUserUtil.getInstance();
     private static Jedis redis;
-    private static final int VERIFICATION_CODE_LENGTH = 6;
-    private final SendMailUtil sendMailUtil = SendMailUtil.getInstance();
+
     @Override
     public ResponseEntity register(com.qiaoyansong.entity.front.User user) {
         log.info("进入UserServiceImpl的register");
@@ -133,6 +128,50 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ResponseEntity adminLogin(com.qiaoyansong.entity.front.User admin) {
+        log.info("进入UserServiceImpl的adminLogin方法");
+        redis = JedisPoolUtil.getInstance().getResource();
+        ResponseEntity responseEntity = new ResponseEntity<>();
+        try {
+            log.info("检测redis连接" + redis.ping());
+            String mailbox = admin.getMailbox();
+            boolean isExists = redis.exists(mailbox);
+            log.info("开始检测验证码是否失效");
+            if (isExists) {
+                // 未失效
+                log.info("验证码未失效");
+                // 验证码设置生命周期为十秒
+                redis.expire(mailbox, 10);
+                // 验证验证码
+                log.info("开始验证验证码");
+                String redisVerificationCode = redis.get(mailbox);
+                if (redisVerificationCode.equals(admin.getVerificationCode())) {
+                    log.info("验证码验证成功");
+                    log.info("管理员可以登陆");
+                    User user = new User();
+                    user.setUserName(admin.getUserName());
+                    user.setPassword(admin.getPassword());
+                    return this.login(user);
+                } else {
+                    log.warn("验证码验证失败");
+                    responseEntity.setCode(StatusCode.VERIFICATION_CODE_VERIFICATION_FAILED.getCode());
+                    responseEntity.setBody(StatusCode.VERIFICATION_CODE_VERIFICATION_FAILED.getReason());
+                }
+            } else {
+                // 失效了
+                log.warn("验证码失效了");
+                responseEntity.setBody(StatusCode.VERIFICATION_CODE_FAILURE.getReason());
+                responseEntity.setCode(StatusCode.VERIFICATION_CODE_FAILURE.getCode());
+            }
+            return responseEntity;
+        } finally {
+            if (redis != null) {
+                redis.close();
+            }
+        }
+    }
+
+    @Override
     public ResponseEntity logout(String userName) {
         log.info("进入UserServiceImpl的logout");
         ResponseEntity<String> responseEntity = new ResponseEntity<>();
@@ -176,47 +215,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity getVerificationCode(String mailBox, String emailTitle) {
-        log.info("进入UserServiceImpl的getVerificationCode");
-        try {
-            redis = JedisPoolUtil.getInstance().getResource();
-            log.info("检测redis连接" + redis.ping());
-            log.info("开始验证验证码是否失效");
-            boolean isExists = redis.exists(mailBox);
-            ResponseEntity<String> response = new ResponseEntity<>();
-            if (isExists) {
-                // 验证码还存在
-                log.info(StatusCode.VERIFICATION_CODE_NOT_EXPIRED.getReason());
-                // 再次延长验证码时间
-                redis.expire(mailBox, 60);
-                response.setCode(StatusCode.VERIFICATION_CODE_NOT_EXPIRED.getCode());
-                response.setBody("验证码已经成功发送至您的邮箱,并且仍在有效期范围之内。");
-            } else {
-                log.warn("验证码已经失效，开始生成验证码");
-                // 生成六位的验证码
-                StringBuilder stringBuilder = new StringBuilder();
-                int i;
-                ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
-                for (i = 0; i < VERIFICATION_CODE_LENGTH; i++) {
-                    stringBuilder.append(threadLocalRandom.nextInt(0, 9));
-                }
-                String code = stringBuilder.toString();
-                StatusCode statusCode = sendMailUtil.sendMail(mailBox, emailTitle, code);
-                if (statusCode == StatusCode.SEND_EMAIL_SUCCESS) {
-                    // redis记录 有效期62s 应该比实际的一分钟长一点 防止网络问题
-                    redis.setex(mailBox, 65, code);
-                    response.setCode(StatusCode.CREATE_VERIFICATION_CODE_COMPLETE.getCode());
-                    response.setBody(StatusCode.CREATE_VERIFICATION_CODE_COMPLETE.getReason());
-                    log.info(StatusCode.CREATE_VERIFICATION_CODE_COMPLETE.getReason());
-                } else {
-                    log.error(StatusCode.SEND_EMAIL_FAILED.getReason());
-                    response.setCode(statusCode.getCode());
-                    response.setBody(statusCode.getReason());
-                }
-            }
-            return response;
-        } finally {
-            redis.close();
-        }
+    public ResponseEntity adminSelectUsers(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入UserServiceImpl的adminSelectUsers方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.userMapper.getTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<User> news = this.userMapper.getUsers(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
     }
+
+    @Override
+    public ResponseEntity adminDeleteUserByID(String id) {
+        log.info("进入UserServiceImpl的adminDeleteUserByID方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始删除用户");
+        if (this.userMapper.deleteUserByID(id) != 1) {
+            log.warn("删除用户失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("删除活动成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
 }

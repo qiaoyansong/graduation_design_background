@@ -1,7 +1,6 @@
 package com.qiaoyansong.service;
 
-import com.qiaoyansong.entity.background.ResponseEntity;
-import com.qiaoyansong.entity.background.User;
+import com.qiaoyansong.entity.background.*;
 
 /**
  * @author ：Qiao Yansong
@@ -25,6 +24,13 @@ public interface UserService {
     ResponseEntity login(User user);
 
     /**
+     * 管理员登录
+     * @param admin 管理员信息
+     * @return 返回信息
+     */
+    ResponseEntity adminLogin(com.qiaoyansong.entity.front.User admin);
+
+    /**
      * 用户退出
      * @param userName 用户名
      * @return 返回信息
@@ -32,10 +38,16 @@ public interface UserService {
     ResponseEntity logout(String userName);
 
     /**
-     * 获取验证码
-     * @param mailBox 邮箱名
-     * @param emailTitle 邮件标题
+     * 管理员获取用户信息
+     * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
      */
-    ResponseEntity getVerificationCode(String mailBox, String emailTitle);
+    ResponseEntity adminSelectUsers(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 管理员删除用户
+     * @param id 用户ID
+     * @return 返回信息
+     */
+    ResponseEntity adminDeleteUserByID(String id);
 }

@@ -7,7 +7,7 @@ import com.qiaoyansong.entity.background.StatusCode;
 import com.qiaoyansong.entity.background.User;
 import com.qiaoyansong.entity.front.ModifyPassword;
 import com.qiaoyansong.service.ModifyPasswordService;
-import com.qiaoyansong.service.UserService;
+import com.qiaoyansong.service.VerificationCodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ModifyPasswordServiceImpl implements ModifyPasswordService {
     private UserMapper userMapper;
 
     @Autowired
-    private UserService userService;
+    private VerificationCodeService verificationCodeService;
 
     private static final Logger log = LoggerFactory.getLogger(ModifyPasswordServiceImpl.class);
 
@@ -67,7 +67,7 @@ public class ModifyPasswordServiceImpl implements ModifyPasswordService {
                 responseEntity.setCode(StatusCode.MAILBOX_ERROR.getCode());
             }else{
                 log.info("开始发送验证码");
-                return userService.getVerificationCode(modifyPassword.getMailbox(), "找回密码验证码");
+                return verificationCodeService.getVerificationCode(modifyPassword.getMailbox(), "找回密码验证码");
             }
         }
         return responseEntity;

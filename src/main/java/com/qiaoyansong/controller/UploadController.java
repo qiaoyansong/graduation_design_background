@@ -1,9 +1,15 @@
 package com.qiaoyansong.controller;
 
+import com.qiaoyansong.entity.background.News;
+import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.UploadFile;
+import com.qiaoyansong.service.NewsService;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +32,10 @@ import java.util.concurrent.ThreadLocalRandom;
 @RestController
 @RequestMapping("/upload")
 public class UploadController {
+
+    @Autowired
+    private NewsService newsService;
+
     private static final Logger log = LoggerFactory.getLogger(UploadController.class);
     /**
      * 生成的文件名后缀生成3位随机数
@@ -62,5 +72,12 @@ public class UploadController {
             }
         }
         return uploadFile;
+    }
+
+    @RequestMapping(path = "/news")
+    @ResponseBody
+    public ResponseEntity uploadNews(@Valid @RequestBody News news, BindingResult bindingResult){
+        log.info("进入UploadController.uploadNews");
+        return this.newsService.uploadNews(news);
     }
 }

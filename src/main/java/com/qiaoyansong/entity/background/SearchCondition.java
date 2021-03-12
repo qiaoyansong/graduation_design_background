@@ -26,11 +26,14 @@ public class SearchCondition {
     @Pattern(regexp = "^[\\u4e00-\\u9fa5]{0,50}$", message = "标题格式不正确")
     private String searchValue;
 
+    private String userId;
+
     @Override
     public String toString() {
         return "SearchCondition{" +
                 "orderBy='" + orderBy + '\'' +
                 ", searchValue='" + searchValue + '\'' +
+                ", userId='" + userId + '\'' +
                 '}';
     }
 }

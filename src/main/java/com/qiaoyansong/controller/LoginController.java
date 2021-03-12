@@ -5,8 +5,8 @@ import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.StatusCode;
 import com.qiaoyansong.entity.background.User;
 import com.qiaoyansong.entity.front.Admin;
-import com.qiaoyansong.service.AdminService;
 import com.qiaoyansong.service.UserService;
+import com.qiaoyansong.service.VerificationCodeService;
 import com.qiaoyansong.util.RequestContextHolderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,10 +30,12 @@ public class LoginController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
     @Autowired
     private UserService userService;
-    @Autowired
-    private AdminService adminService;
+
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private VerificationCodeService verificationCodeService;
 
     @RequestMapping("/login")
     public ResponseEntity login(@Valid @RequestBody User user, BindingResult bindingResult) {
@@ -88,11 +90,11 @@ public class LoginController {
 
     @RequestMapping(value = "/login/admin/getVerificationCode", method = RequestMethod.POST)
     public ResponseEntity getAdminVerificationCode(@Valid @RequestBody Admin admin, BindingResult bindingResult) {
-            return this.adminService.getAdminVerificationCode(admin);
+            return this.verificationCodeService.getAdminVerificationCode(admin);
     }
 
     @RequestMapping(value = "/login/admin", method = RequestMethod.POST)
     public ResponseEntity<String> adminLogin(@Valid @RequestBody com.qiaoyansong.entity.front.User user, BindingResult result) {
-            return this.adminService.login(user);
+            return this.userService.adminLogin(user);
     }
 }

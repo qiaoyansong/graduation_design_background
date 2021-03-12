@@ -15,11 +15,18 @@ import java.util.List;
 @Mapper
 public interface NewsMapper {
     /**
-     * 上传文章
+     * 管理员上传文章
      * @param news 文章
      * @return
      */
     Integer uploadNews(News news);
+
+    /**
+     * 用户上传文章
+     * @param news 文章
+     * @return
+     */
+    Integer userUploadNews(News news);
 
     /**
      * 检查文章标题是否存在
@@ -33,7 +40,7 @@ public interface NewsMapper {
      * @param pageHelper 查询 + 分页条件
      * @return
      */
-    List<News> getNews(PageHelper pageHelper);
+    List<News> getNews(PageHelper<SearchCondition> pageHelper);
 
     /**
      * 根据查询条件查询数据总条数

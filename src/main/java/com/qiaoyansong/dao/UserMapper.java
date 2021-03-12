@@ -1,8 +1,8 @@
 package com.qiaoyansong.dao;
 
 import com.qiaoyansong.entity.background.PageHelper;
+import com.qiaoyansong.entity.background.SearchCondition;
 import com.qiaoyansong.entity.background.User;
-import com.qiaoyansong.entity.background.UserSearchCondition;
 import com.qiaoyansong.entity.front.ModifyPassword;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -78,14 +78,14 @@ public interface UserMapper {
      * @param condition 查询条件
      * @return
      */
-    Integer getTotalSize(UserSearchCondition condition);
+    Integer getTotalSize(SearchCondition condition);
 
     /**
      * 根据查询条件查询用户
      * @param pageHelper 查询 + 分页条件
      * @return
      */
-    List<User> getUsers(PageHelper<UserSearchCondition> pageHelper);
+    List<User> getUsers(PageHelper<SearchCondition> pageHelper);
 
     /**
      * 修改用户密码
