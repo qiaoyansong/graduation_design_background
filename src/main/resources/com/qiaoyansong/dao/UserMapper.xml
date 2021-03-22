@@ -56,6 +56,19 @@
         from user
         where user_name = #{userName}
     </select>
+    <select id="getUserInfoById" resultMap="baseUser">
+        select id,
+               type,
+               user_name,
+               password,
+               mailbox,
+               credit,
+               head_portrait,
+               session_id,
+               point
+        from user
+        where id = #{id}
+    </select>
     <delete id="deleteUserByID">
         delete from user
         where
@@ -94,5 +107,44 @@
         set password = #{password}
         where
                 user_name = #{userName}
+    </update>
+    <update id="userUploadImg">
+        update
+            user
+        set head_portrait = #{headPortrait}
+        where
+            id = #{id}
+    </update>
+    <insert id="uploadLocation">
+        insert
+            into
+        user_locations(user_id, telephone, name, province, city, area, location)
+        values(#{userId}, #{telephone}, #{name}, #{province}, #{city},#{area},#{location})
+    </insert>
+    <select id="getLocations" resultType="UserLocations">
+        select
+                id, telephone, name, province, city, area, location
+        from
+                user_locations
+        where user_id = #{id}
+    </select>
+    <delete id="deleteLocationById">
+        delete
+            from
+                    user_locations
+        where id = #{id}
+    </delete>
+    <update id="updateLocationById">
+        update
+                user_locations
+            set
+             telephone = #{telephone},
+             name  = #{name},
+             province = #{province},
+             city = #{city},
+             area = #{area},
+             location = #{location}
+        where
+            id = #{id}
     </update>
 </mapper>

@@ -2,6 +2,7 @@ package com.qiaoyansong.service.impl;
 
 import com.qiaoyansong.dao.UserMapper;
 import com.qiaoyansong.entity.background.*;
+import com.qiaoyansong.entity.front.UserUploadImg;
 import com.qiaoyansong.service.UserService;
 import com.qiaoyansong.util.JedisPoolUtil;
 import com.qiaoyansong.util.OnLineUserUtil;
@@ -243,5 +244,79 @@ public class UserServiceImpl implements UserService {
         }
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity userUploadImg(UserUploadImg userUploadImg) {
+        log.info("进入UserServiceImpl的userUploadImg方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        Integer integer = this.userMapper.userUploadImg(userUploadImg);
+        if(integer == 1){
+            log.info("修改用户头像成功");
+        }else{
+            log.info("修改用户头像失败");
+        }
+        User user1 = this.userMapper.getUserInfoById(userUploadImg.getId());
+        user1.setPassword("");
+        user1.setSessionId("");
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(user1);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity uploadLocation(UserLocations userLocations) {
+        log.info("进入UserServiceImpl的uploadLocation方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        Integer integer = this.userMapper.uploadLocation(userLocations);
+        if(integer == 1){
+            log.info("上传用户收货地址成功");
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }else{
+            log.info("上传用户收货地址失败");
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity updateLocationById(UserLocations userLocations) {
+        log.info("进入UserServiceImpl的updateLocationById方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        Integer integer = this.userMapper.updateLocationById(userLocations);
+        if(integer == 1){
+            log.info("修改用户收货地址成功");
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }else{
+            log.info("修改用户收货地址失败");
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getLocations(String id) {
+        log.info("进入UserServiceImpl的getLocations方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        List<UserLocations> locations = this.userMapper.getLocations(id);
+        responseEntity.setBody(locations);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deleteLocationsById(String id) {
+        log.info("进入UserServiceImpl的deleteLocationsById方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        Integer integer = this.userMapper.deleteLocationById(id);
+        if(integer == 1){
+            log.info("删除用户收货地址成功");
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }else{
+            log.info("删除用户收货地址失败");
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        }
+        return responseEntity;
+    }
+
 
 }

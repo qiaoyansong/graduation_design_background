@@ -34,7 +34,11 @@ public class ValidControllerAdvice {
             "execution(public * com.qiaoyansong.controller.LoginController.adminLogin(..)) || " +
             "execution(public * com.qiaoyansong.controller.RegisterController.register(..)) || " +
             "execution(public * com.qiaoyansong.controller.ModifyPasswordController.*(..)) || " +
-            "execution(public * com.qiaoyansong.controller.UploadController.uploadNews(..))  )")
+            "execution(public * com.qiaoyansong.controller.UploadController.uploadNews(..)) || " +
+            "execution(public * com.qiaoyansong.controller.NewsController.getNews(..)) || " +
+            "execution(public * com.qiaoyansong.controller.UploadController.uploadUserImg(..)) || " +
+            "execution(public * com.qiaoyansong.controller.LocationController.uploadLocation(..)) || " +
+            "execution(public * com.qiaoyansong.controller.LocationController.updateLocationById(..))")
     public void pointCut() {
 
     }

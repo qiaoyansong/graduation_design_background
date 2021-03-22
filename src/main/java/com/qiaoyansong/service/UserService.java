@@ -1,6 +1,7 @@
 package com.qiaoyansong.service;
 
 import com.qiaoyansong.entity.background.*;
+import com.qiaoyansong.entity.front.UserUploadImg;
 
 /**
  * @author ：Qiao Yansong
@@ -50,4 +51,39 @@ public interface UserService {
      * @return 返回信息
      */
     ResponseEntity adminDeleteUserByID(String id);
+
+    /**
+     * 用户上传头像
+     * @param userUploadImg 用户ID
+     * @return 返回信息
+     */
+    ResponseEntity userUploadImg(UserUploadImg userUploadImg);
+
+    /**
+     * 用户上传收货地址
+     * @param userLocations 用户收货地址信息
+     * @return 返回信息
+     */
+    ResponseEntity uploadLocation(UserLocations userLocations);
+
+    /**
+     * 用户修改收货地址
+     * @param userLocations 用户收货地址信息
+     * @return 返回信息
+     */
+    ResponseEntity updateLocationById(UserLocations userLocations);
+
+    /**
+     * 获取用户收货地址
+     * @param id 用户ID
+     * @return 返回信息
+     */
+    ResponseEntity getLocations(String id);
+
+    /**
+     * 删除用户收货地址
+     * @param id 收货地址ID
+     * @return 返回信息
+     */
+    ResponseEntity deleteLocationsById(String id);
 }

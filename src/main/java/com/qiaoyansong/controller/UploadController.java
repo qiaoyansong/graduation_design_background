@@ -3,7 +3,9 @@ package com.qiaoyansong.controller;
 import com.qiaoyansong.entity.background.News;
 import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.UploadFile;
+import com.qiaoyansong.entity.front.UserUploadImg;
 import com.qiaoyansong.service.NewsService;
+import com.qiaoyansong.service.UserService;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,9 @@ public class UploadController {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private UserService userService;
 
     private static final Logger log = LoggerFactory.getLogger(UploadController.class);
     /**
@@ -79,5 +84,12 @@ public class UploadController {
     public ResponseEntity uploadNews(@Valid @RequestBody News news, BindingResult bindingResult){
         log.info("进入UploadController.uploadNews");
         return this.newsService.uploadNews(news);
+    }
+
+    @RequestMapping("/uploadUserImg")
+    @ResponseBody
+    public ResponseEntity uploadUserImg(@Valid @RequestBody UserUploadImg userUploadImg, BindingResult bindingResult) {
+        log.info("进入UploadController.uploadUserImg");
+        return this.userService.userUploadImg(userUploadImg);
     }
 }

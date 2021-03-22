@@ -3,7 +3,9 @@ package com.qiaoyansong.dao;
 import com.qiaoyansong.entity.background.PageHelper;
 import com.qiaoyansong.entity.background.SearchCondition;
 import com.qiaoyansong.entity.background.User;
+import com.qiaoyansong.entity.background.UserLocations;
 import com.qiaoyansong.entity.front.ModifyPassword;
+import com.qiaoyansong.entity.front.UserUploadImg;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -67,6 +69,13 @@ public interface UserMapper {
     User getUserInfo(String userName);
 
     /**
+     * 根据用户ID获取用户信息
+     * @param id 用户ID
+     * @return 返回值 User
+     */
+    User getUserInfoById(String id);
+
+    /**
      * 根据ID删除具体用户
      * @param id 用户ID
      * @return
@@ -93,4 +102,39 @@ public interface UserMapper {
      * @return
      */
     Integer modifyPassword(ModifyPassword modifyPassword);
+
+    /**
+     * 用户上传头像
+     * @param userUploadImg 用户ID
+     * @return 返回信息
+     */
+    Integer userUploadImg(UserUploadImg userUploadImg);
+
+    /**
+     * 用户上传用户收货地址
+     * @param userLocations 收货地址信息
+     * @return 返回信息
+     */
+    Integer uploadLocation(UserLocations userLocations);
+
+    /**
+     * 修改用户收货地址
+     * @param userLocations 收货地址信息
+     * @return 返回信息
+     */
+    Integer updateLocationById(UserLocations userLocations);
+
+    /**
+     * 根据ID获取用户收货地址
+     * @param id 用户ID
+     * @return 返回信息
+     */
+    List<UserLocations> getLocations(String id);
+
+    /**
+     * 根据ID删除用户收货地址
+     * @param id 收货地址ID
+     * @return 返回信息
+     */
+    Integer deleteLocationById(String id);
 }
