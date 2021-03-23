@@ -120,6 +120,19 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public ResponseEntity adminSelectUserNews(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入NewsServiceImpl的adminSelectUserNews方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.newsMapper.getUserTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<News> news = this.newsMapper.getUserNews(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
     public ResponseEntity userSelectNews(PageHelper<SearchCondition> pageHelper) {
         log.info("进入NewsServiceImpl的userSelectNews方法");
         SearchResponseEntity responseEntity = new SearchResponseEntity();
@@ -129,6 +142,50 @@ public class NewsServiceImpl implements NewsService {
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         responseEntity.setBody(news);
         responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getNewInfoById(String id) {
+        log.info("进入NewsServiceImpl的getNewInfoById方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        News news = this.newsMapper.getNewInfoById(id);
+        responseEntity.setBody(news);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity agreeUserNews(String id) {
+        log.info("进入NewsServiceImpl的agreeUserNews方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始同意资讯投稿");
+        if (this.newsMapper.agreeUserNews(id) != 1) {
+            log.warn("同意失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("同意成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity refuseUserNews(String id) {
+        log.info("进入NewsServiceImpl的refuseUserNews方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始拒绝此资讯的投稿");
+        if (this.newsMapper.refuseUserNews(id) != 1) {
+            log.warn("拒绝失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("拒绝成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
         return responseEntity;
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 /**
@@ -132,4 +133,23 @@ public class AdminController {
         return this.userService.adminSelectUsers(pageHelper);
     }
 
+    @RequestMapping(path = "/getUserNews", method = RequestMethod.POST)
+    public ResponseEntity getUserNews(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
+        return this.newsService.adminSelectUserNews(pageHelper);
+    }
+
+    @RequestMapping(path = "/getNewInfoById/{id}", method = RequestMethod.GET)
+    public ResponseEntity selectNewInfoById(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
+        return this.newsService.getNewInfoById(id);
+    }
+
+    @RequestMapping(path = "/agreeUserNewsById/{id}", method = RequestMethod.GET)
+    public ResponseEntity agreeUserNews(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
+        return this.newsService.agreeUserNews(id);
+    }
+
+    @RequestMapping(path = "/refuseUserNewsById/{id}", method = RequestMethod.GET)
+    public ResponseEntity refuseUserNews(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
+        return this.newsService.refuseUserNews(id);
+    }
 }

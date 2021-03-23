@@ -23,8 +23,8 @@ import java.util.List;
  */
 @Component
 @Aspect
-public class ValidControllerAdvice {
-    private static final Logger log = LoggerFactory.getLogger(ValidControllerAdvice.class);
+public class ValidControllerAspect {
+    private static final Logger log = LoggerFactory.getLogger(ValidControllerAspect.class);
 
     @Pointcut("execution(public * com.qiaoyansong.controller.AdminController.upload*(..)) || " +
             "execution(public * com.qiaoyansong.controller.AdminController.get*(..)) || " +

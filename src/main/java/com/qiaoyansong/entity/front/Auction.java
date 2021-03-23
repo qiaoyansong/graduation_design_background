@@ -20,7 +20,7 @@ public class Auction {
     private String id;
 
     @NotNull(message = "拍卖标题不能为空")
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5]{1,50}$", message = "拍卖标题不符合格式")
+    @Pattern(regexp = "^.{1,50}$", message = "拍卖标题不符合格式")
     private String title;
 
     @NotNull(message = "开始时间不能为空")

@@ -19,7 +19,7 @@ public class Commodity {
     private String id;
 
     @NotNull(message = "商品标题不能为空")
-    @Pattern(regexp = "^[\\u4e00-\\u9fa5]{1,50}$", message = "商品标题不符合格式")
+    @Pattern(regexp = "^.{1,50}$", message = "商品标题不符合格式")
     private String title;
 
     @NotNull(message = "数量不能为空")

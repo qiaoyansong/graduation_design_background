@@ -34,7 +34,9 @@ public class AdminUploadAspect {
             "|| execution(public * com.qiaoyansong.service.impl.AuctionServiceImpl.admin*(..)) " +
             "|| execution(public * com.qiaoyansong.service.impl.CommodityServiceImpl.admin*(..))" +
             "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.adminDeleteUserByID(..))" +
-            "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.adminSelectUsers(..))")
+            "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.adminSelectUsers(..))" +
+            "|| execution(public * com.qiaoyansong.controller.AdminController.agreeUserNews(..))" +
+            "|| execution(public * com.qiaoyansong.controller.AdminController.refuseUserNews(..))")
     public void pointCut(){
 
     }

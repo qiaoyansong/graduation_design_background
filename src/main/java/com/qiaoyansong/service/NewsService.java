@@ -45,9 +45,37 @@ public interface NewsService {
     ResponseEntity adminSelectNews(PageHelper<SearchCondition> pageHelper);
 
     /**
+     * 管理员获取用户投稿
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity adminSelectUserNews(PageHelper<SearchCondition> pageHelper);
+
+    /**
      * 用户获取资讯信息
      * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
      */
     ResponseEntity userSelectNews(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取投稿信息
+     * @param id 投稿ID
+     * @return 返回信息
+     */
+    ResponseEntity getNewInfoById(String id);
+
+    /**
+     * 同意用户投稿
+     * @param id 投稿ID
+     * @return 返回信息
+     */
+    ResponseEntity agreeUserNews(String id);
+
+    /**
+     * 拒绝用户投稿
+     * @param id 投稿ID
+     * @return 返回信息
+     */
+    ResponseEntity refuseUserNews(String id);
 }

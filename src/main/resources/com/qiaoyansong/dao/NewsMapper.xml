@@ -21,8 +21,26 @@
         from
         news
         <where>
+            and flag = 1
             <if test="condition.searchValue!=null">
             <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and title like #{base}
+            </if>
+            <if test="condition.userId!=null">
+                and user_id = #{condition.userId}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getUserNews" resultType="News">
+        select id, title, source, pubdate, summary, type, views, flag, img
+        from
+        news
+        <where>
+            and flag = 0
+            <if test="condition.searchValue!=null">
+                <bind name="base" value="'%'+condition.searchValue+'%'"/>
                 and title like #{base}
             </if>
             <if test="condition.userId!=null">
@@ -37,8 +55,24 @@
         from
         news
         <where>
+            and flag = 1
             <if test="searchValue!=null">
             <bind name="base" value="'%'+searchValue+'%'"/>
+                and title like #{base}
+            </if>
+            <if test="userId!=null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+    <select id="getUserTotalSize" resultType="integer">
+        select count(id)
+        from
+        news
+        <where>
+            and flag = 0
+            <if test="searchValue!=null">
+                <bind name="base" value="'%'+searchValue+'%'"/>
                 and title like #{base}
             </if>
             <if test="userId!=null">
@@ -54,4 +88,77 @@
     <delete id="deleteNewsByID">
         delete from news where id = #{id}
     </delete>
+    <select id="getNewInfoById" resultType="News">
+        select
+            title, source, pubdate, summary, article, type, views, flag, img
+            from
+            news
+        where
+            id = #{id}
+    </select>
+    <update id="agreeUserNews">
+        update news
+            set flag = 1
+        where id = #{id}
+    </update>
+    <delete id="refuseUserNews">
+        delete from news
+        where id = #{id}
+    </delete>
+    <select id="getListOfHomepageGuoNei" resultType="News">
+        select id, title, img
+        from
+            news
+        where type = 0
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepageZhengFu" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 1
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepageXueXiao" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 2
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepageQiYe" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 3
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepageYiRen" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 4
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepageHaoRen" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 5
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepageHaoShi" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 6
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getListOfHomepagePingXuan" resultType="News">
+        select id, title, img
+        from
+                news
+        where type = 7
+        order by pubdate desc limit 0,5
+    </select>
 </mapper>
