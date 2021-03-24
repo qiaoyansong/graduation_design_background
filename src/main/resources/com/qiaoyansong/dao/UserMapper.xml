@@ -108,6 +108,13 @@
         where
                 user_name = #{userName}
     </update>
+    <update id="modifyUserInfo">
+        update
+                user
+        set credit = #{credit}
+        where
+                id = #{id}
+    </update>
     <update id="userUploadImg">
         update
             user

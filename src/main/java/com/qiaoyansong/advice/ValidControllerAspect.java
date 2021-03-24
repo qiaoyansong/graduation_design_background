@@ -38,7 +38,9 @@ public class ValidControllerAspect {
             "execution(public * com.qiaoyansong.controller.NewsController.getNews(..)) || " +
             "execution(public * com.qiaoyansong.controller.UploadController.uploadUserImg(..)) || " +
             "execution(public * com.qiaoyansong.controller.LocationController.uploadLocation(..)) || " +
-            "execution(public * com.qiaoyansong.controller.LocationController.updateLocationById(..))")
+            "execution(public * com.qiaoyansong.controller.LocationController.updateLocationById(..)) ||" +
+            "execution(public * com.qiaoyansong.controller.SeekHelpController.seekHelp*(..))|| " +
+            "execution(public * com.qiaoyansong.controller.AdminController.modifyUserInfo(..))")
     public void pointCut() {
 
     }

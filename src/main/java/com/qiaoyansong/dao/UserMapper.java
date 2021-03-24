@@ -5,6 +5,7 @@ import com.qiaoyansong.entity.background.SearchCondition;
 import com.qiaoyansong.entity.background.User;
 import com.qiaoyansong.entity.background.UserLocations;
 import com.qiaoyansong.entity.front.ModifyPassword;
+import com.qiaoyansong.entity.front.ModifyUserInfo;
 import com.qiaoyansong.entity.front.UserUploadImg;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -137,4 +138,11 @@ public interface UserMapper {
      * @return 返回信息
      */
     Integer deleteLocationById(String id);
+
+    /**
+     * 修改用户信息
+     * @param modifyUserInfo 用户信息
+     * @return
+     */
+    Integer modifyUserInfo(ModifyUserInfo modifyUserInfo);
 }

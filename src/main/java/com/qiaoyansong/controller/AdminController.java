@@ -1,6 +1,7 @@
 package com.qiaoyansong.controller;
 
 import com.qiaoyansong.entity.background.*;
+import com.qiaoyansong.entity.front.ModifyUserInfo;
 import com.qiaoyansong.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -151,5 +152,10 @@ public class AdminController {
     @RequestMapping(path = "/refuseUserNewsById/{id}", method = RequestMethod.GET)
     public ResponseEntity refuseUserNews(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
         return this.newsService.refuseUserNews(id);
+    }
+
+    @RequestMapping(path = "/modifyUserInfo", method = RequestMethod.POST)
+    public ResponseEntity modifyUserInfo(@Valid @RequestBody ModifyUserInfo modifyUserInfo, BindingResult bindingResult) {
+        return this.userService.modifyUserInfo(modifyUserInfo);
     }
 }

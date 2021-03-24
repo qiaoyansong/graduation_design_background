@@ -2,6 +2,7 @@ package com.qiaoyansong.service.impl;
 
 import com.qiaoyansong.dao.UserMapper;
 import com.qiaoyansong.entity.background.*;
+import com.qiaoyansong.entity.front.ModifyUserInfo;
 import com.qiaoyansong.entity.front.UserUploadImg;
 import com.qiaoyansong.service.UserService;
 import com.qiaoyansong.util.JedisPoolUtil;
@@ -318,5 +319,19 @@ public class UserServiceImpl implements UserService {
         return responseEntity;
     }
 
+    @Override
+    public ResponseEntity modifyUserInfo(ModifyUserInfo modifyUserInfo) {
+        log.info("进入UserServiceImpl的modifyUserInfo方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        Integer integer = this.userMapper.modifyUserInfo(modifyUserInfo);
+        if(integer == 1){
+            log.info("修改用户信息成功");
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }else{
+            log.info("修改用户信息失败");
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        }
+        return responseEntity;
+    }
 
 }

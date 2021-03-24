@@ -21,7 +21,6 @@
         from
         news
         <where>
-            and flag = 1
             <if test="condition.searchValue!=null">
             <bind name="base" value="'%'+condition.searchValue+'%'"/>
                 and title like #{base}
@@ -55,7 +54,6 @@
         from
         news
         <where>
-            and flag = 1
             <if test="searchValue!=null">
             <bind name="base" value="'%'+searchValue+'%'"/>
                 and title like #{base}

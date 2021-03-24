@@ -1,6 +1,7 @@
 package com.qiaoyansong.service;
 
 import com.qiaoyansong.entity.background.*;
+import com.qiaoyansong.entity.front.ModifyUserInfo;
 import com.qiaoyansong.entity.front.UserUploadImg;
 
 /**
@@ -86,4 +87,11 @@ public interface UserService {
      * @return 返回信息
      */
     ResponseEntity deleteLocationsById(String id);
+
+    /**
+     * 修改用户信息
+     * @param modifyUserInfo 用户信息
+     * @return 返回信息
+     */
+    ResponseEntity modifyUserInfo(ModifyUserInfo modifyUserInfo);
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiaoyansong.dao.SeekHelpMapper">
+    <select id="getTotalSize" resultType="_int">
+        select count(id)
+        from
+        seek_help
+        <where>
+            <if test="searchValue!=null">
+                <bind name="base" value="'%'+searchValue+'%'"/>
+                and title like #{base}
+            </if>
+            <if test="flag!=null">
+                and flag = #{flag}
+            </if>
+            <if test="userId!=null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+    <select id="listAll" resultType="SeekHelp">
+        select id, user_id, title, content, flag
+        from
+        seek_help
+        <where>
+            <if test="condition.searchValue!=null">
+                <bind name="base" value="'%'+condition.searchValue+'%'"/>
+                and title like #{base}
+            </if>
+            <if test="condition.flag!=null">
+                and flag = #{condition.flag}
+            </if>
+            <if test="condition.userId!=null">
+                and user_id = #{condition.userId}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <insert id="submit">
+        insert into seek_help(user_id, title, content)
+            values (#{userId}, #{title}, #{content})
+    </insert>
+    <update id="agree">
+        update seek_help
+            set
+            flag = 1
+        where id = #{id}
+    </update>
+    <delete id="refuse">
+        delete from seek_help
+        where
+            id = #{id}
+    </delete>
+
+    <select id="getSeekHelpInfoById" resultType="SeekHelp">
+        select id, user_id, title, content, flag
+        from
+        seek_help
+        where id = #{id}
+    </select>
+</mapper>
