@@ -23,13 +23,18 @@ public class SearchCondition {
     @Pattern(regexp = "asc|desc", message = "排序方式不符合格式要求")
     private String orderBy;
 
-    @Pattern(regexp = "^.{0,50}$", message = "标题格式不正确")
+    @Pattern(regexp = "^$|^.{0,50}$", message = "标题格式不正确")
     private String searchValue;
 
     private String userId;
 
     @Pattern(regexp = "^$|0|1", message = "标志位不符合格式要求")
     private String flag;
+
+    @Pattern(regexp = "^$|views", message = "排序字段格式要求")
+    private String orderByValue;
+
+    private String articleId;
 
     @Override
     public String toString() {
@@ -38,6 +43,7 @@ public class SearchCondition {
                 ", searchValue='" + searchValue + '\'' +
                 ", userId='" + userId + '\'' +
                 ", flag='" + flag + '\'' +
+                ", articleId='" + articleId + '\'' +
                 '}';
     }
 }

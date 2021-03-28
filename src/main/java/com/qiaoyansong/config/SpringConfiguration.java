@@ -49,8 +49,8 @@ public class SpringConfiguration {
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(new CheckIsLogInRemotely()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**");
-                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/getSaveInfo").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**");
+                registry.addInterceptor(new CheckIsLogInRemotely()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**").excludePathPatterns("/news/**");
+                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/getSaveInfo").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**").excludePathPatterns("/news/**");;
             }
 
 //            @Override

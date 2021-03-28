@@ -29,7 +29,8 @@ public class UserUploadAspect {
     private UserMapper userMapper;
 
     @Pointcut("execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.uploadNews(..))" +
-            "|| execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.userSelectNews(..))")
+            "|| execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.userSelectNews(..))" +
+            "|| execution(public * com.qiaoyansong.service.impl.NewsServiceImpl.addArticleReview(..))")
     public void pointCut() {
 
     }

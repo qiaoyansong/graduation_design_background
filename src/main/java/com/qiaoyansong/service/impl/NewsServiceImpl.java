@@ -120,6 +120,19 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public ResponseEntity newsList(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入NewsServiceImpl的newsList方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.newsMapper.getTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<News> news = this.newsMapper.getNews(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
     public ResponseEntity adminSelectUserNews(PageHelper<SearchCondition> pageHelper) {
         log.info("进入NewsServiceImpl的adminSelectUserNews方法");
         SearchResponseEntity responseEntity = new SearchResponseEntity();
@@ -148,7 +161,9 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public ResponseEntity getNewInfoById(String id) {
         log.info("进入NewsServiceImpl的getNewInfoById方法");
-        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        log.info("添加资讯访问量");
+        this.newsMapper.updateNewsViewsByID(id);
+        ResponseEntity responseEntity = new ResponseEntity();
         News news = this.newsMapper.getNewInfoById(id);
         responseEntity.setBody(news);
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
@@ -186,6 +201,56 @@ public class NewsServiceImpl implements NewsService {
             responseEntity.setBody(StatusCode.SUCCESS.getReason());
             responseEntity.setCode(StatusCode.SUCCESS.getCode());
         }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity addArticleReview(ArticleReview articleReview) {
+        log.info("进入NewsServiceImpl的addArticleReview方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始追加文章评论");
+        if (this.newsMapper.addArticleReview(articleReview) != 1) {
+            log.warn("追加文章评论失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("追加文章评论成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getArticleReviews(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入NewsServiceImpl的getArticleReviewsById方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.newsMapper.getArticleReviewsTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<ArticleReview> news = this.newsMapper.getArticleReviews(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getLastedReviews() {
+        log.info("进入NewsServiceImpl的getLastedReviews方法");
+        ResponseEntity responseEntity = new SearchResponseEntity();
+        List<News> news = this.newsMapper.getLastedReviews();
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getHotNews() {
+        log.info("进入NewsServiceImpl的getHotNews方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        List<News> news = this.newsMapper.getHotNews();
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
         return responseEntity;
     }
 }

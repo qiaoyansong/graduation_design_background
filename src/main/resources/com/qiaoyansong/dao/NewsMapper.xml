@@ -159,4 +159,48 @@
         where type = 7
         order by pubdate desc limit 0,5
     </select>
+    <insert id="addArticleReview">
+        insert
+        into article_review(article_id, user_id, content, pubdate)
+        values(#{articleId}, #{userId}, #{content}, now())
+    </insert>
+    <select id="getArticleReviews" resultType="ArticleReview">
+        select
+		content, pubdate
+        from
+                article_review
+        <where>
+            <if test="condition.articleId!=null">
+                and article_id = #{condition.articleId}
+            </if>
+        </where>
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getArticleReviewsTotalSize" resultType="integer">
+        select count(id)
+        from
+        article_review
+        <where>
+            <if test="articleId!=null">
+                and article_id = #{articleId}
+            </if>
+        </where>
+    </select>
+    <update id="updateNewsViewsByID">
+        update news set views = views + 1
+        where id = #{id}
+    </update>
+    <select id="getLastedReviews" resultType="News">
+        select id, title, img
+        from
+                news
+        order by pubdate desc limit 0,5
+    </select>
+    <select id="getHotNews" resultType="News">
+        select id, title, img
+        from
+                news
+        order by views desc limit 0,5
+    </select>
 </mapper>

@@ -45,6 +45,13 @@ public interface NewsService {
     ResponseEntity adminSelectNews(PageHelper<SearchCondition> pageHelper);
 
     /**
+     * 获取资讯列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity newsList(PageHelper<SearchCondition> pageHelper);
+
+    /**
      * 管理员获取用户投稿
      * @param pageHelper 筛选 + 分页条件
      * @return 返回信息
@@ -78,4 +85,30 @@ public interface NewsService {
      * @return 返回信息
      */
     ResponseEntity refuseUserNews(String id);
+
+    /**
+     * 追加文章评论
+     * @param articleReview 文章评论信息
+     * @return 返回信息
+     */
+    ResponseEntity addArticleReview(ArticleReview articleReview);
+
+    /**
+     * 根据筛选条件查看文章评论
+     * @param pageHelper 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity getArticleReviews(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 根据筛选条件查看最新资讯
+     * @return 返回信息
+     */
+    ResponseEntity getLastedReviews();
+
+    /**
+     * 根据筛选条件查看最热资讯
+     * @return 返回信息
+     */
+    ResponseEntity getHotNews();
 }

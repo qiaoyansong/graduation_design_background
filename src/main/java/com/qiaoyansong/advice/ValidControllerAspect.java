@@ -35,12 +35,13 @@ public class ValidControllerAspect {
             "execution(public * com.qiaoyansong.controller.RegisterController.register(..)) || " +
             "execution(public * com.qiaoyansong.controller.ModifyPasswordController.*(..)) || " +
             "execution(public * com.qiaoyansong.controller.UploadController.uploadNews(..)) || " +
-            "execution(public * com.qiaoyansong.controller.NewsController.getNews(..)) || " +
+            "execution(public * com.qiaoyansong.controller.NewsController.get*(..)) || " +
             "execution(public * com.qiaoyansong.controller.UploadController.uploadUserImg(..)) || " +
             "execution(public * com.qiaoyansong.controller.LocationController.uploadLocation(..)) || " +
             "execution(public * com.qiaoyansong.controller.LocationController.updateLocationById(..)) ||" +
-            "execution(public * com.qiaoyansong.controller.SeekHelpController.seekHelp*(..))|| " +
-            "execution(public * com.qiaoyansong.controller.AdminController.modifyUserInfo(..))")
+            "execution(public * com.qiaoyansong.controller.SeekHelpController.seekHelp*(..)) || " +
+            "execution(public * com.qiaoyansong.controller.AdminController.modifyUserInfo(..)) ||" +
+            "execution(public * com.qiaoyansong.controller.NewsController.addArticleReview(..))")
     public void pointCut() {
 
     }

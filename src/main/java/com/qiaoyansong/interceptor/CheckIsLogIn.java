@@ -20,6 +20,7 @@ public class CheckIsLogIn implements HandlerInterceptor {
     private Logger logger = LoggerFactory.getLogger(CheckIsLogIn.class);
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        System.out.println(request.getRequestURI());
         logger.info("进入CheckIsLogIn的preHandle");
         HttpSession session = request.getSession();
         String userName = (String)session.getAttribute("userName");

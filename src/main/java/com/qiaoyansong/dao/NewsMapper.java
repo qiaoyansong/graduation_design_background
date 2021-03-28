@@ -1,5 +1,6 @@
 package com.qiaoyansong.dao;
 
+import com.qiaoyansong.entity.background.ArticleReview;
 import com.qiaoyansong.entity.background.News;
 import com.qiaoyansong.entity.background.PageHelper;
 import com.qiaoyansong.entity.background.SearchCondition;
@@ -145,4 +146,44 @@ public interface NewsMapper {
      * @return 资讯信息
      */
     List<News> getListOfHomepagePingXuan();
+
+    /**
+     * 追加文章评论
+     * @param articleReview 文章评论
+     * @return
+     */
+    Integer addArticleReview(ArticleReview articleReview);
+
+    /**
+     * 根据文章ID查看文章评论
+     * @param pageHelper 分页条件
+     * @return 评论信息
+     */
+    List<ArticleReview> getArticleReviews(PageHelper pageHelper);
+
+    /**
+     * 根据查询条件查询数据总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getArticleReviewsTotalSize(SearchCondition condition);
+
+    /**
+     * 根据文章ID修改浏览量
+     * @param id 文章ID
+     * @return
+     */
+    Integer updateNewsViewsByID(String id);
+
+    /**
+     * 获取最新的资讯信息
+     * @return 资讯信息
+     */
+    List<News> getLastedReviews();
+
+    /**
+     * 获取最热的资讯信息
+     * @return 资讯信息
+     */
+    List<News> getHotNews();
 }
