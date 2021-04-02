@@ -38,4 +38,18 @@ public interface ActivityService {
      * @return 返回信息
      */
     ResponseEntity adminSelectActivity(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取活动列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity activityList(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取活动信息
+     * @param id 活动ID
+     * @return 返回信息
+     */
+    ResponseEntity getActivityInfoById(String id);
 }

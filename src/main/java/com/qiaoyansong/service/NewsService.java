@@ -104,7 +104,7 @@ public interface NewsService {
      * 根据筛选条件查看最新资讯
      * @return 返回信息
      */
-    ResponseEntity getLastedReviews();
+    ResponseEntity getLastedNews();
 
     /**
      * 根据筛选条件查看最热资讯

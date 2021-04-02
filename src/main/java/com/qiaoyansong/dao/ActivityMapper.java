@@ -48,4 +48,11 @@ public interface ActivityMapper {
      * @return
      */
     Integer deleteActivityByID(String id);
+
+    /**
+     * 获取活动详情
+     * @param id 活动ID
+     * @return
+     */
+    Activity getActivityInfoById(String id);
 }

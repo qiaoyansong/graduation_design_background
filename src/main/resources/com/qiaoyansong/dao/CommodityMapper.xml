@@ -44,4 +44,10 @@
             summary = #{summary}
         where id = #{id}
     </update>
+    <select id="getCommodityInfoById" resultType="Commodity">
+        select id, title, pubdate, img, quantity, point, summary, content
+        from
+        commodity
+        where id = #{id}
+    </select>
 </mapper>

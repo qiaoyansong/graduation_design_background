@@ -179,7 +179,7 @@ public interface NewsMapper {
      * 获取最新的资讯信息
      * @return 资讯信息
      */
-    List<News> getLastedReviews();
+    List<News> getLastedNews();
 
     /**
      * 获取最热的资讯信息

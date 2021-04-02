@@ -235,10 +235,10 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public ResponseEntity getLastedReviews() {
-        log.info("进入NewsServiceImpl的getLastedReviews方法");
+    public ResponseEntity getLastedNews() {
+        log.info("进入NewsServiceImpl的getLastedNews方法");
         ResponseEntity responseEntity = new SearchResponseEntity();
-        List<News> news = this.newsMapper.getLastedReviews();
+        List<News> news = this.newsMapper.getLastedNews();
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         responseEntity.setBody(news);
         return responseEntity;

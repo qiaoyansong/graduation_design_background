@@ -85,4 +85,27 @@ public class ActivityServiceImpl implements ActivityService {
         responseEntity.setTotalSize(totalSize);
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity activityList(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入ActivityServiceImpl的activityList方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.activityMapper.getTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<Activity> news = this.activityMapper.getActivity(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getActivityInfoById(String id) {
+        log.info("进入ActivityServiceImpl的getActivityInfoById方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        Activity activity = this.activityMapper.getActivityInfoById(id);
+        responseEntity.setBody(activity);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        return responseEntity;
+    }
 }

@@ -45,4 +45,10 @@
                  summary =#{summary}
              where id = #{id}
     </update>
+    <select id="getActivityInfoById" resultType="Activity">
+        select id, peoples, begin_time, end_time, difficulty, title, summary, content
+        from
+        activity
+        where id = #{id}
+    </select>
 </mapper>

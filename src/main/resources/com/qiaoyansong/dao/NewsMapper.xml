@@ -191,7 +191,7 @@
         update news set views = views + 1
         where id = #{id}
     </update>
-    <select id="getLastedReviews" resultType="News">
+    <select id="getLastedNews" resultType="News">
         select id, title, img
         from
                 news

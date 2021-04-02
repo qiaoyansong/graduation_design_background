@@ -58,10 +58,10 @@ public class NewsController {
         return this.newsService.getArticleReviews(pageHelper);
     }
 
-    @RequestMapping(path = "/getLastedReviews", method = RequestMethod.GET)
-    public ResponseEntity lastedReviewsList() {
+    @RequestMapping(path = "/getLastedNews", method = RequestMethod.GET)
+    public ResponseEntity lastedNewsList() {
         log.info("进入NewsController.getLastedReviews");
-        return this.newsService.getLastedReviews();
+        return this.newsService.getLastedNews();
     }
 
     @RequestMapping(path = "/getHotNews", method = RequestMethod.GET)

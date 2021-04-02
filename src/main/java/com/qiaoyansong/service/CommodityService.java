@@ -39,4 +39,17 @@ public interface CommodityService {
      */
     ResponseEntity adminSelectCommodity(PageHelper<SearchCondition> pageHelper);
 
+    /**
+     * 获取商品列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity commodityList(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取商品信息
+     * @param id 商品ID
+     * @return 返回信息
+     */
+    ResponseEntity getCommodityInfoById(String id);
 }

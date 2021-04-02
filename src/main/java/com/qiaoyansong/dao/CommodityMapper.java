@@ -48,4 +48,11 @@ public interface CommodityMapper {
      * @return
      */
     Integer deleteCommodityByID(String id);
+
+    /**
+     * 获取商品详情
+     * @param id 商品ID
+     * @return
+     */
+    Commodity getCommodityInfoById(String id);
 }
