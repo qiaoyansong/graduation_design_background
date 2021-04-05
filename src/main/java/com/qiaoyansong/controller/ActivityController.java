@@ -38,6 +38,4 @@ public class ActivityController {
         log.info("进入ActivityController.selectActivityInfoById");
         return this.activityService.getActivityInfoById(id);
     }
-
-
 }

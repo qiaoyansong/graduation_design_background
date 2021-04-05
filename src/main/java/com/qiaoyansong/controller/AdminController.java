@@ -39,6 +39,9 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SeekHelpService seekHelpService;
+
     @RequestMapping(path = "/uploadNews", method = RequestMethod.POST)
     public ResponseEntity uploadNews(@Valid @RequestBody News news, BindingResult bindingResult) {
         return this.newsService.adminUploadNews(news);
@@ -157,5 +160,15 @@ public class AdminController {
     @RequestMapping(path = "/modifyUserInfo", method = RequestMethod.POST)
     public ResponseEntity modifyUserInfo(@Valid @RequestBody ModifyUserInfo modifyUserInfo, BindingResult bindingResult) {
         return this.userService.modifyUserInfo(modifyUserInfo);
+    }
+
+    @RequestMapping(path = "/seekHelp/agree/{id}", method = RequestMethod.GET)
+    public ResponseEntity agreeSeekHelp(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
+        return this.seekHelpService.agree(id);
+    }
+
+    @RequestMapping(path = "/seekHelp/refuse/{id}", method = RequestMethod.GET)
+    public ResponseEntity refuseSeekHelp(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
+        return this.seekHelpService.refuse(id);
     }
 }

@@ -108,4 +108,74 @@ public class ActivityServiceImpl implements ActivityService {
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity signUp(UserActivity userActivity) {
+        log.info("进入ActivityServiceImpl的signUp方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始添加用户-活动信息");
+        if (this.activityMapper.signUp(userActivity) != 1) {
+            log.warn("添加用户-活动信息失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("添加用户-活动信息成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getActivityProcessByUserId(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入ActivityServiceImpl的getActivityProcessByUserId方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.activityMapper.getSignUpActivityTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<UserActivity> news = this.activityMapper.getSignUpActivity(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getParticipantByActivityId(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入ActivityServiceImpl的adminSelectActivity方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.activityMapper.getParticipantTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<User> news = this.activityMapper.getParticipant(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity updateActivityProcess(UserActivity userActivity) {
+        log.info("进入ActivityServiceImpl的updateActivityProcess方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始修改用户-活动信息");
+        if (this.activityMapper.updateActivityProcess(userActivity) != 1) {
+            log.warn("修改用户-活动信息失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("修改用户-活动信息成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getUserActivityInfo(UserActivity userActivity) {
+        log.info("进入ActivityServiceImpl的getUserActivityInfo方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        UserActivity news = this.activityMapper.getUserActivityInfo(userActivity);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        return responseEntity;
+    }
 }

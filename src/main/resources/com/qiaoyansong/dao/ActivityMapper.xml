@@ -51,4 +51,52 @@
         activity
         where id = #{id}
     </select>
+    <insert id="signUp">
+        insert
+        into
+                user_activity(user_id, activity_id)
+        values
+                (#{userId}, #{activityId})
+    </insert>
+    <update id="updateActivityProcess">
+        update user_activity set progress = #{progress}
+        where
+                user_id  = #{userId}
+        and  activity_id = #{activityId}
+    </update>
+    <select id="getParticipantTotalSize" resultType="integer">
+        select count(id)
+        from
+        user_activity
+        group by #{activityId}
+    </select>
+    <select id="getSignUpActivityTotalSize" resultType="integer">
+        select count(id)
+        from
+        user_activity
+        group by #{userId}
+    </select>
+    <select id="getSignUpActivity" resultType="UserActivity">
+        select activity_id, progress, user_id
+        from
+                user_activity
+        group by #{condition.userId}
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getParticipant" resultType="User">
+        select id, user_name from user where id in ( select user_id
+                                                     from
+                                                             user_activity
+                                                     where activity_id = #{condition.activityId})
+        order by id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <select id="getUserActivityInfo" resultType="UserActivity">
+        select activity_id, progress, user_id
+        from
+                user_activity
+        where activity_id = #{activityId} and
+                user_id = #{userId}
+    </select>
 </mapper>

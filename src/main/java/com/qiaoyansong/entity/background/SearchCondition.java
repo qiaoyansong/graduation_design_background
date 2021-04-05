@@ -36,6 +36,8 @@ public class SearchCondition {
 
     private String articleId;
 
+    private String activityId;
+
     @Override
     public String toString() {
         return "SearchCondition{" +
@@ -43,7 +45,9 @@ public class SearchCondition {
                 ", searchValue='" + searchValue + '\'' +
                 ", userId='" + userId + '\'' +
                 ", flag='" + flag + '\'' +
+                ", orderByValue='" + orderByValue + '\'' +
                 ", articleId='" + articleId + '\'' +
+                ", activityId='" + activityId + '\'' +
                 '}';
     }
 }

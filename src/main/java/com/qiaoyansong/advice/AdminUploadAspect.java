@@ -39,7 +39,9 @@ public class AdminUploadAspect {
             "|| execution(public * com.qiaoyansong.controller.AdminController.refuseUserNews(..))" +
             "|| execution(public * com.qiaoyansong.controller.SeekHelpController.agreeSeekHelp(..))" +
             "|| execution(public * com.qiaoyansong.controller.SeekHelpController.refuseSeekHelp(..))" +
-            "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.modifyUserInfo(..))")
+            "|| execution(public * com.qiaoyansong.service.impl.UserServiceImpl.modifyUserInfo(..))" +
+            "|| execution(public * com.qiaoyansong.service.impl.ActivityServiceImpl.getParticipantByActivityId(..))" +
+            "|| execution(public * com.qiaoyansong.service.impl.ActivityServiceImpl.updateActivityProcess(..))")
     public void pointCut(){
 
     }

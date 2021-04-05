@@ -1,8 +1,6 @@
 package com.qiaoyansong.dao;
 
-import com.qiaoyansong.entity.background.Activity;
-import com.qiaoyansong.entity.background.PageHelper;
-import com.qiaoyansong.entity.background.SearchCondition;
+import com.qiaoyansong.entity.background.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -55,4 +53,53 @@ public interface ActivityMapper {
      * @return
      */
     Activity getActivityInfoById(String id);
+
+    /**
+     * 添加用户活动信息
+     * @param userActivity 用户-活动信息
+     * @return
+     */
+    Integer signUp(UserActivity userActivity);
+
+    /**
+     * 修改用户-活动信息
+     * @param userActivity 用户-活动信息
+     * @return
+     */
+    Integer updateActivityProcess(UserActivity userActivity);
+
+    /**
+     * 根据查询条件查询活动参与者总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getParticipantTotalSize(SearchCondition condition);
+
+    /**
+     * 根据查询条件查询当前用户所参加活动的总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getSignUpActivityTotalSize(SearchCondition condition);
+
+    /**
+     * 根据查询条件当前用户参加的所有活动
+     * @param pageHelper 查询 + 分页条件
+     * @return
+     */
+    List<UserActivity> getSignUpActivity(PageHelper pageHelper);
+
+    /**
+     * 根据查询条件查询参加该活动的所有用户
+     * @param pageHelper 查询 + 分页条件
+     * @return
+     */
+    List<User> getParticipant(PageHelper pageHelper);
+
+    /**
+     * 获取用户活动信息
+     * @param userActivity 用户活动信息
+     * @return
+     */
+    UserActivity getUserActivityInfo(UserActivity userActivity);
 }

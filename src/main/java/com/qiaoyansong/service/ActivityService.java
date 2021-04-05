@@ -1,9 +1,6 @@
 package com.qiaoyansong.service;
 
-import com.qiaoyansong.entity.background.Activity;
-import com.qiaoyansong.entity.background.PageHelper;
-import com.qiaoyansong.entity.background.ResponseEntity;
-import com.qiaoyansong.entity.background.SearchCondition;
+import com.qiaoyansong.entity.background.*;
 
 /**
  * @author ：Qiao Yansong
@@ -52,4 +49,39 @@ public interface ActivityService {
      * @return 返回信息
      */
     ResponseEntity getActivityInfoById(String id);
+
+    /**
+     * 用户报名参加活动
+     * @param userActivity 活动信息
+     * @return 返回信息
+     */
+    ResponseEntity signUp(UserActivity userActivity);
+
+    /**
+     * 根据用户ID获取参与的活动条目
+     * @param pageHelper 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity getActivityProcessByUserId(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取参与该活动的用户信息
+     * @param pageHelper 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity getParticipantByActivityId(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 修改用户活动进度信息
+     * @param userActivity 用户活动进度
+     * @return 返回信息
+     */
+    ResponseEntity updateActivityProcess(UserActivity userActivity);
+
+    /**
+     * 获取用户活动进度信息
+     * @param userActivity 用户活动信息
+     * @return 返回信息
+     */
+    ResponseEntity getUserActivityInfo(UserActivity userActivity);
 }
