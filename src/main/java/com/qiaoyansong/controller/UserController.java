@@ -1,10 +1,9 @@
 package com.qiaoyansong.controller;
 
-import com.qiaoyansong.entity.background.PageHelper;
-import com.qiaoyansong.entity.background.ResponseEntity;
-import com.qiaoyansong.entity.background.SearchCondition;
-import com.qiaoyansong.entity.background.UserActivity;
+import com.qiaoyansong.entity.background.*;
+import com.qiaoyansong.entity.front.AuctionRealtimePrice;
 import com.qiaoyansong.service.ActivityService;
+import com.qiaoyansong.service.AuctionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +26,9 @@ public class UserController {
 
     @Autowired
     private ActivityService activityService;
+
+    @Autowired
+    private AuctionService auctionService;
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -58,5 +60,17 @@ public class UserController {
     public ResponseEntity getUserActivityInfo(@Valid @RequestBody UserActivity userActivity, BindingResult bindingResult) {
         log.info("进入UserController.getUserActivityInfo");
         return this.activityService.getUserActivityInfo(userActivity);
+    }
+
+    @RequestMapping(path = "/offer", method = RequestMethod.POST)
+    public ResponseEntity offer(@Valid @RequestBody AuctionRealtimePrice auctionRealtimePrice, BindingResult bindingResult) {
+        log.info("进入UserController.offer");
+        return this.auctionService.offer(auctionRealtimePrice);
+    }
+
+    @RequestMapping(path = "/getAuctionProcessByUserId", method = RequestMethod.POST)
+    public ResponseEntity getAuctionProcessByUserId(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
+        log.info("进入UserController.getAuctionProcessByUserId");
+        return this.auctionService.getAuctionProcessByUserId(pageHelper);
     }
 }

@@ -145,4 +145,12 @@ public interface UserMapper {
      * @return
      */
     Integer modifyUserInfo(ModifyUserInfo modifyUserInfo);
+
+    /**
+     * 修改用户的积分信息
+     * @param id 用户ID
+     * @param point 点数信息
+     * @return 返回信息
+     */
+    Integer updateUserPointByUserId(@Param("id") String id, @Param("point") String point);
 }

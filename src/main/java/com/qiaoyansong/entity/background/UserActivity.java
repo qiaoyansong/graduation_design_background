@@ -23,6 +23,8 @@ public class UserActivity {
 
     private Byte progress;
 
+    private User user;
+
     @Override
     public String toString() {
         return "UserActivity{" +

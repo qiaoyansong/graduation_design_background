@@ -1,12 +1,18 @@
 package com.qiaoyansong.service.impl;
 
 import com.qiaoyansong.dao.ActivityMapper;
+import com.qiaoyansong.dao.UserMapper;
 import com.qiaoyansong.entity.background.*;
 import com.qiaoyansong.service.ActivityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.util.List;
 
@@ -20,6 +26,17 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     private ActivityMapper activityMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    private final byte ACTIVITY_COMPLETE = 100;
+
+    @Autowired
+    DataSourceTransactionManager dataSourceTransactionManager;
+
+    @Autowired
+    TransactionDefinition transactionDefinition;
     private static final Logger log = LoggerFactory.getLogger(ActivityServiceImpl.class);
 
     @Override
@@ -145,7 +162,7 @@ public class ActivityServiceImpl implements ActivityService {
         SearchResponseEntity responseEntity = new SearchResponseEntity();
         int totalSize = this.activityMapper.getParticipantTotalSize(pageHelper.getCondition());
         PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
-        List<User> news = this.activityMapper.getParticipant(cur);
+        List<UserActivity> news = this.activityMapper.getParticipant(cur);
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         responseEntity.setBody(news);
         responseEntity.setTotalSize(totalSize);
@@ -153,7 +170,9 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity updateActivityProcess(UserActivity userActivity) {
+        TransactionStatus transactionStatus = dataSourceTransactionManager.getTransaction(transactionDefinition);
         log.info("进入ActivityServiceImpl的updateActivityProcess方法");
         ResponseEntity responseEntity = new ResponseEntity();
         log.info("开始修改用户-活动信息");
@@ -162,9 +181,31 @@ public class ActivityServiceImpl implements ActivityService {
             responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
             responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
         } else {
-            log.info("修改用户-活动信息成功");
-            responseEntity.setBody(StatusCode.SUCCESS.getReason());
-            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+            if (userActivity.getProgress() == ACTIVITY_COMPLETE) {
+                log.info("开始修改用户的积分信息");
+                Integer point = this.activityMapper.getPointByActivityId(userActivity.getActivityId());
+                Integer integer = this.userMapper.updateUserPointByUserId(userActivity.getUserId(), point+"");
+                if (integer == 1) {
+                    log.info("修改用户积分信息成功，事务提交");
+                    responseEntity.setBody(StatusCode.SUCCESS.getReason());
+                    responseEntity.setCode(StatusCode.SUCCESS.getCode());
+                } else {
+                    log.warn("修改用户积分信息失败");
+                    try {
+                        throw new RuntimeException("修改用户积分信息失败");
+                    }catch (Exception ex){
+                        TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                        dataSourceTransactionManager.rollback(transactionStatus);
+                        responseEntity.setBody(ex.getMessage());
+                        responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+                        return responseEntity;
+                    }
+                }
+            } else {
+                log.warn("修改用户-活动信息成功");
+                responseEntity.setBody(StatusCode.SUCCESS.getReason());
+                responseEntity.setCode(StatusCode.SUCCESS.getCode());
+            }
         }
         return responseEntity;
     }

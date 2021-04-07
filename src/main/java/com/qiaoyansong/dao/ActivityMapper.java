@@ -94,7 +94,7 @@ public interface ActivityMapper {
      * @param pageHelper 查询 + 分页条件
      * @return
      */
-    List<User> getParticipant(PageHelper pageHelper);
+    List<UserActivity> getParticipant(PageHelper pageHelper);
 
     /**
      * 获取用户活动信息
@@ -102,4 +102,11 @@ public interface ActivityMapper {
      * @return
      */
     UserActivity getUserActivityInfo(UserActivity userActivity);
+
+    /**
+     * 获取参与该活动应该获取的点数
+     * @param activityId 活动ID
+     * @return
+     */
+    Integer getPointByActivityId(String activityId);
 }

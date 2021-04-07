@@ -44,7 +44,8 @@ public class ValidControllerAspect {
             "execution(public * com.qiaoyansong.controller.NewsController.addArticleReview(..)) || " +
             "execution(public * com.qiaoyansong.controller.CommodityController.get*(..)) || " +
             "execution(public * com.qiaoyansong.controller.ActivityController.get*(..)) ||" +
-            "execution(public * com.qiaoyansong.controller.UserController.*(..))")
+            "execution(public * com.qiaoyansong.controller.UserController.*(..)) || " +
+            "execution(public * com.qiaoyansong.controller.AuctionController.get*(..)) ")
     public void pointCut() {
 
     }

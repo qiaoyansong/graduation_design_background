@@ -154,4 +154,9 @@
         where
             id = #{id}
     </update>
+    <update id="updateUserPointByUserId">
+        update user
+            set point = point + #{point}
+        where id = #{id}
+    </update>
 </mapper>

@@ -31,9 +31,6 @@ public class Auction {
     @NotNull(message = "最低价格不能为空")
     private Integer minPrice;
 
-    @NotNull(message = "最高价格不能为空")
-    private Integer maxPrice;
-
     @NotNull(message = "图片不能为空")
     private String img;
 
@@ -43,4 +40,18 @@ public class Auction {
     @NotNull(message = "拍卖内容不能为空")
     private String content;
 
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", beginTime=" + beginTime +
+                ", endTime=" + endTime +
+                ", pubdate=" + pubdate +
+                ", minPrice=" + minPrice +
+                ", img='" + img + '\'' +
+                ", summary='" + summary + '\'' +
+                ", content='" + content + '\'' +
+                '}';
+    }
 }

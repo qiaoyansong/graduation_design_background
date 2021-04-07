@@ -32,9 +32,6 @@ public class Auction {
     @NotNull(message = "最低价格不能为空")
     private Integer minPrice;
 
-    @NotNull(message = "最高价格不能为空")
-    private Integer maxPrice;
-
     @Pattern(regexp = "^.{0,100}$", message = "拍卖摘要不符合格式")
     private String summary;
 

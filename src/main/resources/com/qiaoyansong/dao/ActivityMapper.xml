@@ -5,7 +5,7 @@
 <mapper namespace="com.qiaoyansong.dao.ActivityMapper">
     <insert id="uploadActivity">
         insert into activity(peoples, begin_time, end_time, pubdate, difficulty, title, content, summary)
-        values (#{peoples}, #{beginTime}, #{endTime},now(), #{difficulty}, #{title}, #{content}, #{summary})
+        values (#{peoples}, #{beginTime}, #{endTime}, now(), #{difficulty}, #{title}, #{content}, #{summary})
     </insert>
 
     <select id="getActivity" resultType="Activity">
@@ -33,70 +33,85 @@
         </where>
     </select>
     <delete id="deleteActivityByID">
-        delete from activity where id = #{id}
+        delete
+        from activity
+        where id = #{id}
     </delete>
     <update id="updateActivityByID">
         update activity
-                set peoples = #{peoples},
-                 begin_time =#{beginTime},
-                 end_time =#{endTime},
-                 difficulty =#{difficulty},
-                 title =#{title},
-                 summary =#{summary}
-             where id = #{id}
+        set peoples    = #{peoples},
+            begin_time =#{beginTime},
+            end_time   =#{endTime},
+            difficulty =#{difficulty},
+            title      =#{title},
+            summary    =#{summary}
+        where id = #{id}
     </update>
     <select id="getActivityInfoById" resultType="Activity">
-        select id, peoples, begin_time, end_time, difficulty, title, summary, content
-        from
-        activity
+        select id,
+               peoples,
+               begin_time,
+               end_time,
+               difficulty,
+               title,
+               summary,
+               content
+        from activity
         where id = #{id}
     </select>
     <insert id="signUp">
         insert
-        into
-                user_activity(user_id, activity_id)
-        values
-                (#{userId}, #{activityId})
+        into user_activity(user_id, activity_id)
+        values (#{userId}, #{activityId})
     </insert>
     <update id="updateActivityProcess">
-        update user_activity set progress = #{progress}
-        where
-                user_id  = #{userId}
-        and  activity_id = #{activityId}
+        update user_activity
+        set progress = #{progress}
+        where user_id = #{userId}
+          and activity_id = #{activityId}
     </update>
     <select id="getParticipantTotalSize" resultType="integer">
         select count(id)
-        from
-        user_activity
+        from user_activity
         group by #{activityId}
     </select>
     <select id="getSignUpActivityTotalSize" resultType="integer">
         select count(id)
-        from
-        user_activity
+        from user_activity
         group by #{userId}
     </select>
     <select id="getSignUpActivity" resultType="UserActivity">
         select activity_id, progress, user_id
-        from
-                user_activity
+        from user_activity
         group by #{condition.userId}
         order by id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>
-    <select id="getParticipant" resultType="User">
-        select id, user_name from user where id in ( select user_id
-                                                     from
-                                                             user_activity
-                                                     where activity_id = #{condition.activityId})
+    <resultMap id="userActivity" type="UserActivity">
+        <result property="activityId" column="activity_id"/>
+        <result property="progress" column="progress"/>
+        <association property="user" javaType="com.qiaoyansong.entity.background.User">
+            <id column="id" property="id"/>
+            <result property="userName" column="user_name"/>
+        </association>
+    </resultMap>
+    <select id="getParticipant" resultMap="userActivity">
+        select progress, activity_id, u.id, u.user_name
+        from user_activity a
+                     inner join user u on a.user_id = u.id
+        where activity_id = #{condition.activityId}
         order by id ${condition.orderBy}
-        limit #{beginIndex}, #{pageSize}
+                limit #{beginIndex}, #{pageSize}
     </select>
     <select id="getUserActivityInfo" resultType="UserActivity">
         select activity_id, progress, user_id
-        from
-                user_activity
-        where activity_id = #{activityId} and
-                user_id = #{userId}
+        from user_activity
+        where activity_id = #{activityId}
+          and user_id = #{userId}
+    </select>
+    <select id="getPointByActivityId" resultType="_int">
+        select difficulty
+        from activity
+        where id = #{activityId}
     </select>
 </mapper>

@@ -1,9 +1,6 @@
 package com.qiaoyansong.service;
 
-import com.qiaoyansong.entity.background.Auction;
-import com.qiaoyansong.entity.background.PageHelper;
-import com.qiaoyansong.entity.background.ResponseEntity;
-import com.qiaoyansong.entity.background.SearchCondition;
+import com.qiaoyansong.entity.background.*;
 
 /**
  * @author ：Qiao Yansong
@@ -40,4 +37,45 @@ public interface AuctionService {
      */
     ResponseEntity adminSelectAuction(PageHelper<SearchCondition> pageHelper);
 
+    /**
+     * 获取拍卖列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity auctionList(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 根据拍卖ID获取拍卖信息
+     * @param id 拍卖ID
+     * @return 返回信息
+     */
+    ResponseEntity getAuctionInfoById(String id);
+
+    /**
+     * 根据拍卖ID获取拍卖价格实时变化信息
+     * @param id 拍卖ID
+     * @return 返回信息
+     */
+    ResponseEntity getAuctionRealtimePrice(String id);
+
+    /**
+     * 用户出价
+     * @param auctionRealtimePrice 价格变化信息
+     * @return 返回信息
+     */
+    ResponseEntity offer(com.qiaoyansong.entity.front.AuctionRealtimePrice auctionRealtimePrice);
+
+    /**
+     * 根据用户ID获取所参与的活动信息
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity getAuctionProcessByUserId(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 根据拍卖ID获取拍卖价格实时变化信息
+     * @param id 拍卖ID
+     * @return 返回信息
+     */
+    ResponseEntity selectMaxAuctionRealtimePrice(String id);
 }

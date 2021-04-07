@@ -1,5 +1,6 @@
 package com.qiaoyansong.advice;
 
+import com.qiaoyansong.entity.background.ResponseEntity;
 import com.qiaoyansong.entity.background.StatusCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -37,5 +38,19 @@ public class BusinessExceptionHandler {
         map.put("status", StatusCode.VALID_EXCEPTION.getCode());
         map.put("msg", msgList);
         return map;
+    }
+
+    /**
+     * 处理其它异常
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(value = Exception.class)
+    @ResponseBody
+    public ResponseEntity ExceptionHandler(Exception ex) {
+        ResponseEntity responseEntity = new ResponseEntity();
+        responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        responseEntity.setBody(ex.toString());
+        return responseEntity;
     }
 }

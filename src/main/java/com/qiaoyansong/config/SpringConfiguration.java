@@ -49,8 +49,8 @@ public class SpringConfiguration {
 
             @Override
             public void addInterceptors(InterceptorRegistry registry) {
-                registry.addInterceptor(new CheckIsLogInRemotely()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**").excludePathPatterns("/news/**").excludePathPatterns("/activity/**").excludePathPatterns("/commodity/**");
-                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/getSaveInfo").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**").excludePathPatterns("/news/**").excludePathPatterns("/activity/**").excludePathPatterns("/commodity/**");
+                registry.addInterceptor(new CheckIsLogInRemotely()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**").excludePathPatterns("/news/**").excludePathPatterns("/activity/**").excludePathPatterns("/commodity/**").excludePathPatterns("/auction/**");
+                registry.addInterceptor(new CheckIsLogIn()).addPathPatterns("/**").excludePathPatterns("/login/**").excludePathPatterns("/register/**").excludePathPatterns("/favicon.ico").excludePathPatterns("/upload/**").excludePathPatterns("/getSaveInfo").excludePathPatterns("/image/**").excludePathPatterns("/modifypwd/**").excludePathPatterns("/home/**").excludePathPatterns("/news/**").excludePathPatterns("/activity/**").excludePathPatterns("/commodity/**").excludePathPatterns("/auction/**");
             }
 
 //            @Override
@@ -67,5 +67,4 @@ public class SpringConfiguration {
 //            }
         };
     }
-
 }
