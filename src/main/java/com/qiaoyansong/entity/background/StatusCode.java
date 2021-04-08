@@ -77,7 +77,11 @@ public enum StatusCode {
     /**
      * 文章标题已经存在
      */
-    NEWS_TITLE_IS_EXISTS("文章标题已经存在", "116");
+    NEWS_TITLE_IS_EXISTS("文章标题已经存在", "116"),
+    /**
+     * 已经参加过该活动，请勿重复参加
+     */
+    REPEAT_THE_EVENT("已经参加过此活动，请勿重复参加", "117");
     private final String reason;
     private final String code;
 

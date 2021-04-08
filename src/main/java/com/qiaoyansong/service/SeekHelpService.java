@@ -48,4 +48,11 @@ public interface SeekHelpService {
      * @return 返回信息
      */
     ResponseEntity getSeekHelpInfoById(String id);
+
+    /**
+     * 查看所有审核通过的求助信息
+     * @param pageHelper 筛选信息
+     * @return 返回信息
+     */
+    ResponseEntity seekHelpList(PageHelper<SearchCondition> pageHelper);
 }

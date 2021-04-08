@@ -54,6 +54,7 @@ public class UserServiceImpl implements UserService {
                 register.setUserName(user.getUserName());
                 register.setType(UserType.GENERAL_USER);
                 register.setPassword(user.getPassword());
+                register.setTelephone(user.getTelephone());
                 int result = userMapper.register(register);
                 if (result == 1) {
                     // 注册成功

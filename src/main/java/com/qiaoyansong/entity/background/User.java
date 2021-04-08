@@ -38,6 +38,11 @@ public class User {
     private String password;
 
     /**
+     * 电话号码
+     */
+    private String telephone;
+
+    /**
      *邮箱
      */
     private String mailbox;
@@ -62,7 +67,6 @@ public class User {
      */
     private Integer point;
 
-
     @Override
     public String toString() {
         return "User{" +
@@ -70,6 +74,7 @@ public class User {
                 ", type=" + type +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", telephone='" + telephone + '\'' +
                 ", mailbox='" + mailbox + '\'' +
                 ", credit=" + credit +
                 ", headPortrait='" + headPortrait + '\'' +

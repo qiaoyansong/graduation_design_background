@@ -96,4 +96,17 @@ public class SeekHelpServiceImpl implements SeekHelpService {
         responseEntity.setBody(news);
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity seekHelpList(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入SeekHelpServiceImpl的seekHelpList方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.seekHelpMapper.getTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<SeekHelp> news = this.seekHelpMapper.listAll(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
 }

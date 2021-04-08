@@ -130,15 +130,23 @@ public class ActivityServiceImpl implements ActivityService {
     public ResponseEntity signUp(UserActivity userActivity) {
         log.info("进入ActivityServiceImpl的signUp方法");
         ResponseEntity responseEntity = new ResponseEntity();
-        log.info("开始添加用户-活动信息");
-        if (this.activityMapper.signUp(userActivity) != 1) {
-            log.warn("添加用户-活动信息失败");
-            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
-            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        log.info("开始判断该用户是否参加了当前活动");
+        UserActivity target = this.activityMapper.getUserActivity(userActivity.getActivityId(), userActivity.getUserId());
+        if (target == null) {
+            log.info("该用户未参加过此活动,开始添加用户-活动信息");
+            if (this.activityMapper.signUp(userActivity) != 1) {
+                log.warn("添加用户-活动信息失败");
+                responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+                responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+            } else {
+                log.info("添加用户-活动信息成功");
+                responseEntity.setBody(StatusCode.SUCCESS.getReason());
+                responseEntity.setCode(StatusCode.SUCCESS.getCode());
+            }
         } else {
-            log.info("添加用户-活动信息成功");
-            responseEntity.setBody(StatusCode.SUCCESS.getReason());
-            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+            log.warn("该用户已经参加过此活动");
+            responseEntity.setBody(StatusCode.REPEAT_THE_EVENT.getReason());
+            responseEntity.setCode(StatusCode.REPEAT_THE_EVENT.getCode());
         }
         return responseEntity;
     }
@@ -184,7 +192,7 @@ public class ActivityServiceImpl implements ActivityService {
             if (userActivity.getProgress() == ACTIVITY_COMPLETE) {
                 log.info("开始修改用户的积分信息");
                 Integer point = this.activityMapper.getPointByActivityId(userActivity.getActivityId());
-                Integer integer = this.userMapper.updateUserPointByUserId(userActivity.getUserId(), point+"");
+                Integer integer = this.userMapper.updateUserPointByUserId(userActivity.getUserId(), point + "");
                 if (integer == 1) {
                     log.info("修改用户积分信息成功，事务提交");
                     responseEntity.setBody(StatusCode.SUCCESS.getReason());
@@ -193,7 +201,7 @@ public class ActivityServiceImpl implements ActivityService {
                     log.warn("修改用户积分信息失败");
                     try {
                         throw new RuntimeException("修改用户积分信息失败");
-                    }catch (Exception ex){
+                    } catch (Exception ex) {
                         TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
                         dataSourceTransactionManager.rollback(transactionStatus);
                         responseEntity.setBody(ex.getMessage());

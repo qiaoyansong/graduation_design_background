@@ -21,7 +21,7 @@
         </where>
     </select>
     <select id="listAll" resultType="SeekHelp">
-        select id, user_id, title, content, flag
+        select id, user_id, title, content, flag, img
         from
         seek_help
         <where>
@@ -40,8 +40,8 @@
         limit #{beginIndex}, #{pageSize}
     </select>
     <insert id="submit">
-        insert into seek_help(user_id, title, content)
-            values (#{userId}, #{title}, #{content})
+        insert into seek_help(user_id, title, content, img)
+            values (#{userId}, #{title}, #{content}, #{img})
     </insert>
     <update id="agree">
         update seek_help

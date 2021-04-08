@@ -28,6 +28,9 @@ public class SeekHelp {
     @NotNull(message = "内容不能为空")
     private String content;
 
+    @NotNull(message = "图片不能为空")
+    private String img;
+
     @Override
     public String toString() {
         return "SeekHelp{" +
@@ -36,6 +39,7 @@ public class SeekHelp {
                 ", title='" + title + '\'' +
                 ", flag=" + flag +
                 ", content='" + content + '\'' +
+                ", img='" + img + '\'' +
                 '}';
     }
 }

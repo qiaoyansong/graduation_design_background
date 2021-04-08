@@ -2,6 +2,7 @@ package com.qiaoyansong.dao;
 
 import com.qiaoyansong.entity.background.*;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -109,4 +110,12 @@ public interface ActivityMapper {
      * @return
      */
     Integer getPointByActivityId(String activityId);
+
+    /**
+     * 判断该用户是否参加过此活动信息
+     * @param activityId 活动ID
+     * @param userId 用户ID
+     * @return
+     */
+    UserActivity getUserActivity(@Param("activityId") String activityId, @Param("userId") String userId);
 }

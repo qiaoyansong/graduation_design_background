@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class DeliverGoods {
+public class DeliverAuction {
 
     private Integer id;
 
@@ -21,7 +21,7 @@ public class DeliverGoods {
 
     @Override
     public String toString() {
-        return "DeliverGoods{" +
+        return "DeliverAuction{" +
                 "id=" + id +
                 ", auctionId=" + auctionId +
                 ", userId=" + userId +

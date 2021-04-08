@@ -14,8 +14,8 @@
         where mailbox = #{mailBox}
     </select>
     <insert id="register" useGeneratedKeys="true" keyProperty="id">
-        insert into user(user_name, password, mailbox, type)
-        values (#{userName}, #{password}, #{mailbox}, #{type, typeHandler=com.qiaoyansong.handler.UserTypeToTable})
+        insert into user(user_name, password, mailbox, type, telephone)
+        values (#{userName}, #{password}, #{mailbox}, #{type, typeHandler=com.qiaoyansong.handler.UserTypeToTable}, #{telephone})
     </insert>
     <select id="getPassword" resultType="string">
         select password
@@ -52,7 +52,8 @@
                credit,
                head_portrait,
                session_id,
-               point
+               point,
+               telephone
         from user
         where user_name = #{userName}
     </select>
