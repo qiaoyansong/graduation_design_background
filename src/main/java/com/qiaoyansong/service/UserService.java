@@ -94,4 +94,11 @@ public interface UserService {
      * @return 返回信息
      */
     ResponseEntity modifyUserInfo(ModifyUserInfo modifyUserInfo);
+
+    /**
+     * 根据用户ID获取地址信息
+     * @param pageHelper 筛选条件
+     * @return 返回信息
+     */
+    ResponseEntity getAddressListByUserId(PageHelper<SearchCondition> pageHelper);
 }

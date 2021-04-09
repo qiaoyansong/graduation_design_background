@@ -1,9 +1,6 @@
 package com.qiaoyansong.service;
 
-import com.qiaoyansong.entity.background.Commodity;
-import com.qiaoyansong.entity.background.PageHelper;
-import com.qiaoyansong.entity.background.ResponseEntity;
-import com.qiaoyansong.entity.background.SearchCondition;
+import com.qiaoyansong.entity.background.*;
 
 /**
  * @author ：Qiao Yansong
@@ -52,4 +49,18 @@ public interface CommodityService {
      * @return 返回信息
      */
     ResponseEntity getCommodityInfoById(String id);
+
+    /**
+     * 用户用于兑换商品
+     * @param deliverCommodity 兑换商品信息
+     * @return 返回信息
+     */
+    ResponseEntity exchangeCommodity(DeliverCommodity deliverCommodity);
+
+    /**
+     * 获取用户兑换商品列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity getExchangeCommodityListByUserId(PageHelper<SearchCondition> pageHelper);
 }

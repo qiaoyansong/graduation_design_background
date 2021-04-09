@@ -4,6 +4,8 @@ import com.qiaoyansong.entity.background.*;
 import com.qiaoyansong.entity.front.AuctionRealtimePrice;
 import com.qiaoyansong.service.ActivityService;
 import com.qiaoyansong.service.AuctionService;
+import com.qiaoyansong.service.CommodityService;
+import com.qiaoyansong.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,12 @@ public class UserController {
 
     @Autowired
     private AuctionService auctionService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private CommodityService commodityService;
 
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -72,5 +80,23 @@ public class UserController {
     public ResponseEntity getAuctionProcessByUserId(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult) {
         log.info("进入UserController.getAuctionProcessByUserId");
         return this.auctionService.getAuctionProcessByUserId(pageHelper);
+    }
+
+    @RequestMapping(path = "/getAddressListByUserId")
+    public ResponseEntity getAddressListByUserId(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
+        log.info("进入ActivityController.getAddressListByUserId");
+        return this.userService.getAddressListByUserId(pageHelper);
+    }
+
+    @RequestMapping(path = "/exchangeCommodity")
+    public ResponseEntity exchangeCommodity(@Valid @RequestBody DeliverCommodity deliverCommodity, BindingResult bindingResult){
+        log.info("进入ActivityController.exchangeCommodity");
+        return this.commodityService.exchangeCommodity(deliverCommodity);
+    }
+
+    @RequestMapping(path = "/getExchangeCommodityListByUserId")
+    public ResponseEntity getExchangeCommodityListByUserId(@Valid @RequestBody  PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
+        log.info("进入ActivityController.getExchangeCommodityListByUserId");
+        return this.commodityService.getExchangeCommodityListByUserId(pageHelper);
     }
 }

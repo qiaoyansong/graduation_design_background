@@ -5,19 +5,31 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class DeliverCommodity {
 
-    private Integer id;
+    private String id;
 
-    private Integer commodityId;
+    @NotNull(message = "商品ID不能为空")
+    @Pattern(regexp = "^\\d{1,}$", message = "商品ID不符合格式")
+    private String commodityId;
 
-    private Integer userId;
+    @NotNull(message = "用户ID不能为空")
+    @Pattern(regexp = "^\\d{1,}$", message = "用户ID不符合格式")
+    private String userId;
 
-    private Integer userLocationsId;
+    @NotNull(message = "地址ID不能为空")
+    @Pattern(regexp = "^\\d{1,}$", message = "地址ID不符合格式")
+    private String userLocationsId;
+
+    private Commodity commodity;
+    private UserLocations userLocations;
 
     @Override
     public String toString() {

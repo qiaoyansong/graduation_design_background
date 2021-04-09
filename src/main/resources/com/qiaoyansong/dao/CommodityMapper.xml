@@ -50,4 +50,53 @@
         commodity
         where id = #{id}
     </select>
+    <select id="getCommodityInfoId" resultType="Commodity">
+        select
+                id ,point, quantity
+        from
+                commodity
+        where id = #{id} for update
+    </select>
+    <update id="subQuantityByCommodityId">
+        update
+                commodity
+        set
+                quantity = quantity - 1
+        where id = #{id}
+    </update>
+    <insert id="exchangeCommodity">
+        insert
+        into
+                deliver_commodity(commodity_id, user_id, user_locations_id)
+        values (#{commodityId}, #{userId}, #{userLocationsId})
+    </insert>
+    <select id="getExchangeCommodityTotalSize" resultType="_int">
+        select count(id)
+        from deliver_commodity
+        where user_id = #{userId}
+    </select>
+    <resultMap id="deliverCommodity" type="DeliverCommodity">
+        <id property="id" column="id"/>
+        <association property="userLocations" javaType="com.qiaoyansong.entity.background.UserLocations">
+            <id property="id" column="user_locations_id"/>
+            <result property="area" column="area"/>
+            <result property="city" column="city"/>
+            <result property="location" column="location"/>
+            <result property="name" column="name"/>
+            <result property="province" column="province"/>
+            <result property="telephone" column="telephone"/>
+        </association>
+        <association property="commodity" javaType="com.qiaoyansong.entity.background.Commodity">
+            <id property="id" column="commodity_id"/>
+            <result property="title" column="title"/>
+        </association>
+    </resultMap>
+    <select id="getExchangeCommodityListByUserId" resultMap="deliverCommodity">
+        select d.id, d.user_locations_id, d.commodity_id, u.area, u.city, u.location, u.name, u.province, u.telephone, c.title from
+                deliver_commodity d inner join commodity c
+            on d.commodity_id = c.id inner join user_locations u on d.user_locations_id = u.id
+        where d.user_id = #{condition.userId}
+        order by d.id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
 </mapper>

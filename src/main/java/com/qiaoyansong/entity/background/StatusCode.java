@@ -81,7 +81,15 @@ public enum StatusCode {
     /**
      * 已经参加过该活动，请勿重复参加
      */
-    REPEAT_THE_EVENT("已经参加过此活动，请勿重复参加", "117");
+    REPEAT_THE_EVENT("已经参加过此活动，请勿重复参加", "117"),
+    /**
+     * 积分不足
+     */
+    INSUFFICIENT_POINTS("积分不足", "118"),
+    /**
+     * 库存不足
+     */
+    OUT_OF_STOCK("库存不足", "119");
     private final String reason;
     private final String code;
 

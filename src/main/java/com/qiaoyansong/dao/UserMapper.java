@@ -153,4 +153,33 @@ public interface UserMapper {
      * @return 返回信息
      */
     Integer updateUserPointByUserId(@Param("id") String id, @Param("point") String point);
+
+    /**
+     * 根据查询条件查询地址数据总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getAddressTotalSize(SearchCondition condition);
+
+    /**
+     * 根据ID获取用户收货地址
+     * @param pageHelper 筛选条件
+     * @return 返回信息
+     */
+    List<UserLocations> getAddressListByUserId(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 根据用户ID查看用户积分
+     * @param id 用户ID
+     * @return
+     */
+    Integer getPointByUserId(String id);
+
+    /**
+     * 根据用户ID减去用户对应积分
+     * @param id 用户ID
+     * @param point 用户积分
+     * @return
+     */
+    Integer subPointByUserId(@Param("id") String id, @Param("point") Byte point);
 }

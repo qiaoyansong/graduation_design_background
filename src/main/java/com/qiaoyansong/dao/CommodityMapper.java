@@ -1,6 +1,7 @@
 package com.qiaoyansong.dao;
 
 import com.qiaoyansong.entity.background.Commodity;
+import com.qiaoyansong.entity.background.DeliverCommodity;
 import com.qiaoyansong.entity.background.PageHelper;
 import com.qiaoyansong.entity.background.SearchCondition;
 import org.apache.ibatis.annotations.Mapper;
@@ -55,4 +56,39 @@ public interface CommodityMapper {
      * @return
      */
     Commodity getCommodityInfoById(String id);
+
+    /**
+     * 根据商品ID查看对应信息
+     * @param id 商品ID
+     * @return
+     */
+    Commodity getCommodityInfoId(String id);
+
+    /**
+     * 根据商品ID减去对应库存
+     * @param id 商品ID
+     * @return
+     */
+    Integer subQuantityByCommodityId(String id);
+
+    /**
+     * 插入对应的兑换商品记录
+     * @param deliverCommodity 兑换商品信息
+     * @return
+     */
+    Integer exchangeCommodity(DeliverCommodity deliverCommodity);
+
+    /**
+     * 根据查询条件查询数据总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getExchangeCommodityTotalSize(SearchCondition condition);
+
+    /**
+     * 根据用户ID查看兑换商品信息
+     * @param pageHelper 查询 + 分页条件
+     * @return
+     */
+    List<DeliverCommodity> getExchangeCommodityListByUserId(PageHelper pageHelper);
 }

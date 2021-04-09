@@ -149,7 +149,7 @@
              telephone = #{telephone},
              name  = #{name},
              province = #{province},
-             city = #{city},
+             city = #{city},getAddressListByUserId
              area = #{area},
              location = #{location}
         where
@@ -158,6 +158,28 @@
     <update id="updateUserPointByUserId">
         update user
             set point = point + #{point}
+        where id = #{id}
+    </update>
+    <select id="getAddressTotalSize" resultType="_int">
+        select count(*)
+        from
+                user_locations
+        where user_id = #{userId}
+    </select>
+    <select id="getAddressListByUserId" resultType="UserLocations">
+        select
+                id, telephone, name, province, city, area, location
+        from
+                user_locations
+        where user_id = #{condition.userId}
+    </select>
+    <select id="getPointByUserId" resultType="_int">
+        select point
+        from user
+        where id = #{id}
+    </select>
+    <update id="subPointByUserId">
+        update user set point = point - #{point}
         where id = #{id}
     </update>
 </mapper>

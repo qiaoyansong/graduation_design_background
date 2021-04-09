@@ -335,4 +335,17 @@ public class UserServiceImpl implements UserService {
         return responseEntity;
     }
 
+    @Override
+    public ResponseEntity getAddressListByUserId(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入UserServiceImpl的getAddressListByUserId方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.userMapper.getAddressTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<UserLocations> userLocations = this.userMapper.getAddressListByUserId(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(userLocations);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
 }
