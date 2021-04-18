@@ -202,4 +202,17 @@ public class CommodityServiceImpl implements CommodityService {
         responseEntity.setTotalSize(totalSize);
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity adminGetExchangeCommodityList(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入CommodityServiceImpl的getExchangeCommodityList方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.commodityMapper.getExchangeCommodityTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<DeliverCommodity> news = this.commodityMapper.getExchangeCommodityListByUserId(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
 }

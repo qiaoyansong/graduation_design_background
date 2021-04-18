@@ -16,7 +16,7 @@ public class User {
     /**
      * User表唯一ID 自动递增
      */
-    private Integer id;
+    private String id;
 
     /**
      * 用户类型

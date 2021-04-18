@@ -112,4 +112,15 @@
         order by id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>
+    <select id="getIsPayment" resultType="DeliverAuction">
+        select auction_id, user_id
+        from
+                deliver_auction
+        where auction_id = #{auctionId}
+        and user_id = #{userId}
+    </select>
+    <insert id="deliverAuction">
+        insert into deliver_auction(auction_id, user_id, user_locations_id)
+            values (#{auctionId}, #{userId}, #{userLocationsId})
+    </insert>
 </mapper>

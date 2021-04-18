@@ -2,6 +2,7 @@ package com.qiaoyansong.controller;
 
 import com.qiaoyansong.entity.background.*;
 import com.qiaoyansong.entity.front.AuctionRealtimePrice;
+import com.qiaoyansong.entity.front.DeliverAuction;
 import com.qiaoyansong.service.ActivityService;
 import com.qiaoyansong.service.AuctionService;
 import com.qiaoyansong.service.CommodityService;
@@ -84,19 +85,25 @@ public class UserController {
 
     @RequestMapping(path = "/getAddressListByUserId")
     public ResponseEntity getAddressListByUserId(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
-        log.info("进入ActivityController.getAddressListByUserId");
+        log.info("进入UserController.getAddressListByUserId");
         return this.userService.getAddressListByUserId(pageHelper);
     }
 
     @RequestMapping(path = "/exchangeCommodity")
     public ResponseEntity exchangeCommodity(@Valid @RequestBody DeliverCommodity deliverCommodity, BindingResult bindingResult){
-        log.info("进入ActivityController.exchangeCommodity");
+        log.info("进入UserController.exchangeCommodity");
         return this.commodityService.exchangeCommodity(deliverCommodity);
     }
 
     @RequestMapping(path = "/getExchangeCommodityListByUserId")
-    public ResponseEntity getExchangeCommodityListByUserId(@Valid @RequestBody  PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
-        log.info("进入ActivityController.getExchangeCommodityListByUserId");
+    public ResponseEntity getExchangeCommodityListByUserId(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
+        log.info("进入UserController.getExchangeCommodityListByUserId");
         return this.commodityService.getExchangeCommodityListByUserId(pageHelper);
+    }
+
+    @RequestMapping(path = "/getIsPayment")
+    public ResponseEntity getIsPayment(@Valid @RequestBody DeliverAuction deliverAuction, BindingResult bindingResult){
+        log.info("进入UserController.getIsPayment");
+        return this.auctionService.getIsPayment(deliverAuction);
     }
 }

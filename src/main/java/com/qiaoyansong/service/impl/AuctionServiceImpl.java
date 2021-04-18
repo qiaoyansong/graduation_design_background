@@ -167,4 +167,31 @@ public class AuctionServiceImpl implements AuctionService {
         responseEntity.setBody(auctionRealtimePrice);
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity getIsPayment(com.qiaoyansong.entity.front.DeliverAuction deliverAuction) {
+        log.info("进入AuctionServiceImpl的getIsPayment方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        DeliverAuction deliverAuction1 = this.auctionMapper.getIsPayment(deliverAuction);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(deliverAuction1);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity deliverAuction(DeliverAuction deliverAuction) {
+        log.info("进入AuctionServiceImpl的deliverAuction方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始添加拍卖商品发货表的信息");
+        if (this.auctionMapper.deliverAuction(deliverAuction) != 1) {
+            log.warn("添加拍卖商品发货表的信息失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("添加拍卖商品发货表的信息成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
 }

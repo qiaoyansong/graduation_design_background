@@ -1,4 +1,4 @@
-package com.qiaoyansong.entity.background;
+package com.qiaoyansong.entity.front;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +14,6 @@ import javax.validation.constraints.Pattern;
 @Setter
 public class DeliverAuction {
 
-    private Integer id;
 
     @NotNull(message = "拍卖ID不能为空")
     @Pattern(regexp = "^\\d{1,}$", message = "拍卖ID不符合格式")
@@ -24,20 +23,4 @@ public class DeliverAuction {
     @Pattern(regexp = "^\\d{1,}$", message = "用户ID不符合格式")
     private String userId;
 
-    @NotNull(message = "地址ID不能为空")
-    @Pattern(regexp = "^\\d{1,}$", message = "地址ID不符合格式")
-    private String userLocationsId;
-
-    private Byte flag;
-
-    @Override
-    public String toString() {
-        return "DeliverAuction{" +
-                "id=" + id +
-                ", auctionId='" + auctionId + '\'' +
-                ", userId='" + userId + '\'' +
-                ", userLocationsId='" + userLocationsId + '\'' +
-                ", flag=" + flag +
-                '}';
-    }
 }

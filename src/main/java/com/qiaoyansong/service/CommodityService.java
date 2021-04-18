@@ -63,4 +63,11 @@ public interface CommodityService {
      * @return 返回信息
      */
     ResponseEntity getExchangeCommodityListByUserId(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取所有用户兑换商品列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity adminGetExchangeCommodityList(PageHelper<SearchCondition> pageHelper);
 }

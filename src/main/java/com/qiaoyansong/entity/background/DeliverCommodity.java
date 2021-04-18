@@ -31,13 +31,18 @@ public class DeliverCommodity {
     private Commodity commodity;
     private UserLocations userLocations;
 
+    private Byte flag;
+
     @Override
     public String toString() {
         return "DeliverCommodity{" +
-                "id=" + id +
-                ", commodityId=" + commodityId +
-                ", userId=" + userId +
-                ", userLocationsId=" + userLocationsId +
+                "id='" + id + '\'' +
+                ", commodityId='" + commodityId + '\'' +
+                ", userId='" + userId + '\'' +
+                ", userLocationsId='" + userLocationsId + '\'' +
+                ", commodity=" + commodity +
+                ", userLocations=" + userLocations +
+                ", flag=" + flag +
                 '}';
     }
 }

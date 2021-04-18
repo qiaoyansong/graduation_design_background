@@ -104,6 +104,34 @@
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.6</version>
         </dependency>
+        <!--jsp支持-->
+        <!-- servlet 依赖. -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+        </dependency>
+        <!-- tomcat 的支持-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+        </dependency>
+        <!--引入Spring boot内嵌的Tomcat对jsp的解析包-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-jasper</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <!--alipay-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.13.33.ALL</version>
+        </dependency>
         <!-- test -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

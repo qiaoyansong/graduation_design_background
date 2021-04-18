@@ -73,10 +73,15 @@
     <select id="getExchangeCommodityTotalSize" resultType="_int">
         select count(id)
         from deliver_commodity
-        where user_id = #{userId}
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+        </where>
     </select>
     <resultMap id="deliverCommodity" type="DeliverCommodity">
         <id property="id" column="id"/>
+        <result property="flag" column="flag"/>
         <association property="userLocations" javaType="com.qiaoyansong.entity.background.UserLocations">
             <id property="id" column="user_locations_id"/>
             <result property="area" column="area"/>
@@ -92,10 +97,14 @@
         </association>
     </resultMap>
     <select id="getExchangeCommodityListByUserId" resultMap="deliverCommodity">
-        select d.id, d.user_locations_id, d.commodity_id, u.area, u.city, u.location, u.name, u.province, u.telephone, c.title from
+        select d.id, d.user_locations_id, d.commodity_id, d.flag, u.area, u.city, u.location, u.name, u.province, u.telephone, c.title from
                 deliver_commodity d inner join commodity c
             on d.commodity_id = c.id inner join user_locations u on d.user_locations_id = u.id
-        where d.user_id = #{condition.userId}
+        <where>
+            <if test="condition.userId != null">
+                d.user_id = #{condition.userId}
+            </if>
+        </where>
         order by d.id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>

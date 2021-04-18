@@ -33,8 +33,7 @@ public class User {
     @Pattern(regexp = "^\\d{6}$", message = "验证码格式错误")
     private String verificationCode;
 
-    @NotNull(message = "电话号码不能为空")
-    @Pattern(regexp = "^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$", message = "电话号码不符合格式")
+    @Pattern(regexp = "^$|^(13[0-9]|14[5|7]|15[0|1|2|3|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\\d{8}$", message = "电话号码不符合格式")
     private String telephone;
 
     @Override

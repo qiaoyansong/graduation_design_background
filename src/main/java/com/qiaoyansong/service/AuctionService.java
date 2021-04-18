@@ -78,4 +78,18 @@ public interface AuctionService {
      * @return 返回信息
      */
     ResponseEntity selectMaxAuctionRealtimePrice(String id);
+
+    /**
+     * 判断当前用户是否付款
+     * @param deliverAuction 拍卖商品发货信息
+     * @return 返回信息
+     */
+    ResponseEntity getIsPayment(com.qiaoyansong.entity.front.DeliverAuction deliverAuction);
+
+    /**
+     * 添加拍卖发货信息
+     * @param deliverAuction 拍卖商品发货信息
+     * @return 返回信息
+     */
+    ResponseEntity deliverAuction(DeliverAuction deliverAuction);
 }

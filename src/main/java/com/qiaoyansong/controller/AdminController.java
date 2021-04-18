@@ -171,4 +171,9 @@ public class AdminController {
     public ResponseEntity refuseSeekHelp(@Valid @NotNull(message = "不能为空") @PathVariable("id") String id) {
         return this.seekHelpService.refuse(id);
     }
+
+    @RequestMapping(path = "/getExchangeCommodityList")
+    public ResponseEntity getExchangeCommodityListByUserId(@Valid @RequestBody  PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
+        return this.commodityService.adminGetExchangeCommodityList(pageHelper);
+    }
 }
