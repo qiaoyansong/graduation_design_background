@@ -215,4 +215,21 @@ public class CommodityServiceImpl implements CommodityService {
         responseEntity.setTotalSize(totalSize);
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity deliverCommodityById(String deliverCommodityId) {
+        log.info("进入AuctionServiceImpl的deliverCommodityById方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始发货");
+        if (this.commodityMapper.deliverCommodityById(deliverCommodityId) != 1) {
+            log.warn("发货失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("发货成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
 }

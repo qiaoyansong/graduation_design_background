@@ -28,6 +28,9 @@ public class DeliverAuction {
     @Pattern(regexp = "^\\d{1,}$", message = "地址ID不符合格式")
     private String userLocationsId;
 
+    private Auction auction;
+    private UserLocations userLocations;
+
     private Byte flag;
 
     @Override
@@ -37,6 +40,8 @@ public class DeliverAuction {
                 ", auctionId='" + auctionId + '\'' +
                 ", userId='" + userId + '\'' +
                 ", userLocationsId='" + userLocationsId + '\'' +
+                ", auction=" + auction +
+                ", userLocations=" + userLocations +
                 ", flag=" + flag +
                 '}';
     }

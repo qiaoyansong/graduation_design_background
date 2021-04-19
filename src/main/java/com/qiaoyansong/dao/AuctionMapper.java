@@ -109,4 +109,25 @@ public interface AuctionMapper {
      * @return 返回信息
      */
     Integer deliverAuction(DeliverAuction deliverAuction);
+
+    /**
+     * 根据查询条件查询数据总条数
+     * @param condition 查询条件
+     * @return
+     */
+    Integer getExchangeAuctionTotalSize(SearchCondition condition);
+
+    /**
+     * 根据用户ID查看拍得的商品信息
+     * @param pageHelper 查询 + 分页条件
+     * @return
+     */
+    List<DeliverAuction> getExchangeAuctionListByUserId(PageHelper pageHelper);
+
+    /**
+     * 用户拍得商品发货
+     * @param deliverAuctionId 用户拍得商品发货表ID
+     * @return
+     */
+    Integer deliverAuctionById(String deliverAuctionId);
 }

@@ -194,4 +194,47 @@ public class AuctionServiceImpl implements AuctionService {
         }
         return responseEntity;
     }
+
+    @Override
+    public ResponseEntity deliverAuctionById(String deliverAuctionId) {
+        log.info("进入AuctionServiceImpl的deliverAuctionById方法");
+        ResponseEntity responseEntity = new ResponseEntity();
+        log.info("开始发货");
+        if (this.auctionMapper.deliverAuctionById(deliverAuctionId) != 1) {
+            log.warn("发货失败");
+            responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+            responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+        } else {
+            log.info("发货成功");
+            responseEntity.setBody(StatusCode.SUCCESS.getReason());
+            responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity adminGetExchangeAuctionList(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入AuctionServiceImpl的adminGetExchangeAuctionList方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.auctionMapper.getExchangeAuctionTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<DeliverAuction> news = this.auctionMapper.getExchangeAuctionListByUserId(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity getExchangeAuctionListByUserId(PageHelper<SearchCondition> pageHelper) {
+        log.info("进入AuctionServiceImpl的getExchangeCommodityListByUserId方法");
+        SearchResponseEntity responseEntity = new SearchResponseEntity();
+        int totalSize = this.auctionMapper.getExchangeAuctionTotalSize(pageHelper.getCondition());
+        PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
+        List<DeliverAuction> news = this.auctionMapper.getExchangeAuctionListByUserId(cur);
+        responseEntity.setCode(StatusCode.SUCCESS.getCode());
+        responseEntity.setBody(news);
+        responseEntity.setTotalSize(totalSize);
+        return responseEntity;
+    }
 }

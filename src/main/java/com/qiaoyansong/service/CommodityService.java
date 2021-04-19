@@ -70,4 +70,11 @@ public interface CommodityService {
      * @return 返回信息
      */
     ResponseEntity adminGetExchangeCommodityList(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 发货用户兑换的商品
+     * @param deliverCommodityId 用户兑换商品ID
+     * @return 返回信息
+     */
+    ResponseEntity deliverCommodityById(String deliverCommodityId);
 }

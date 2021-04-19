@@ -176,4 +176,19 @@ public class AdminController {
     public ResponseEntity getExchangeCommodityListByUserId(@Valid @RequestBody  PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
         return this.commodityService.adminGetExchangeCommodityList(pageHelper);
     }
+
+    @RequestMapping(path = "/deliverCommodityById", method = RequestMethod.POST)
+    public ResponseEntity deliverCommodityById(@Valid @NotNull(message = "不能为null") @RequestBody String deliverCommodityId){
+        return this.commodityService.deliverCommodityById(deliverCommodityId);
+    }
+
+    @RequestMapping(path = "/deliverAuctionById", method = RequestMethod.POST)
+    public ResponseEntity deliverAuctionById(@Valid @NotNull(message = "不能为null") @RequestBody String deliverAuctionId){
+        return this.auctionService.deliverAuctionById(deliverAuctionId);
+    }
+
+    @RequestMapping(path = "/getExchangeAuctionList")
+    public ResponseEntity getExchangeAuctionList(@Valid @RequestBody  PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
+        return this.auctionService.adminGetExchangeAuctionList(pageHelper);
+    }
 }

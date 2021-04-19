@@ -91,4 +91,11 @@ public interface CommodityMapper {
      * @return
      */
     List<DeliverCommodity> getExchangeCommodityListByUserId(PageHelper pageHelper);
+
+    /**
+     * 用户兑换商品发货
+     * @param deliverCommodityId 用户兑换商品发货表ID
+     * @return
+     */
+    Integer deliverCommodityById(String deliverCommodityId);
 }

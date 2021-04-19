@@ -108,4 +108,8 @@
         order by d.id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>
+    <update id="deliverCommodityById">
+        update deliver_commodity set flag = 1
+        where id = #{deliverCommodityId}
+    </update>
 </mapper>

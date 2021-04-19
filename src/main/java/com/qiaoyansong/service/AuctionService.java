@@ -92,4 +92,25 @@ public interface AuctionService {
      * @return 返回信息
      */
     ResponseEntity deliverAuction(DeliverAuction deliverAuction);
+
+    /**
+     * 发货用户拍得的商品
+     * @param deliverAuctionId 用户拍得的商品ID
+     * @return 返回信息
+     */
+    ResponseEntity deliverAuctionById(String deliverAuctionId);
+
+    /**
+     * 获取所有用户排得的商品列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity adminGetExchangeAuctionList(PageHelper<SearchCondition> pageHelper);
+
+    /**
+     * 获取用户拍得商品列表
+     * @param pageHelper 筛选 + 分页条件
+     * @return 返回信息
+     */
+    ResponseEntity getExchangeAuctionListByUserId(PageHelper<SearchCondition> pageHelper);
 }

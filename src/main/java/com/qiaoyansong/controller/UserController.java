@@ -106,4 +106,10 @@ public class UserController {
         log.info("进入UserController.getIsPayment");
         return this.auctionService.getIsPayment(deliverAuction);
     }
+
+    @RequestMapping(path = "/getExchangeAuctionListByUserId")
+    public ResponseEntity getExchangeAuctionListByUserId(@Valid @RequestBody PageHelper<SearchCondition> pageHelper, BindingResult bindingResult){
+        log.info("进入UserController.getExchangeAuctionListByUserId");
+        return this.auctionService.getExchangeAuctionListByUserId(pageHelper);
+    }
 }

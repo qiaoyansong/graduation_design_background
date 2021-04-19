@@ -123,4 +123,46 @@
         insert into deliver_auction(auction_id, user_id, user_locations_id)
             values (#{auctionId}, #{userId}, #{userLocationsId})
     </insert>
+    <select id="getExchangeAuctionTotalSize" resultType="_int">
+        select count(id)
+        from deliver_auction
+        <where>
+            <if test="userId != null">
+                user_id = #{userId}
+            </if>
+        </where>
+    </select>
+    <resultMap id="deliverAuction" type="DeliverAuction">
+        <id property="id" column="id"/>
+        <result property="flag" column="flag"/>
+        <association property="userLocations" javaType="com.qiaoyansong.entity.background.UserLocations">
+            <id property="id" column="user_locations_id"/>
+            <result property="area" column="area"/>
+            <result property="city" column="city"/>
+            <result property="location" column="location"/>
+            <result property="name" column="name"/>
+            <result property="province" column="province"/>
+            <result property="telephone" column="telephone"/>
+        </association>
+        <association property="auction" javaType="com.qiaoyansong.entity.background.Auction">
+            <id property="id" column="auction_id"/>
+            <result property="title" column="title"/>
+        </association>
+    </resultMap>
+    <select id="getExchangeAuctionListByUserId" resultMap="deliverAuction">
+        select d.id, d.user_locations_id, d.auction_id, d.flag, u.area, u.city, u.location, u.name, u.province, u.telephone, a.title from
+        deliver_auction d inner join auction a
+        on d.auction_id = a.id inner join user_locations u on d.user_locations_id = u.id
+        <where>
+            <if test="condition.userId != null">
+                d.user_id = #{condition.userId}
+            </if>
+        </where>
+        order by d.id ${condition.orderBy}
+        limit #{beginIndex}, #{pageSize}
+    </select>
+    <update id="deliverAuctionById">
+        update deliver_auction set flag = 1
+        where id = #{deliverAuctionId}
+    </update>
 </mapper>
