@@ -134,14 +134,24 @@ public class ActivityServiceImpl implements ActivityService {
         UserActivity target = this.activityMapper.getUserActivity(userActivity.getActivityId(), userActivity.getUserId());
         if (target == null) {
             log.info("该用户未参加过此活动,开始添加用户-活动信息");
-            if (this.activityMapper.signUp(userActivity) != 1) {
-                log.warn("添加用户-活动信息失败");
-                responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
-                responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+            log.info("开始判断当前活动是否人数足够");
+            Integer curPeoples = this.activityMapper.getPeoplesByActivityId(userActivity.getActivityId());
+            Byte tarPeoples = this.activityMapper.getActivityInfoById(userActivity.getActivityId()).getPeoples();
+            if (curPeoples == null || curPeoples < tarPeoples) {
+                log.info("当前参加该活动用户未满");
+                if (this.activityMapper.signUp(userActivity) != 1) {
+                    log.warn("添加用户-活动信息失败");
+                    responseEntity.setBody(StatusCode.UNKNOWN_ERROR.getReason());
+                    responseEntity.setCode(StatusCode.UNKNOWN_ERROR.getCode());
+                } else {
+                    log.info("添加用户-活动信息成功");
+                    responseEntity.setBody(StatusCode.SUCCESS.getReason());
+                    responseEntity.setCode(StatusCode.SUCCESS.getCode());
+                }
             } else {
-                log.info("添加用户-活动信息成功");
-                responseEntity.setBody(StatusCode.SUCCESS.getReason());
-                responseEntity.setCode(StatusCode.SUCCESS.getCode());
+                log.warn("当前参加该活动用户已满，不允许在报名参加活动");
+                responseEntity.setBody(StatusCode.FILL_UP.getReason());
+                responseEntity.setCode(StatusCode.FILL_UP.getCode());
             }
         } else {
             log.warn("该用户已经参加过此活动");

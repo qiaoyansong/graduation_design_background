@@ -118,4 +118,11 @@ public interface ActivityMapper {
      * @return
      */
     UserActivity getUserActivity(@Param("activityId") String activityId, @Param("userId") String userId);
+
+    /**
+     * 根据活动ID获取参与该活动的人数
+     * @param activityId 活动ID
+     * @return
+     */
+    Integer getPeoplesByActivityId(String activityId);
 }

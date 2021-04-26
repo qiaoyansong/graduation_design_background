@@ -89,7 +89,11 @@ public enum StatusCode {
     /**
      * 库存不足
      */
-    OUT_OF_STOCK("库存不足", "119");
+    OUT_OF_STOCK("库存不足", "119"),
+    /**
+     * 人数已满
+     */
+    FILL_UP("人数已满", "120");
     private final String reason;
     private final String code;
 

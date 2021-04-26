@@ -121,4 +121,7 @@
         where user_id = #{userId}
         and activity_id = #{activityId}
     </select>
+    <select id="getPeoplesByActivityId" resultType="integer">
+        select count(id) from user_activity where activity_id = #{activityId}
+    </select>
 </mapper>
