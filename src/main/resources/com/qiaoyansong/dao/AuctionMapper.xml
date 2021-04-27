@@ -32,25 +32,30 @@
         </where>
     </select>
     <delete id="deleteAuctionByID">
-        delete from auction where id = #{id}
+        delete
+        from auction
+        where id = #{id}
     </delete>
     <update id="updateAuctionByID">
         update auction
-        set
-                title =#{title},
-                begin_time =#{beginTime},
-                end_time =#{endTime},
-                min_price =#{minPrice},
-                summary =#{summary}
-            where
-            id = #{id}
+        set title      =#{title},
+            begin_time =#{beginTime},
+            end_time   =#{endTime},
+            min_price  =#{minPrice},
+            summary    =#{summary}
+        where id = #{id}
     </update>
     <select id="getAuctionInfoById" resultType="Auction">
-        select id, title, begin_time, end_time, min_price, img, summary, content
-        from
-        auction
-        where
-            id = #{id}
+        select id,
+               title,
+               begin_time,
+               end_time,
+               min_price,
+               img,
+               summary,
+               content
+        from auction
+        where id = #{id}
     </select>
     <resultMap id="auctionRealtimePrice" type="AuctionRealtimePrice">
         <result column="time" property="time"/>
@@ -66,62 +71,57 @@
         from
                 auction_realtime_price a
                 inner join
-                user u on a.user_id = u.id
+                user u
+        on a.user_id = u.id
         where auction_id = #{id}
-        order by price desc limit 0,5
+        order by price desc limit 0, 5
     </select>
     <select id="selectMaxAuctionRealtimePrice" resultMap="auctionRealtimePrice">
         select time, price, a.user_id, u.id, u.user_name, u.head_portrait
         from
                 auction_realtime_price a
                 inner join
-                user u on a.user_id = u.id
+                user u
+        on a.user_id = u.id
         where auction_id = #{id}
-        order by price desc limit 0,1
+        order by price desc limit 0, 1
     </select>
     <select id="getMaxPriceByAuctionId" resultType="_int">
         select max(price)
-        from
-                auction_realtime_price
+        from auction_realtime_price
         group by auction_id
         having auction_id = #{auctionId}
     </select>
     <insert id="offer">
         insert into auction_realtime_price(auction_id, time, user_id, price)
-            values (#{auctionId}, now(), #{userId}, #{price})
+        values (#{auctionId}, now(), #{userId}, #{price})
     </insert>
     <select id="getSignUpAuctionTotalSize" resultType="integer">
-        select
-                count(distinct auction_id)
-        from
-                auction_realtime_price
-        GROUP BY user_id
-        having user_id = #{userId}
+        select count(distinct auction_id)
+        from auction_realtime_price where user_id = #{userId}
     </select>
     <select id="getSignUpAuction" resultType="Auction">
-        select
-                id, end_time, begin_time, title
-        from
-                auction
-        where id in ( select
-                              count(distinct auction_id)
-                      from
-                              auction_realtime_price
-                      GROUP BY user_id
-                      having user_id = #{condition.userId})
+        select id,
+               end_time,
+               begin_time,
+               title
+        from auction
+        where id in (
+                select distinct auction_id
+                from auction_realtime_price where user_id = #{condition.userId}
+                )
         order by id ${condition.orderBy}
         limit #{beginIndex}, #{pageSize}
     </select>
     <select id="getIsPayment" resultType="DeliverAuction">
         select auction_id, user_id
-        from
-                deliver_auction
+        from deliver_auction
         where auction_id = #{auctionId}
-        and user_id = #{userId}
+          and user_id = #{userId}
     </select>
     <insert id="deliverAuction">
         insert into deliver_auction(auction_id, user_id, user_locations_id)
-            values (#{auctionId}, #{userId}, #{userLocationsId})
+        values (#{auctionId}, #{userId}, #{userLocationsId})
     </insert>
     <select id="getExchangeAuctionTotalSize" resultType="_int">
         select count(id)
@@ -150,7 +150,8 @@
         </association>
     </resultMap>
     <select id="getExchangeAuctionListByUserId" resultMap="deliverAuction">
-        select d.id, d.user_locations_id, d.auction_id, d.flag, u.area, u.city, u.location, u.name, u.province, u.telephone, a.title from
+        select d.id, d.user_locations_id, d.auction_id, d.flag, u.area, u.city, u.location, u.name, u.province,
+        u.telephone, a.title from
         deliver_auction d inner join auction a
         on d.auction_id = a.id inner join user_locations u on d.user_locations_id = u.id
         <where>
@@ -162,7 +163,8 @@
         limit #{beginIndex}, #{pageSize}
     </select>
     <update id="deliverAuctionById">
-        update deliver_auction set flag = 1
+        update deliver_auction
+        set flag = 1
         where id = #{deliverAuctionId}
     </update>
 </mapper>

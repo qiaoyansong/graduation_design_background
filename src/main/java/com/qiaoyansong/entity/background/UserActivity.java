@@ -28,10 +28,11 @@ public class UserActivity {
     @Override
     public String toString() {
         return "UserActivity{" +
-                "id=" + id +
-                ", userId=" + userId +
-                ", activityId=" + activityId +
+                "id='" + id + '\'' +
+                ", userId='" + userId + '\'' +
+                ", activityId='" + activityId + '\'' +
                 ", progress=" + progress +
+                ", user=" + user +
                 '}';
     }
 }

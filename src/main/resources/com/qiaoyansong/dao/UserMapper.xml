@@ -149,7 +149,7 @@
              telephone = #{telephone},
              name  = #{name},
              province = #{province},
-             city = #{city},getAddressListByUserId
+             city = #{city},
              area = #{area},
              location = #{location}
         where

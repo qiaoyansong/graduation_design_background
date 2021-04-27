@@ -176,11 +176,13 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public ResponseEntity getParticipantByActivityId(PageHelper<SearchCondition> pageHelper) {
-        log.info("进入ActivityServiceImpl的adminSelectActivity方法");
+        log.info("进入ActivityServiceImpl的getParticipantByActivityId方法");
         SearchResponseEntity responseEntity = new SearchResponseEntity();
         int totalSize = this.activityMapper.getParticipantTotalSize(pageHelper.getCondition());
+        System.out.println(totalSize);
         PageHelper cur = new PageHelper(totalSize, pageHelper.getCondition(), pageHelper.getCurPage());
         List<UserActivity> news = this.activityMapper.getParticipant(cur);
+        news.forEach(System.out::println);
         responseEntity.setCode(StatusCode.SUCCESS.getCode());
         responseEntity.setBody(news);
         responseEntity.setTotalSize(totalSize);

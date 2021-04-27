@@ -73,7 +73,8 @@
     <select id="getParticipantTotalSize" resultType="integer">
         select count(id)
         from user_activity
-        group by #{activityId}
+        group by activity_id
+        having activity_id = #{activityId}
     </select>
     <select id="getSignUpActivityTotalSize" resultType="integer">
         select count(id)
@@ -88,19 +89,20 @@
         limit #{beginIndex}, #{pageSize}
     </select>
     <resultMap id="userActivity" type="UserActivity">
+        <id property="id" column="aId"/>
         <result property="activityId" column="activity_id"/>
         <result property="progress" column="progress"/>
         <association property="user" javaType="com.qiaoyansong.entity.background.User">
-            <id column="id" property="id"/>
+            <id property="id" column="uId"/>
             <result property="userName" column="user_name"/>
         </association>
     </resultMap>
     <select id="getParticipant" resultMap="userActivity">
-        select progress, activity_id, u.id, u.user_name
+        select a.id aId, progress, activity_id, u.id uId, user_name
         from user_activity a
                      inner join user u on a.user_id = u.id
         where activity_id = #{condition.activityId}
-        order by id ${condition.orderBy}
+        order by a.id ${condition.orderBy}
                 limit #{beginIndex}, #{pageSize}
     </select>
     <select id="getUserActivityInfo" resultType="UserActivity">
